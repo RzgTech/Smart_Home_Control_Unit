@@ -1,0 +1,10 @@
+*.elf
+*.O
+*.d
+*.bin
+*.hex
+*.map
+*.su
+*.o
+*.launch
+*.list

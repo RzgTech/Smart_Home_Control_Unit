@@ -1,1 +1,4 @@
-../Core/Src/main_app.c:13:5:main	1
+../Core/Src/main_app.c:16:5:main	1
+../Core/Src/main_app.c:35:6:SystemClock_Config	9
+../Core/Src/main_app.c:150:6:UART_Init	2
+../Core/Src/main_app.c:167:6:Error_handler	1
