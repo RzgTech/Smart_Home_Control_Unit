@@ -9,25 +9,22 @@
 #include "main_app.h"
 
 UART_HandleTypeDef huart2;
-void SystemClock_Config(uint8_t frequency);
-void Error_handler(void);
-void UART_Init(void);
+uint8_t data_buffer[100];
+uint8_t recv_data = 0;
+uint8_t count = 0;
 
 int main(void)
 {
-	char* msg = "Hello from the project\r\n";
+
+	memset(data_buffer, 0, sizeof(data_buffer));
 
 	HAL_Init();
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
 	UART_Init();
 
+	HAL_UART_Receive_IT(&huart2, &recv_data, 1);
 
-	while(1)
-	{
-
-		HAL_UART_Transmit(&huart2, (uint8_t *)msg, strlen(msg), HAL_MAX_DELAY);
-	}
-
+	while(1);
 
 	return 0;
 }
@@ -164,14 +161,19 @@ void UART_Init(void)
 
 }
 
+void printmsg(char *format,...)
+{
+  char str[80];
+
+  /*Extract the the argument list using VA apis */
+  va_list args;
+  va_start(args, format);
+  vsprintf(str, format,args);
+  HAL_UART_Transmit(&huart2,(uint8_t *)str, strlen(str), HAL_MAX_DELAY);
+  va_end(args);
+}
+
 void Error_handler(void)
 {
 	while(1);
 }
-
-
-
-
-
-
-
