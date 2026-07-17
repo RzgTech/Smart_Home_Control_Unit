@@ -7,11 +7,13 @@
 
 
 #include "main_app.h"
+#include "authentication.h"
 
 UART_HandleTypeDef huart2;
 uint8_t data_buffer[100];
 uint8_t recv_data = 0;
 uint8_t count = 0;
+user_status user_auth_stat = USER_NOT_AUTHENTICATED;
 
 int main(void)
 {
@@ -22,11 +24,20 @@ int main(void)
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
 	UART_Init();
 
+	welcome();
+
 	HAL_UART_Receive_IT(&huart2, &recv_data, 1);
 
 	while(1);
 
 	return 0;
+}
+
+void welcome(void)
+{
+	printmsg("Control Home Unit\r\n");
+	printmsg("To enable manual mode type: manual\r\n");
+	printmsg("> ");
 }
 
 void SystemClock_Config(uint8_t frequency)

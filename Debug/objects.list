@@ -1,3 +1,4 @@
+"./Core/Src/authentication.o"
 "./Core/Src/command_parser.o"
 "./Core/Src/it.o"
 "./Core/Src/main_app.o"

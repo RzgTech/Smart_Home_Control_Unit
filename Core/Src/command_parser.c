@@ -7,17 +7,18 @@
 #include "main_app.h"
 char* commands[] = {"help", "fan", "alarm", "light", "quit"};
 
+
 void command_parser(uint8_t* data_buffer, uint8_t data_buffer_size)
 {
-	buffer_cleaner(data_buffer, data_buffer_size);
-
 	if (strcmp((char *)data_buffer, commands[0]) == 0)
 	{
 		printmsg("command is: help\r");
+
 	}
 	else if (strcmp((char *)data_buffer, commands[1]) == 0)
 	{
 		printmsg("command is: fan\r");
+
 	}
 	else if (strcmp((char *)data_buffer, commands[2]) == 0)
 	{

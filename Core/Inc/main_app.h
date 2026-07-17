@@ -26,8 +26,11 @@ void SystemClock_Config(uint8_t frequency);
 void Error_handler(void);
 void UART_Init(void);
 void printmsg(char *format,...);
+void welcome(void);
 void command_parser(uint8_t* data_buffer, uint8_t data_buffer_size);
 void buffer_cleaner(uint8_t* buffer, uint8_t data_buffer_size);
+
+
 
 
 #endif /* INC_MAIN_APP_H_ */

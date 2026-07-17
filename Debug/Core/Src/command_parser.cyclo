@@ -1,2 +1,2 @@
-../Core/Src/command_parser.c:10:6:command_parser	6
-../Core/Src/command_parser.c:40:6:buffer_cleaner	5
+../Core/Src/command_parser.c:11:6:command_parser	6
+../Core/Src/command_parser.c:41:6:buffer_cleaner	5
