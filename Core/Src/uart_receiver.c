@@ -7,42 +7,85 @@
 #include "main_app.h"
 #include "authentication.h"
 
+void buffer_cleaner(uint8_t* buffer);
 extern UART_HandleTypeDef huart2;
-extern uint8_t data_buffer[100];
 extern uint8_t recv_data;
-extern uint8_t count;
-extern user_status user_auth_stat;
-uint8_t data_buffer_len = sizeof(data_buffer)/sizeof(data_buffer[0]);
+cli_t cli = {
+		.count = 0,
+		.overflow = FALSE,
+		.user_auth_stat = USER_NOT_AUTHENTICATED
+};
 
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	data_buffer[count++] = recv_data;
-	if (recv_data == '\r')
+    if (cli.overflow)
+    {
+        if (recv_data == '\r')
+        {
+            cli.overflow = FALSE;
+            cli.count = 0;
+            memset(cli.data_buffer, 0, DATA_BUFFER_SIZE);
+
+            printmsg("Input too long!\r");
+            printmsg("#: ");
+        }
+
+        HAL_UART_Receive_IT(&huart2, &recv_data, 1);
+        return;
+    }
+
+	if (cli.count < DATA_BUFFER_SIZE - 1)  //check for buffer overflow
 	{
-		buffer_cleaner(data_buffer, data_buffer_len);
+		cli.data_buffer[cli.count++] = recv_data;
+		if (recv_data == '\r')
+		{
+			buffer_cleaner(cli.data_buffer);
 
-		if (user_auth_stat == USER_AUTHENTICATED)
-		{
-		    command_parser(data_buffer, data_buffer_len);
-		    printmsg("#: ");
-		}
-		else
-		{
-			if(authentication(data_buffer) == USER_AUTHENTICATED)
+			if (cli.user_auth_stat == USER_AUTHENTICATED)
 			{
-
+				command_parser(cli.data_buffer);
 				printmsg("#: ");
 			}
-		}
+			else
+			{
+				if(authentication(&cli) == USER_AUTHENTICATED)
+				{
+					printmsg("\rAuthentication successful\r");
+					printmsg("#: ");
+				}
+			}
 
-		count = 0;
-		memset(data_buffer, 0, sizeof(data_buffer));
+			cli.count = 0;
+			memset(cli.data_buffer, 0, DATA_BUFFER_SIZE);
+		}
+	}
+
+	else
+	{
+		 // Buffer is full, start discarding until Enter
+		cli.overflow = TRUE;
 	}
 
 	HAL_UART_Receive_IT(&huart2, &recv_data, 1);
 }
 
+void buffer_cleaner(uint8_t* buffer)
+{
+
+	for (int i = 0; i < DATA_BUFFER_SIZE; i++)
+	{
+		if (buffer[i] == '\r' || buffer[i] == '\n')
+		{
+			buffer[i] = '\0';
+			break;
+		}
+		if (buffer[i] == '\0')
+		{
+			break;
+		}
+	}
+}
 
 
 

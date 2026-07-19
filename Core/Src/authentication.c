@@ -6,28 +6,27 @@
  */
 #include "main_app.h"
 #include "authentication.h"
-char* username = "admin";
-char* password = "1234";
-extern user_status user_auth_stat;
+const char* username = "admin";
+const char* password = "1234";
 
-user_status authentication(uint8_t* data_buffer)
+user_status authentication(cli_t *cli)
 {
-	switch (user_auth_stat)
+	switch (cli->user_auth_stat)
 	{
 	case USER_NOT_AUTHENTICATED:
 
-	    if (strcmp((char *)data_buffer, "manual") == 0)
+	    if (strcmp((char *)(cli->data_buffer), "manual") == 0)
 	    {
-	        user_auth_stat = USER_WAITING_AUTH_USERNAME;
+	    	cli->user_auth_stat = USER_WAITING_AUTH_USERNAME;
 	        printmsg("username: ");
 	    }
 	    break;
 
 	case USER_WAITING_AUTH_USERNAME:
 
-	    if (strcmp((char *)data_buffer, username) == 0)
+	    if (strcmp((char *)(cli->data_buffer), username) == 0)
 	    {
-	        user_auth_stat = USER_WAITING_AUTH_PASSWORD;
+	    	cli->user_auth_stat = USER_WAITING_AUTH_PASSWORD;
 	        printmsg("password: ");
 	    }
 	    else
@@ -39,13 +38,13 @@ user_status authentication(uint8_t* data_buffer)
 
 	case USER_WAITING_AUTH_PASSWORD:
 
-	    if (strcmp((char *)data_buffer, password) == 0)
+	    if (strcmp((char *)(cli->data_buffer), password) == 0)
 	    {
-	        user_auth_stat = USER_AUTHENTICATED;
+	    	cli->user_auth_stat = USER_AUTHENTICATED;
 	    }
 	    else
 	    {
-	        user_auth_stat = USER_WAITING_AUTH_USERNAME;
+	    	cli->user_auth_stat = USER_WAITING_AUTH_USERNAME;
 	        printmsg("Invalid password!\r");
 	        printmsg("username: ");
 	    }
@@ -55,5 +54,5 @@ user_status authentication(uint8_t* data_buffer)
 	    break;
 	}
 
-	return user_auth_stat;
+	return cli->user_auth_stat;
 }

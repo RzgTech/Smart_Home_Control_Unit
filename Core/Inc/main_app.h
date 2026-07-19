@@ -18,6 +18,7 @@
 #define SYS_CLOCK_FREQ_50_MHZ		50
 #define SYS_CLOCK_FREQ_80_MHZ		80
 #define SYS_CLOCK_FREQ_180_MHZ		180
+#define DATA_BUFFER_SIZE	100
 
 #define FALSE	0
 #define TRUE	1
@@ -27,8 +28,7 @@ void Error_handler(void);
 void UART_Init(void);
 void printmsg(char *format,...);
 void welcome(void);
-void command_parser(uint8_t* data_buffer, uint8_t data_buffer_size);
-void buffer_cleaner(uint8_t* buffer, uint8_t data_buffer_size);
+void command_parser(uint8_t* data_buffer);
 
 
 

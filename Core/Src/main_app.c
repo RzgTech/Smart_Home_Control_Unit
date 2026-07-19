@@ -10,10 +10,8 @@
 #include "authentication.h"
 
 UART_HandleTypeDef huart2;
-uint8_t data_buffer[100];
+uint8_t data_buffer[DATA_BUFFER_SIZE];
 uint8_t recv_data = 0;
-uint8_t count = 0;
-user_status user_auth_stat = USER_NOT_AUTHENTICATED;
 
 int main(void)
 {
