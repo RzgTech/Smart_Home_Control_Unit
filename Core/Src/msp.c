@@ -48,3 +48,19 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 	HAL_NVIC_EnableIRQ(USART2_IRQn);
 
 }
+
+void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
+{
+	GPIO_InitTypeDef gpio_adc;
+
+	//Enabling clock
+	__HAL_RCC_ADC1_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+
+	//configuring GPIO PINs for ADC
+	gpio_adc.Mode = GPIO_MODE_ANALOG;
+	gpio_adc.Pin = GPIO_PIN_0;
+	gpio_adc.Pull = GPIO_NOPULL;
+
+	HAL_GPIO_Init(GPIOA, &gpio_adc);
+}
