@@ -64,3 +64,17 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
 
 	HAL_GPIO_Init(GPIOA, &gpio_adc);
 }
+
+
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
+{
+	__HAL_RCC_TIM6_CLK_ENABLE();
+	//configuring interrupts
+	//set priority
+	HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 15, 0);
+
+	//enable interrupts
+	HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
+
+}
+

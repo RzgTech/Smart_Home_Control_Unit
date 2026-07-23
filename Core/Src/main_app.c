@@ -11,10 +11,13 @@
 
 UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
+TIM_HandleTypeDef htim6;
 uint8_t data_buffer[DATA_BUFFER_SIZE];
 uint8_t recv_data = 0;
+uint8_t data_ready = FALSE;
 uint16_t ADC_Read(void);
 void ADC_Init(void);
+void TIM6_init(void);
 
 int main(void)
 {
@@ -23,21 +26,32 @@ int main(void)
 
 	HAL_Init();
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
+	TIM6_init();
 	UART_Init();
 	ADC_Init();
 	welcome();
 
-	while(1)
+	HAL_TIM_Base_Start_IT(&htim6);
+
+	/*while(1)
 	{
 		uint16_t adc_value = ADC_Read();
 		printmsg("ADC Value: %u\r\n", adc_value);
 		HAL_Delay(1000);
-	}
+	}*/
 
 
 	HAL_UART_Receive_IT(&huart2, &recv_data, 1);
 
-	while(1);
+	while(1)
+	{
+		if (data_ready == TRUE)
+		{
+			uint16_t adc_value = ADC_Read();
+			printmsg("ADC Value: %u\r\n", adc_value);
+			data_ready = FALSE;
+		}
+	}
 
 	return 0;
 }
@@ -224,6 +238,26 @@ uint16_t ADC_Read(void)
     HAL_ADC_Stop(&hadc1);
 
     return value;
+}
+
+void TIM6_init(void)
+{
+	htim6.Instance = TIM6;
+	htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+	//timer of 5 sec
+	htim6.Init.Prescaler = 49999;
+	htim6.Init.Period = 4999;
+
+	if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
+	{
+		Error_handler();
+	}
+
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	data_ready = TRUE;
 }
 
 void printmsg(char *format,...)
