@@ -14,10 +14,13 @@ ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim6;
 uint8_t data_buffer[DATA_BUFFER_SIZE];
 uint8_t recv_data = 0;
-uint8_t data_ready = FALSE;
-uint16_t ADC_Read(void);
+static uint16_t light_counter = 0;
+static uint16_t light_timer_sec = 20;
+volatile uint32_t system_events;  //avoid optimizing it by compiler
+void ADC_Read(uint32_t channel);
 void ADC_Init(void);
 void TIM6_init(void);
+void ADC_Channel_config(uint32_t channel);
 
 int main(void)
 {
@@ -33,23 +36,20 @@ int main(void)
 
 	HAL_TIM_Base_Start_IT(&htim6);
 
-	/*while(1)
-	{
-		uint16_t adc_value = ADC_Read();
-		printmsg("ADC Value: %u\r\n", adc_value);
-		HAL_Delay(1000);
-	}*/
-
-
 	HAL_UART_Receive_IT(&huart2, &recv_data, 1);
 
 	while(1)
 	{
-		if (data_ready == TRUE)
+		if (system_events & EVENT_TEMP_ADC_SAMPLE)
 		{
-			uint16_t adc_value = ADC_Read();
-			printmsg("ADC Value: %u\r\n", adc_value);
-			data_ready = FALSE;
+			system_events &= ~EVENT_TEMP_ADC_SAMPLE;
+			ADC_Read(ADC_CHANNEL_TEMPERATURE);
+		}
+
+		if (system_events & EVENT_LIGHT_ADC_SAMPLE)
+		{
+			system_events &= ~EVENT_LIGHT_ADC_SAMPLE;
+			ADC_Read(ADC_CHANNEL_LIGHT);
 		}
 	}
 
@@ -197,9 +197,6 @@ void UART_Init(void)
 
 void ADC_Init(void)
 {
-	
-	ADC_ChannelConfTypeDef sConfig = {0};
-
 	hadc1.Instance = ADC1;
 	hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
 	hadc1.Init.Resolution = ADC_RESOLUTION_12B;
@@ -217,8 +214,33 @@ void ADC_Init(void)
 	{
 		Error_handler();
 	}
+}
 
-	sConfig.Channel = ADC_CHANNEL_0; // Select the desired channel
+void ADC_Read(uint32_t channel)
+{
+
+	ADC_Channel_config(channel);
+    HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+
+    uint16_t value = HAL_ADC_GetValue(&hadc1);
+    if (channel == ADC_CHANNEL_TEMPERATURE)
+    {
+		printmsg("Temperature Value: %u\r\n", value);
+    }
+    else if(channel == ADC_CHANNEL_LIGHT)
+	{
+    	printmsg("Light Value: %u\r\n", value);
+	}
+
+    HAL_ADC_Stop(&hadc1);
+}
+
+void ADC_Channel_config(uint32_t channel)
+{
+	ADC_ChannelConfTypeDef sConfig = {0};
+
+	sConfig.Channel = channel; // Select the desired channel
 	sConfig.Rank = 1; // Set the rank for the conversion
 	sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES; // Set the sampling time
 
@@ -226,18 +248,6 @@ void ADC_Init(void)
 	{
 		Error_handler();
 	}
-}
-
-uint16_t ADC_Read(void)
-{
-    HAL_ADC_Start(&hadc1);
-    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-
-    uint16_t value = HAL_ADC_GetValue(&hadc1);
-
-    HAL_ADC_Stop(&hadc1);
-
-    return value;
 }
 
 void TIM6_init(void)
@@ -257,7 +267,17 @@ void TIM6_init(void)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	data_ready = TRUE;
+	if (htim->Instance == TIM6)
+	{
+		system_events |= EVENT_TEMP_ADC_SAMPLE;
+		light_counter++;
+
+		if (light_counter >= (light_timer_sec/5)) // 5 is the timer of temperature read
+		{
+			light_counter = 0;
+			system_events |= EVENT_LIGHT_ADC_SAMPLE;
+		}
+	}
 }
 
 void printmsg(char *format,...)

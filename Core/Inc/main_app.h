@@ -18,10 +18,17 @@
 #define SYS_CLOCK_FREQ_50_MHZ		50
 #define SYS_CLOCK_FREQ_80_MHZ		80
 #define SYS_CLOCK_FREQ_180_MHZ		180
-#define DATA_BUFFER_SIZE	100
+#define DATA_BUFFER_SIZE			100
 
 #define FALSE	0
 #define TRUE	1
+
+#define ADC_CHANNEL_TEMPERATURE		ADC_CHANNEL_0
+#define ADC_CHANNEL_LIGHT			ADC_CHANNEL_1
+
+#define EVENT_UART_RX    			(1U << 0)
+#define EVENT_TEMP_ADC_SAMPLE       (1U << 1)
+#define EVENT_LIGHT_ADC_SAMPLE		(1U << 2)
 
 void SystemClock_Config(uint8_t frequency);
 void Error_handler(void);

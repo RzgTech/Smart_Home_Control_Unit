@@ -63,6 +63,9 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
 	gpio_adc.Pull = GPIO_NOPULL;
 
 	HAL_GPIO_Init(GPIOA, &gpio_adc);
+
+	gpio_adc.Pin = GPIO_PIN_1;
+	HAL_GPIO_Init(GPIOA, &gpio_adc);
 }
 
 
