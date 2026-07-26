@@ -17,7 +17,7 @@ uint8_t recv_data = 0;
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 20;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
-void ADC_Read(uint32_t channel);
+uint16_t ADC_Read(uint32_t channel);
 void ADC_Init(void);
 void TIM6_init(void);
 void ADC_Channel_config(uint32_t channel);
@@ -216,7 +216,7 @@ void ADC_Init(void)
 	}
 }
 
-void ADC_Read(uint32_t channel)
+uint16_t ADC_Read(uint32_t channel)
 {
 
 	ADC_Channel_config(channel);
@@ -234,6 +234,7 @@ void ADC_Read(uint32_t channel)
 	}
 
     HAL_ADC_Stop(&hadc1);
+    return value;
 }
 
 void ADC_Channel_config(uint32_t channel)
