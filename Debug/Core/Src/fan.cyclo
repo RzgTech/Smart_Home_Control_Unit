@@ -1,0 +1,2 @@
+../Core/Src/fan.c:5:9:fan_decision	20
+../Core/Src/fan.c:58:6:fan_speed_config	1

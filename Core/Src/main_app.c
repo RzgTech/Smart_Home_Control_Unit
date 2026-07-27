@@ -14,18 +14,14 @@ UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim2;
-uint8_t data_buffer[DATA_BUFFER_SIZE];
 uint8_t recv_data = 0;
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 20;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
-uint8_t cur_duty_state = 0U;
-extern uint16_t duty_state_token;
+uint8_t curr_duty_cycle = 0U;
 
 int main(void)
 {
-
-	memset(data_buffer, 0, sizeof(data_buffer));
 
 	HAL_Init();
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
@@ -46,11 +42,11 @@ int main(void)
 			system_events &= ~EVENT_TEMP_ADC_SAMPLE;
 			float temperature = ADC_Convert_To_Temperature();
 			printmsg("Temperature: %.2f °C\r\n", temperature);
-			uint8_t duty_cycle = fan_decision(temperature);
-			if (cur_duty_state != duty_state_token)
+			uint8_t new_duty_cycle = fan_decision(temperature);
+			if (curr_duty_cycle != new_duty_cycle)
 			{
-				cur_duty_state = duty_state_token;
-				fan_speed_config(duty_cycle);
+				curr_duty_cycle = new_duty_cycle;
+				fan_speed_config(new_duty_cycle);
 			}
 		}
 
@@ -267,7 +263,7 @@ void TIM6_init(void)
 {
 	htim6.Instance = TIM6;
 	htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-	//timer of 5 sec
+	//timer of 1 sec
 	htim6.Init.Prescaler = 49999;
 	htim6.Init.Period = 999;
 
