@@ -7,20 +7,20 @@
 
 
 #include "main_app.h"
+#include "fan.h"
 #include "authentication.h"
 
 UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim6;
+TIM_HandleTypeDef htim2;
 uint8_t data_buffer[DATA_BUFFER_SIZE];
 uint8_t recv_data = 0;
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 20;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
-uint16_t ADC_Read(uint32_t channel);
-void ADC_Init(void);
-void TIM6_init(void);
-void ADC_Channel_config(uint32_t channel);
+uint8_t cur_duty_state = 0U;
+extern uint16_t duty_state_token;
 
 int main(void)
 {
@@ -30,6 +30,7 @@ int main(void)
 	HAL_Init();
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
 	TIM6_init();
+	TIM2_init();
 	UART_Init();
 	ADC_Init();
 	welcome();
@@ -43,7 +44,14 @@ int main(void)
 		if (system_events & EVENT_TEMP_ADC_SAMPLE)
 		{
 			system_events &= ~EVENT_TEMP_ADC_SAMPLE;
-			ADC_Read(ADC_CHANNEL_TEMPERATURE);
+			float temperature = ADC_Convert_To_Temperature();
+			printmsg("Temperature: %.2f °C\r\n", temperature);
+			uint8_t duty_cycle = fan_decision(temperature);
+			if (cur_duty_state != duty_state_token)
+			{
+				cur_duty_state = duty_state_token;
+				fan_speed_config(duty_cycle);
+			}
 		}
 
 		if (system_events & EVENT_LIGHT_ADC_SAMPLE)
@@ -224,17 +232,21 @@ uint16_t ADC_Read(uint32_t channel)
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
 
     uint16_t value = HAL_ADC_GetValue(&hadc1);
-    if (channel == ADC_CHANNEL_TEMPERATURE)
-    {
-		printmsg("Temperature Value: %u\r\n", value);
-    }
-    else if(channel == ADC_CHANNEL_LIGHT)
+    if(channel == ADC_CHANNEL_LIGHT)
 	{
     	printmsg("Light Value: %u\r\n", value);
 	}
 
     HAL_ADC_Stop(&hadc1);
     return value;
+}
+
+float ADC_Convert_To_Temperature()
+{
+	uint16_t adc_value = ADC_Read(ADC_CHANNEL_TEMPERATURE);
+	// Convert ADC value to temperature in Celsius
+	float voltage = ((float)adc_value * 3.3f) / 4095.0f;
+	return voltage * 100.0f; 
 }
 
 void ADC_Channel_config(uint32_t channel)
@@ -257,9 +269,41 @@ void TIM6_init(void)
 	htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
 	//timer of 5 sec
 	htim6.Init.Prescaler = 49999;
-	htim6.Init.Period = 4999;
+	htim6.Init.Period = 999;
 
 	if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
+	{
+		Error_handler();
+	}
+
+}
+
+void TIM2_init(void)
+{
+	TIM_OC_InitTypeDef tim2pwm_config;
+	memset(&tim2pwm_config, 0, sizeof(tim2pwm_config));
+
+	htim2.Instance = TIM2;
+	htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+	htim2.Init.Prescaler = 49999;
+	htim2.Init.Period = 9;  //fan period
+
+	if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
+	{
+		Error_handler();
+	}
+
+
+	tim2pwm_config.OCMode = TIM_OCMODE_PWM1;
+	tim2pwm_config.OCPolarity = TIM_OCPOLARITY_HIGH;
+	tim2pwm_config.Pulse = 0;
+
+	if (HAL_TIM_PWM_ConfigChannel(&htim2, &tim2pwm_config, TIM_CHANNEL_1) != HAL_OK)
+	{
+		Error_handler();
+	}
+
+	if (HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1) != HAL_OK)
 	{
 		Error_handler();
 	}

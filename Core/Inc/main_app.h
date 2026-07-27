@@ -36,7 +36,12 @@ void UART_Init(void);
 void printmsg(char *format,...);
 void welcome(void);
 void command_parser(uint8_t* data_buffer);
-
+uint16_t ADC_Read(uint32_t channel);
+void ADC_Init(void);
+void TIM6_init(void);
+void TIM2_init(void);
+void ADC_Channel_config(uint32_t channel);
+float ADC_Convert_To_Temperature();
 
 
 

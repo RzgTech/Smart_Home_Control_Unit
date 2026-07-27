@@ -81,3 +81,28 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
 
 }
 
+void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef *htim)
+{
+	__HAL_RCC_TIM2_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+
+	//configuring GPIO for the fan
+	GPIO_InitTypeDef tim2ch1_gpio;
+
+	tim2ch1_gpio.Alternate = GPIO_AF1_TIM2;
+	tim2ch1_gpio.Mode = GPIO_MODE_AF_PP;
+	tim2ch1_gpio.Speed = GPIO_SPEED_FREQ_LOW;
+	tim2ch1_gpio.Pull = GPIO_NOPULL;
+	tim2ch1_gpio.Pin = GPIO_PIN_5;
+
+	HAL_GPIO_Init(GPIOA, &tim2ch1_gpio);
+
+	//configuring interrupts
+	//set priority
+	HAL_NVIC_SetPriority(TIM2_IRQn, 15, 0);
+
+	//enable interrupts
+	HAL_NVIC_EnableIRQ(TIM2_IRQn);
+
+}
+
