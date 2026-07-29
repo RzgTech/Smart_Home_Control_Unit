@@ -14,10 +14,6 @@
 #include <string.h>
 #include <stdarg.h>
 
-#define SYS_CLOCK_FREQ_25_MHZ		25
-#define SYS_CLOCK_FREQ_50_MHZ		50
-#define SYS_CLOCK_FREQ_80_MHZ		80
-#define SYS_CLOCK_FREQ_180_MHZ		180
 #define DATA_BUFFER_SIZE			100
 
 #define FALSE	0
@@ -30,18 +26,19 @@
 #define EVENT_TEMP_ADC_SAMPLE       (1U << 1)
 #define EVENT_LIGHT_ADC_SAMPLE		(1U << 2)
 
-void SystemClock_Config(uint8_t frequency);
 void Error_handler(void);
-void UART_Init(void);
 void printmsg(char *format,...);
 void welcome(void);
 void command_parser(uint8_t* data_buffer);
 uint16_t ADC_Read(uint32_t channel);
-void ADC_Init(void);
-void TIM6_init(void);
-void TIM2_init(void);
 void ADC_Channel_config(uint32_t channel);
 float ADC_Convert_To_Temperature();
+
+typedef enum
+{
+	AUTOMATIC,
+	MANUAL
+}system_mode_t;
 
 
 
