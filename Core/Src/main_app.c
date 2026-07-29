@@ -13,10 +13,7 @@
 
 extern UART_HandleTypeDef huart2;
 extern ADC_HandleTypeDef hadc1;
-extern TIM_HandleTypeDef htim6;
-extern TIM_HandleTypeDef htim2;
 
-uint8_t recv_data = 0;
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 20;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
@@ -25,33 +22,31 @@ uint8_t system_mode = AUTOMATIC;
 
 int main(void)
 {
-
-	system_config();
+	system_Init();
 	welcome();
-
-	HAL_TIM_Base_Start_IT(&htim6);
-
-	HAL_UART_Receive_IT(&huart2, &recv_data, 1);
 
 	while(1)
 	{
-		if (system_events & EVENT_TEMP_ADC_SAMPLE)
+		if(system_mode == AUTOMATIC)
 		{
-			system_events &= ~EVENT_TEMP_ADC_SAMPLE;
-			float temperature = ADC_Convert_To_Temperature();
-			printmsg("Temperature: %.2f °C\r\n", temperature);
-			uint8_t new_duty_cycle = fan_decision(temperature);
-			if (curr_duty_cycle != new_duty_cycle)
+			if (system_events & EVENT_TEMP_ADC_SAMPLE)
 			{
-				curr_duty_cycle = new_duty_cycle;
-				fan_speed_config(new_duty_cycle);
+				system_events &= ~EVENT_TEMP_ADC_SAMPLE;
+				float temperature = ADC_Convert_To_Temperature();
+				printmsg("Temperature: %.2f °C\r\n", temperature);
+				uint8_t new_duty_cycle = fan_decision(temperature);
+				if (curr_duty_cycle != new_duty_cycle)
+				{
+					curr_duty_cycle = new_duty_cycle;
+					fan_speed_config(new_duty_cycle);
+				}
 			}
-		}
 
-		if (system_events & EVENT_LIGHT_ADC_SAMPLE)
-		{
-			system_events &= ~EVENT_LIGHT_ADC_SAMPLE;
-			ADC_Read(ADC_CHANNEL_LIGHT);
+			if (system_events & EVENT_LIGHT_ADC_SAMPLE)
+			{
+				system_events &= ~EVENT_LIGHT_ADC_SAMPLE;
+				ADC_Read(ADC_CHANNEL_LIGHT);
+			}
 		}
 	}
 
@@ -129,9 +124,4 @@ void printmsg(char *format,...)
   vsprintf(str, format,args);
   HAL_UART_Transmit(&huart2,(uint8_t *)str, strlen(str), HAL_MAX_DELAY);
   va_end(args);
-}
-
-void Error_handler(void)
-{
-	while(1);
 }

@@ -6,13 +6,17 @@
  */
 
 #include "system_config.h"
+#include <stdio.h>
+#include <string.h>
 
 UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim2;
 
-void system_config(void)
+uint8_t recv_data = 0;
+
+void system_Init(void)
 {
 	HAL_Init();
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
@@ -152,6 +156,8 @@ void UART_Init(void)
 		Error_handler();
 	}
 
+	HAL_UART_Receive_IT(&huart2, &recv_data, 1);
+
 }
 
 void ADC_Init(void)
@@ -175,6 +181,7 @@ void ADC_Init(void)
 	}
 }
 
+//used for temperature sensor readings
 void TIM6_init(void)
 {
 	htim6.Instance = TIM6;
@@ -188,8 +195,10 @@ void TIM6_init(void)
 		Error_handler();
 	}
 
+	HAL_TIM_Base_Start_IT(&htim6);
 }
 
+//used for generating PWM signal for fan speed control
 void TIM2_init(void)
 {
 	TIM_OC_InitTypeDef tim2pwm_config;
@@ -219,6 +228,11 @@ void TIM2_init(void)
 		Error_handler();
 	}
 
+}
+
+void Error_handler(void)
+{
+	while(1);
 }
 
 

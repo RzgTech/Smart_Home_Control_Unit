@@ -33,6 +33,7 @@ void command_parser(uint8_t* data_buffer);
 uint16_t ADC_Read(uint32_t channel);
 void ADC_Channel_config(uint32_t channel);
 float ADC_Convert_To_Temperature();
+void system_mode_transition(uint8_t system_mode);
 
 typedef enum
 {

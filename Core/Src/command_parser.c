@@ -4,19 +4,29 @@
  *  Created on: Jul 16, 2026
  *      Author: Vahid
  */
-const char* commands[] = {"help", "fan", "alarm", "light", "quit"};
 #include "main_app.h"
-
+#include "authentication.h"
+char command[10];
+uint8_t duty_cycle = 0;
+uint8_t state = 0;
+extern uint8_t system_mode;
+extern cli_t cli;
 void command_parser(uint8_t* data_buffer)
 {
 	if (strcmp((char *)data_buffer, "help") == 0)
 	{
-		printmsg("command is: help\r");
+		printmsg("fan -d duty_cycle_value: 0 - 100\r");
+		printmsg("light -s light_state_value: 0 - 1\r");
+		printmsg("alarm -s Value: 0 - 1\r");
+		printmsg("quit\r");
 
 	}
-	else if (strcmp((char *)data_buffer, "fan") == 0)
+	else if (sscanf((char *)data_buffer, "%9s -%d", command, &duty_cycle) == 2) //to be changed
 	{
-		printmsg("command is: fan\r");
+	    if (strcmp(command, "fan") == 0)
+	    {
+	    	printmsg("inserted duty cycle = %d\n", duty_cycle);
+	    }
 
 	}
 	else if (strcmp((char *)data_buffer, "alarm") == 0)
@@ -29,7 +39,14 @@ void command_parser(uint8_t* data_buffer)
 	}
 	else if (strcmp((char *)data_buffer, "quit") == 0)
 	{
+		system_mode = AUTOMATIC;
+		cli.user_auth_stat = USER_WAITING_AUTH_USERNAME;
+		system_mode_transition(AUTOMATIC);
 		printmsg("command is: quit\r");
+	}
+	else if (strcmp((char *)data_buffer, '\n') == 0)
+	{
+		//
 	}
 	else
 	{

@@ -10,8 +10,6 @@
 
 #include "stm32f4xx_hal.h"
 #include <stdint.h>
-#include <stdio.h>
-#include <string.h>
 
 #define SYS_CLOCK_FREQ_25_MHZ		25
 #define SYS_CLOCK_FREQ_50_MHZ		50
@@ -23,7 +21,7 @@ void UART_Init(void);
 void ADC_Init(void);
 void TIM6_init(void);
 void TIM2_init(void);
-void system_config(void);
+void system_Init(void);
 void Error_handler(void);
 
 

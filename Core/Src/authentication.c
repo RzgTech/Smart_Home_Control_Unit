@@ -8,6 +8,7 @@
 #include "authentication.h"
 const char* username = "admin";
 const char* password = "1234";
+extern uint8_t system_mode;
 
 user_status authentication(cli_t *cli)
 {
@@ -41,6 +42,8 @@ user_status authentication(cli_t *cli)
 	    if (strcmp((char *)(cli->data_buffer), password) == 0)
 	    {
 	    	cli->user_auth_stat = USER_AUTHENTICATED;
+	    	system_mode = MANUAL;
+	    	system_mode_transition(MANUAL);
 	    }
 	    else
 	    {
