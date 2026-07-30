@@ -6,6 +6,7 @@
  */
 #include "main_app.h"
 #include "fan.h"
+#include "light_relay.h"
 #include "command_parser.h"
 #include "authentication.h"
 char command[10];
@@ -47,7 +48,14 @@ void command_parser(uint8_t* data_buffer)
 	    	{
 				printmsg("inserted command: light\r");
 				uint8_t light_state = (uint8_t)full_command.value;
-				printmsg("light state set to = %d\r", full_command.value);
+				if (light_state == RELAY_OFF || light_state == RELAY_ON)
+				{
+					light_relay_config(light_state);
+				}
+				else
+				{
+					printmsg("Invalid command: light state can be 0 or 1\r");
+				}
 	    	}
 	    	else
 	    	{
@@ -67,6 +75,10 @@ void command_parser(uint8_t* data_buffer)
 	    		printmsg("Invalid command: type help\r");
 	    	}
 		}
+	    else
+	    {
+	    	printmsg("Invalid command\r");
+	    }
 	}
 	else if (strcmp((char *)data_buffer, "quit") == 0)
 	{

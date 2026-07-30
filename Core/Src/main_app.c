@@ -19,6 +19,7 @@ static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 1;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
 uint8_t curr_duty_cycle = 0U;
+uint8_t curr_relay_state = RELAY_OFF;
 uint8_t system_mode = AUTOMATIC;
 
 int main(void)
@@ -48,7 +49,11 @@ int main(void)
 				system_events &= ~EVENT_LIGHT_ADC_SAMPLE;
 				uint16_t light_adc_value = ADC_Convert_To_Light(ADC_CHANNEL_LIGHT);
 				uint8_t relay_state = light_relay_decision(light_adc_value);
-				light_relay_config(relay_state);
+				if (curr_relay_state != relay_state)
+				{
+					curr_relay_state = relay_state;
+					light_relay_config(relay_state);
+				}
 			}
 		}
 	}
