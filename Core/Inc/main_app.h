@@ -26,10 +26,8 @@
 #define EVENT_TEMP_ADC_SAMPLE       (1U << 1)
 #define EVENT_LIGHT_ADC_SAMPLE		(1U << 2)
 
-void Error_handler(void);
-void printmsg(char *format,...);
 void welcome(void);
-void command_parser(uint8_t* data_buffer);
+void printmsg(char *format,...);
 uint16_t ADC_Read(uint32_t channel);
 void ADC_Channel_config(uint32_t channel);
 float ADC_Convert_To_Temperature();

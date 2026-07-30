@@ -10,10 +10,10 @@
 #include "system_config.h"
 #include "fan.h"
 #include "authentication.h"
+#include "command_parser.h"
 
-extern UART_HandleTypeDef huart2;
 extern ADC_HandleTypeDef hadc1;
-
+extern UART_HandleTypeDef huart2;
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 20;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
