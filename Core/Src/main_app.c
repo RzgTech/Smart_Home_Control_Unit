@@ -11,6 +11,7 @@
 #include "fan.h"
 #include "authentication.h"
 #include "command_parser.h"
+#include "light_relay.h"
 
 extern ADC_HandleTypeDef hadc1;
 extern UART_HandleTypeDef huart2;

@@ -13,7 +13,8 @@
 #define RELAY_ON				1
 #define RELAY_OFF				0
 
-void light_decision(void);
+uint8_t light_relay_decision(uint16_t light_value);
+void light_relay_config(uint8_t relay_state);
 
 
 
