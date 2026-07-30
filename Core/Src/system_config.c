@@ -20,6 +20,7 @@ void system_Init(void)
 {
 	HAL_Init();
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
+	RELAY_GPIO_Init();
 	TIM6_init();
 	TIM2_init();
 	UART_Init();
@@ -228,6 +229,21 @@ void TIM2_init(void)
 		Error_handler();
 	}
 
+}
+
+void RELAY_GPIO_Init(void)
+{
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+
+	//configuring GPIO for the light relay
+	GPIO_InitTypeDef relay_gpio;
+
+	relay_gpio.Mode = GPIO_MODE_OUTPUT_PP;
+	relay_gpio.Pin = GPIO_PIN_0;
+	relay_gpio.Pull = GPIO_NOPULL;
+	relay_gpio.Speed = GPIO_SPEED_LOW;
+
+	HAL_GPIO_Init(GPIOB, &relay_gpio);
 }
 
 void Error_handler(void)

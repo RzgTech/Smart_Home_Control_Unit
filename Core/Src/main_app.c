@@ -15,7 +15,7 @@
 extern ADC_HandleTypeDef hadc1;
 extern UART_HandleTypeDef huart2;
 static uint16_t light_counter = 0;
-static uint16_t light_timer_sec = 20;
+static uint16_t light_timer_sec = 1;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
 uint8_t curr_duty_cycle = 0U;
 uint8_t system_mode = AUTOMATIC;
@@ -45,7 +45,9 @@ int main(void)
 			if (system_events & EVENT_LIGHT_ADC_SAMPLE)
 			{
 				system_events &= ~EVENT_LIGHT_ADC_SAMPLE;
-				ADC_Read(ADC_CHANNEL_LIGHT);
+				uint16_t light_adc_value = ADC_Convert_To_Light(ADC_CHANNEL_LIGHT);
+				uint8_t relay_state = light_relay_decision(light_adc_value);
+				light_relay_config(relay_state);
 			}
 		}
 	}
@@ -68,10 +70,6 @@ uint16_t ADC_Read(uint32_t channel)
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
 
     uint16_t value = HAL_ADC_GetValue(&hadc1);
-    if(channel == ADC_CHANNEL_LIGHT)
-	{
-    	printmsg("Light Value: %u\r\n", value);
-	}
 
     HAL_ADC_Stop(&hadc1);
     return value;
@@ -83,6 +81,14 @@ float ADC_Convert_To_Temperature()
 	// Convert ADC value to temperature in Celsius
 	float voltage = ((float)adc_value * 3.3f) / 4095.0f;
 	return voltage * 100.0f; 
+}
+
+uint16_t ADC_Convert_To_Light()
+{
+	uint16_t adc_value = ADC_Read(ADC_CHANNEL_LIGHT);
+	printmsg("Light Value: %u\r\n", adc_value);
+
+	return adc_value;
 }
 
 void ADC_Channel_config(uint32_t channel)

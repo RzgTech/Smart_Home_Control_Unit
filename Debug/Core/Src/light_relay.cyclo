@@ -1,0 +1,2 @@
+../Core/Src/light_relay.c:12:9:light_relay_decision	2
+../Core/Src/light_relay.c:26:6:light_relay_config	1

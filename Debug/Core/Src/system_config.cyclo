@@ -1,7 +1,8 @@
 ../Core/Src/system_config.c:19:6:system_Init	1
-../Core/Src/system_config.c:29:6:SystemClock_Config	9
-../Core/Src/system_config.c:144:6:UART_Init	2
-../Core/Src/system_config.c:163:6:ADC_Init	2
-../Core/Src/system_config.c:185:6:TIM6_init	2
-../Core/Src/system_config.c:202:6:TIM2_init	4
-../Core/Src/system_config.c:233:6:Error_handler	1
+../Core/Src/system_config.c:30:6:SystemClock_Config	9
+../Core/Src/system_config.c:145:6:UART_Init	2
+../Core/Src/system_config.c:164:6:ADC_Init	2
+../Core/Src/system_config.c:186:6:TIM6_init	2
+../Core/Src/system_config.c:203:6:TIM2_init	4
+../Core/Src/system_config.c:234:6:RELAY_GPIO_Init	1
+../Core/Src/system_config.c:249:6:Error_handler	1
