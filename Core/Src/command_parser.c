@@ -20,26 +20,53 @@ void command_parser(uint8_t* data_buffer)
 		printmsg("light -s light_state_value: 0 - 1\r");
 		printmsg("alarm -s Value: 0 - 1\r");
 		printmsg("quit\r");
-
 	}
+
 	else if (sscanf((char *)data_buffer, "%9s -%c %d",
 			full_command.command, &(full_command.option), &(full_command.value)) == 3) //to be changed
 	{
-		printmsg("inserted command: fan\r");
+
 	    if (strcmp(full_command.command, "fan") == 0)
 	    {
-	    	uint8_t duty_cycle = (uint8_t)full_command.value;
-	    	fan_speed_config(duty_cycle);
-	    	printmsg("inserted duty cycle = %d\n", full_command.value);
+	    	printmsg("inserted command: fan\r");
+	    	if (full_command.option == 'd')
+	    	{
+		    	uint8_t duty_cycle = (uint8_t)full_command.value;
+		    	fan_speed_config(duty_cycle);
+		    	printmsg("fan duty cycle set to = %d\r", full_command.value);
+	    	}
+	    	else
+	    	{
+	    		printmsg("Invalid command: type help\r");
+	    	}
+
 	    }
-	}
-	else if (strcmp((char *)data_buffer, "alarm") == 0)
-	{
-		printmsg("command is: alarm\r");
-	}
-	else if (strcmp((char *)data_buffer, "light") == 0)
-	{
-		printmsg("command is: light\r");
+	    else if (strcmp(full_command.command, "light") == 0)
+		{
+	    	if (full_command.option == 's')
+	    	{
+				printmsg("inserted command: light\r");
+				uint8_t light_state = (uint8_t)full_command.value;
+				printmsg("light state set to = %d\r", full_command.value);
+	    	}
+	    	else
+	    	{
+	    		printmsg("Invalid command: type help\r");
+	    	}
+	    }
+	    else if (strcmp(full_command.command, "alarm") == 0 && full_command.option == 's')
+		{
+	    	if (full_command.option == 's')
+	    	{
+				printmsg("inserted command: alarm\r");
+				uint8_t alarm_state = (uint8_t)full_command.value;
+				printmsg("alarm light set to = %d\r", full_command.value);
+	    	}
+	    	else
+	    	{
+	    		printmsg("Invalid command: type help\r");
+	    	}
+		}
 	}
 	else if (strcmp((char *)data_buffer, "quit") == 0)
 	{
