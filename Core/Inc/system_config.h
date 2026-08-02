@@ -22,6 +22,8 @@ void ADC_Init(void);
 void TIM6_init(void);
 void TIM2_init(void);
 void system_Init(void);
+void RELAY_GPIO_Init(void);
+void ALARM_Light_GPIO_Init(void);
 void Error_handler(void);
 
 

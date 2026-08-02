@@ -7,10 +7,9 @@
 #include "main_app.h"
 #include "light_relay.h"
 
-uint8_t light_relay_status;
-
 uint8_t light_relay_decision(uint16_t light_value)
 {
+	uint8_t light_relay_status;
 	if (light_value < LIGHT_MODE_THRESHOLD)
 	{
 		light_relay_status = RELAY_OFF;

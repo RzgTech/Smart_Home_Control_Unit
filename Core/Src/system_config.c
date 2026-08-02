@@ -21,6 +21,7 @@ void system_Init(void)
 	HAL_Init();
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
 	RELAY_GPIO_Init();
+	ALARM_Light_GPIO_Init();
 	TIM6_init();
 	TIM2_init();
 	UART_Init();
@@ -244,6 +245,21 @@ void RELAY_GPIO_Init(void)
 	relay_gpio.Speed = GPIO_SPEED_LOW;
 
 	HAL_GPIO_Init(GPIOB, &relay_gpio);
+}
+
+void ALARM_Light_GPIO_Init(void)
+{
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+
+	//configuring GPIO for the Alarm light
+	GPIO_InitTypeDef alarm_gpio;
+
+	alarm_gpio.Mode = GPIO_MODE_OUTPUT_PP;
+	alarm_gpio.Pin = GPIO_PIN_8;
+	alarm_gpio.Pull = GPIO_NOPULL;
+	alarm_gpio.Speed = GPIO_SPEED_LOW;
+
+	HAL_GPIO_Init(GPIOA, &alarm_gpio);
 }
 
 void Error_handler(void)

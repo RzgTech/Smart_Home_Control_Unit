@@ -12,6 +12,7 @@
 #include "authentication.h"
 #include "command_parser.h"
 #include "light_relay.h"
+#include "alarm_light.h"
 
 extern ADC_HandleTypeDef hadc1;
 extern UART_HandleTypeDef huart2;
@@ -20,6 +21,7 @@ static uint16_t light_timer_sec = 1;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
 uint8_t curr_duty_cycle = 0U;
 uint8_t curr_relay_state = RELAY_OFF;
+uint8_t curr_alarm_state = ALARM_LIGHT_OFF;
 uint8_t system_mode = AUTOMATIC;
 
 int main(void)
@@ -36,7 +38,13 @@ int main(void)
 				system_events &= ~EVENT_TEMP_ADC_SAMPLE;
 				float temperature = ADC_Convert_To_Temperature();
 				printmsg("Temperature: %.2f °C\r\n", temperature);
+				uint8_t new_alarm_state = alarm_light_decision(temperature);
 				uint8_t new_duty_cycle = fan_decision(temperature);
+				if (curr_alarm_state != new_alarm_state)
+				{
+					curr_alarm_state = new_alarm_state;
+					alarm_light_config(new_alarm_state);
+				}
 				if (curr_duty_cycle != new_duty_cycle)
 				{
 					curr_duty_cycle = new_duty_cycle;

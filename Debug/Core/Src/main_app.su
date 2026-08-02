@@ -1,8 +1,8 @@
-../Core/Src/main_app.c:25:5:main	24	static
-../Core/Src/main_app.c:64:6:welcome	8	static
-../Core/Src/main_app.c:71:10:ADC_Read	24	static
-../Core/Src/main_app.c:84:7:ADC_Convert_To_Temperature	16	static
-../Core/Src/main_app.c:92:10:ADC_Convert_To_Light	16	static
-../Core/Src/main_app.c:100:6:ADC_Channel_config	32	static
-../Core/Src/main_app.c:114:6:HAL_TIM_PeriodElapsedCallback	16	static
-../Core/Src/main_app.c:129:6:printmsg	96	static
+../Core/Src/main_app.c:27:5:main	24	static
+../Core/Src/main_app.c:72:6:welcome	8	static
+../Core/Src/main_app.c:79:10:ADC_Read	24	static
+../Core/Src/main_app.c:92:7:ADC_Convert_To_Temperature	16	static
+../Core/Src/main_app.c:100:10:ADC_Convert_To_Light	16	static
+../Core/Src/main_app.c:108:6:ADC_Channel_config	32	static
+../Core/Src/main_app.c:122:6:HAL_TIM_PeriodElapsedCallback	16	static
+../Core/Src/main_app.c:137:6:printmsg	96	static
