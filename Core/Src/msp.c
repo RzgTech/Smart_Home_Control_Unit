@@ -6,6 +6,7 @@
  */
 
 #include "msp.h"
+#include <string.h>
 
 void HAL_MspInit(void)
 {
@@ -104,5 +105,53 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef *htim)
 	//enable interrupts
 	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
+}
+
+void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
+{
+	//use this in case the backup sram was changed
+	/*// Enable PWR clock
+	__HAL_RCC_PWR_CLK_ENABLE();
+
+	// Enable access to backup domain
+	HAL_PWR_EnableBkUpAccess();
+
+	// Force backup domain reset
+	__HAL_RCC_BACKUPRESET_FORCE();
+	__HAL_RCC_BACKUPRESET_RELEASE();*/
+
+	//reminder: RTC is inside backup domain so its clock enabling is different from other peripherals
+
+	//1. Turn on the LSE
+	RCC_OscInitTypeDef osc_config;
+	RCC_PeriphCLKInitTypeDef clk_config;
+
+	memset(&osc_config, 0, sizeof(osc_config));
+	memset(&clk_config, 0, sizeof(clk_config));
+
+	osc_config.OscillatorType = RCC_OSCILLATORTYPE_LSE;
+	osc_config.LSEState = RCC_LSE_ON;
+	osc_config.PLL.PLLState = RCC_PLL_NONE;
+	osc_config.HSEState = RCC_HSE_OFF;
+	osc_config.HSIState = RCC_HSI_OFF;
+	osc_config.LSIState = RCC_LSI_OFF;
+	
+	if (HAL_RCC_OscConfig(&osc_config) != HAL_OK)
+	{
+		Error_handler();
+	}
+
+	//2. Select LSE as the RTC clock source
+	clk_config.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+	clk_config.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+	
+	if (HAL_RCCEx_PeriphCLKConfig(&clk_config) != HAL_OK)
+	{
+		Error_handler();
+	}
+
+	//3. Enable the RTC peripheral clock
+	__HAL_RCC_RTC_ENABLE();
+	
 }
 

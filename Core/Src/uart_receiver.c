@@ -6,6 +6,7 @@
  */
 #include "main_app.h"
 #include "authentication.h"
+#include "command_parser.h"
 
 void buffer_cleaner(uint8_t* buffer);
 extern UART_HandleTypeDef huart2;

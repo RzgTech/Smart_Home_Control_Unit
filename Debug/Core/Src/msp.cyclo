@@ -1,5 +1,6 @@
-../Core/Src/msp.c:10:6:HAL_MspInit	1
-../Core/Src/msp.c:24:6:HAL_UART_MspInit	1
-../Core/Src/msp.c:52:6:HAL_ADC_MspInit	1
-../Core/Src/msp.c:72:6:HAL_TIM_Base_MspInit	1
-../Core/Src/msp.c:84:6:HAL_TIM_PWM_MspInit	1
+../Core/Src/msp.c:11:6:HAL_MspInit	1
+../Core/Src/msp.c:25:6:HAL_UART_MspInit	1
+../Core/Src/msp.c:53:6:HAL_ADC_MspInit	1
+../Core/Src/msp.c:73:6:HAL_TIM_Base_MspInit	1
+../Core/Src/msp.c:85:6:HAL_TIM_PWM_MspInit	1
+../Core/Src/msp.c:110:6:HAL_RTC_MspInit	3
