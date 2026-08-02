@@ -9,6 +9,8 @@
 #include "light_relay.h"
 #include "command_parser.h"
 #include "authentication.h"
+#include "alarm_light.h"
+
 char command[10];
 command_syntax_t full_command = {0};
 extern uint8_t system_mode;
@@ -68,7 +70,14 @@ void command_parser(uint8_t* data_buffer)
 	    	{
 				printmsg("inserted command: alarm\r");
 				uint8_t alarm_state = (uint8_t)full_command.value;
-				printmsg("alarm light set to = %d\r", full_command.value);
+				if (alarm_state == ALARM_LIGHT_OFF || alarm_state == ALARM_LIGHT_ON)
+				{
+					alarm_light_config(alarm_state);
+				}
+				else
+				{
+					printmsg("Invalid command: light alarm state can be 0 or 1\r");
+				}
 	    	}
 	    	else
 	    	{
