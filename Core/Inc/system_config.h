@@ -25,6 +25,7 @@ void system_Init(void);
 void RELAY_GPIO_Init(void);
 void ALARM_Light_GPIO_Init(void);
 void Error_handler(void);
+void RTC_Init(void);
 
 
 #endif /* INC_SYSTEM_CONFIG_H_ */

@@ -11,6 +11,7 @@
 "./Core/Src/system_config.o"
 "./Core/Src/system_mode.o"
 "./Core/Src/system_stm32f4xx.o"
+"./Core/Src/time_management.o"
 "./Core/Src/uart_receiver.o"
 "./Core/Startup/startup_stm32f446retx.o"
 "./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"

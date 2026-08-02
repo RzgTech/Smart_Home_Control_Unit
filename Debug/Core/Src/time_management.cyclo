@@ -1,0 +1,2 @@
+../Core/Src/time_management.c:6:6:RTC_Set_Time_Date	3
+../Core/Src/time_management.c:32:7:RTC_Get_Time_Date	3

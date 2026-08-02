@@ -13,14 +13,10 @@
 #include "command_parser.h"
 #include "light_relay.h"
 #include "alarm_light.h"
+#include "time_management.h"
 
 extern ADC_HandleTypeDef hadc1;
 extern UART_HandleTypeDef huart2;
-RTC_HandleTypeDef hrtc;
-void RTC_Init(void);
-char *RTC_Get_Time_Date(char *buffer, uint8_t buffer_len);
-void RTC_Set_Time_Date(uint8_t hours, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year);
-#define RTC_DATETIME_STR_LEN   32
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 1;
 volatile uint32_t system_events;  //avoid optimizing it by compiler
@@ -32,9 +28,8 @@ uint8_t system_mode = AUTOMATIC;
 int main(void)
 {
 	system_Init();
-	RTC_Init();
 	welcome();
-	RTC_Set_Time_Date(19, 10, 0, 2, RTC_MONTH_AUGUST, 2026); // Set time to 19:10:00 and date to 2nd August 2026
+	//RTC_Set_Time_Date(19, 10, 0, 2, RTC_MONTH_AUGUST, 2026); // Set time to 19:10:00 and date to 2nd August 2026
 
 	while(1)
 	{
@@ -127,79 +122,6 @@ void ADC_Channel_config(uint32_t channel)
 	{
 		Error_handler();
 	}
-}
-
-void RTC_Init(void)
-{
-	hrtc.Instance = RTC;
-	hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
-	hrtc.Init.AsynchPrediv = 0x7F;
-	hrtc.Init.SynchPrediv = 0xFF;
-	hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
-	hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_LOW; //does not matter since output is disabled
-	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN; //does not matter since output is disabled
-
-	if (HAL_RTC_Init(&hrtc) != HAL_OK)
-	{
-		Error_handler();
-	}
-}
-
-void RTC_Set_Time_Date(uint8_t hours, uint8_t minutes, uint8_t seconds, uint8_t day, uint8_t month, uint16_t year)
-{
-	RTC_TimeTypeDef sTime = {0};
-	RTC_DateTypeDef sDate = {0};
-
-	sTime.Hours = hours;
-	sTime.Minutes = minutes;
-	sTime.Seconds = seconds;
-	sTime.SubSeconds = 0;
-	sTime.TimeFormat = RTC_HOURFORMAT_24;
-
-	if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN) != HAL_OK)
-	{
-		Error_handler();
-	}
-
-	sDate.Month = month;
-	sDate.Date = day;
-	sDate.Year = year - 2000; // Assuming year is in 2000s
-
-	if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN) != HAL_OK)
-	{
-		Error_handler();
-	}
-}
-
-char *RTC_Get_Time_Date(char *buffer, uint8_t buffer_len)
-{
-	RTC_TimeTypeDef currTime = {0};
-	RTC_DateTypeDef currDate = {0};
-
-	if (HAL_RTC_GetTime(&hrtc, &currTime, RTC_FORMAT_BIN) != HAL_OK)
-	{
-		Error_handler();
-	}
-
-	if (HAL_RTC_GetDate(&hrtc, &currDate, RTC_FORMAT_BIN) != HAL_OK)
-	{
-		Error_handler();
-	}
-
-	snprintf(buffer,
-			buffer_len,
-			"%02d/%02d/%04d - %02d:%02d:%02d",
-			currDate.Date,
-			currDate.Month,
-			2000 + currDate.Year,
-			currTime.Hours,
-			currTime.Minutes,
-			currTime.Seconds);
-
-	printmsg("Current Time: %02d:%02d:%02d\r\n", currTime.Hours, currTime.Minutes, currTime.Seconds);
-	printmsg("Current Date: %02d/%02d/%04d\r\n", currDate.Date, currDate.Month, 2000 + currDate.Year);	
-
-	return buffer;
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)

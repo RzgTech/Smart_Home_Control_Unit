@@ -6,6 +6,7 @@
  */
 
 #include "system_config.h"
+#include "time_management.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -13,6 +14,7 @@ UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim2;
+RTC_HandleTypeDef hrtc;
 
 uint8_t recv_data = 0;
 
@@ -26,6 +28,7 @@ void system_Init(void)
 	TIM2_init();
 	UART_Init();
 	ADC_Init();
+	RTC_Init();
 }
 
 void SystemClock_Config(uint8_t frequency)
@@ -260,6 +263,30 @@ void ALARM_Light_GPIO_Init(void)
 	alarm_gpio.Speed = GPIO_SPEED_LOW;
 
 	HAL_GPIO_Init(GPIOA, &alarm_gpio);
+}
+
+void RTC_Init(void)
+{
+	hrtc.Instance = RTC;
+	hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+	hrtc.Init.AsynchPrediv = 0x7F;
+	hrtc.Init.SynchPrediv = 0xFF;
+	hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+	hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_LOW; //does not matter since output is disabled
+	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN; //does not matter since output is disabled
+
+	if (HAL_RTC_Init(&hrtc) != HAL_OK)
+	{
+		Error_handler();
+	}
+
+	if (HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1) != RTC_INIT_MARKER)
+	{
+	    // RTC has never been initialized
+	    RTC_Set_Time_Date(19, 10, 0, 2, RTC_MONTH_AUGUST, 2026);
+
+	    HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, RTC_INIT_MARKER);
+	}
 }
 
 void Error_handler(void)
