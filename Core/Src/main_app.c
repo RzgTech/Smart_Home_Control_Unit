@@ -43,7 +43,6 @@ int main(void)
 				printmsg("Temperature: %.2f °C\r\n", temperature);
 				uint8_t new_alarm_state = alarm_light_decision(temperature);
 				uint8_t new_duty_cycle = fan_decision(temperature);
-				log_debug("this is a debug message");
 				if (curr_alarm_state != new_alarm_state)
 				{
 					curr_alarm_state = new_alarm_state;

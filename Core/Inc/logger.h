@@ -13,7 +13,18 @@
 
 #define LOG_MESSAGE_MAX_LEN		200
 
+typedef enum
+{
+	LOG_DEBUG,
+	LOG_INFO,
+	LOG_WARNING,
+	LOG_ERROR
+}log_level_t;
+
 void log_debug(char* message);
+void log_info(char* message);
+void log_wrn(char* message);
+void log_error(char* message);
 
 
 #endif /* INC_LOGGER_H_ */
