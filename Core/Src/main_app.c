@@ -37,9 +37,6 @@ int main(void)
 		{
 			if (system_events & EVENT_TEMP_ADC_SAMPLE)
 			{
-				char current_time_date[RTC_DATETIME_STR_LEN] = {0};
-				RTC_Get_Time_Date(current_time_date, RTC_DATETIME_STR_LEN);
-				printmsg("%s: log will be here\r\n", current_time_date);
 				system_events &= ~EVENT_TEMP_ADC_SAMPLE;
 				float temperature = ADC_Convert_To_Temperature();
 				printmsg("Temperature: %.2f °C\r\n", temperature);
