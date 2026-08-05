@@ -36,6 +36,7 @@ Core/Src/main_app.o: ../Core/Src/main_app.c ../Core/Inc/main_app.h \
  ../Core/Inc/system_config.h ../Core/Inc/fan.h ../Core/Inc/main_app.h \
  ../Core/Inc/authentication.h ../Core/Inc/command_parser.h \
  ../Core/Inc/light_relay.h ../Core/Inc/alarm_light.h \
+ ../Core/Inc/time_management.h ../Core/Inc/logger.h \
  ../Core/Inc/time_management.h
 ../Core/Inc/main_app.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -79,4 +80,6 @@ Core/Src/main_app.o: ../Core/Src/main_app.c ../Core/Inc/main_app.h \
 ../Core/Inc/command_parser.h:
 ../Core/Inc/light_relay.h:
 ../Core/Inc/alarm_light.h:
+../Core/Inc/time_management.h:
+../Core/Inc/logger.h:
 ../Core/Inc/time_management.h:

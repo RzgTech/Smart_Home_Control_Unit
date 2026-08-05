@@ -4,6 +4,7 @@
 "./Core/Src/fan.o"
 "./Core/Src/it.o"
 "./Core/Src/light_relay.o"
+"./Core/Src/logger.o"
 "./Core/Src/main_app.o"
 "./Core/Src/msp.o"
 "./Core/Src/syscalls.o"

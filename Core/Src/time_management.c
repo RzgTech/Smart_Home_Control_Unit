@@ -29,7 +29,7 @@ void RTC_Set_Time_Date(uint8_t hours, uint8_t minutes, uint8_t seconds, uint8_t 
 	}
 }
 
-char *RTC_Get_Time_Date(char *buffer, uint8_t buffer_len)
+void RTC_Get_Time_Date(char *buffer)
 {
 	RTC_TimeTypeDef currTime = {0};
 	RTC_DateTypeDef currDate = {0};
@@ -45,7 +45,7 @@ char *RTC_Get_Time_Date(char *buffer, uint8_t buffer_len)
 	}
 
 	snprintf(buffer,
-			buffer_len,
+			RTC_DATETIME_STR_LEN,
 			"%02d/%02d/%04d - %02d:%02d:%02d",
 			currDate.Date,
 			currDate.Month,
@@ -53,6 +53,4 @@ char *RTC_Get_Time_Date(char *buffer, uint8_t buffer_len)
 			currTime.Hours,
 			currTime.Minutes,
 			currTime.Seconds);
-
-	return buffer;
 }
