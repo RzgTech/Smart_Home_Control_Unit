@@ -10,6 +10,7 @@
 #include "command_parser.h"
 #include "authentication.h"
 #include "alarm_light.h"
+#include "logger.h"
 
 char command[10];
 command_syntax_t full_command = {0};
@@ -35,8 +36,16 @@ void command_parser(uint8_t* data_buffer)
 	    	if (full_command.option == 'd')
 	    	{
 		    	uint8_t duty_cycle = (uint8_t)full_command.value;
-		    	fan_speed_config(duty_cycle);
-		    	printmsg("fan duty cycle set to = %d\r", full_command.value);
+		    	if (duty_cycle <= 100 || duty_cycle >= 0)
+		    	{
+					fan_speed_config(duty_cycle);
+					//printmsg("fan duty cycle set to = %d\r", full_command.value);
+					log_debug("fan duty cycle set to = %d", full_command.value);
+		    	}
+		    	else
+		    	{
+		    		log_error("fan duty cycle must be between 0 and 100");
+		    	}
 	    	}
 	    	else
 	    	{
