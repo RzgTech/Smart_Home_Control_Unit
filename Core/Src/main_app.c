@@ -40,7 +40,7 @@ int main(void)
 			{
 				system_events &= ~EVENT_TEMP_ADC_SAMPLE;
 				float temperature = ADC_Convert_To_Temperature();
-				log_debug("Temperature: %.2f °C\r\n", temperature);
+				log_debug("Temperature: %.2f °C", temperature);
 				//printmsg("Temperature: %.2f °C\r\n", temperature);
 				uint8_t new_alarm_state = alarm_light_decision(temperature);
 				uint8_t new_duty_cycle = fan_decision(temperature);
