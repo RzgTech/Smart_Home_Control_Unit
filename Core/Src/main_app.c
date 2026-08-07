@@ -18,9 +18,10 @@
 
 extern ADC_HandleTypeDef hadc1;
 extern UART_HandleTypeDef huart2;
+extern cli_t cli;
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 1;
-volatile uint32_t system_events;  //avoid optimizing it by compiler
+volatile uint32_t system_events = EVENT_EMPTY;  //avoid optimizing it by compiler
 uint8_t curr_duty_cycle = 0U;
 uint8_t curr_relay_state = RELAY_OFF;
 uint8_t curr_alarm_state = ALARM_LIGHT_OFF;
@@ -31,7 +32,6 @@ int main(void)
 	system_Init();
 	welcome();
 	//RTC_Set_Time_Date(19, 10, 0, 2, RTC_MONTH_AUGUST, 2026); // Set time to 19:10:00 and date to 2nd August 2026
-
 	while(1)
 	{
 		if(system_mode == AUTOMATIC)
@@ -65,6 +65,19 @@ int main(void)
 					curr_relay_state = relay_state;
 					light_relay_config(relay_state);
 				}
+			}
+		}
+
+		//going to sleep
+		while (system_events == EVENT_EMPTY)
+		{
+			if (system_mode == AUTOMATIC && cli.user_auth_stat != USER_AUTHENTICATED)
+			{
+				HAL_SuspendTick();
+				log_info("system mode changed to low power mode");
+				__WFI();
+				system_mode = LOW_POWER;
+				HAL_ResumeTick();
 			}
 		}
 	}
@@ -124,8 +137,13 @@ void ADC_Channel_config(uint32_t channel)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+
 	if (htim->Instance == TIM6)
 	{
+		if (system_mode != MANUAL)
+		{
+			system_mode = AUTOMATIC;
+		}
 		system_events |= EVENT_TEMP_ADC_SAMPLE;
 		light_counter++;
 

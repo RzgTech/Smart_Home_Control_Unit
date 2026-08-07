@@ -24,6 +24,7 @@
 #define ADC_CHANNEL_TEMPERATURE		ADC_CHANNEL_0
 #define ADC_CHANNEL_LIGHT			ADC_CHANNEL_1
 
+#define EVENT_EMPTY					(0U)
 #define EVENT_UART_RX    			(1U << 0)
 #define EVENT_TEMP_ADC_SAMPLE       (1U << 1)
 #define EVENT_LIGHT_ADC_SAMPLE		(1U << 2)
@@ -39,7 +40,8 @@ void system_mode_transition(uint8_t system_mode);
 typedef enum
 {
 	AUTOMATIC,
-	MANUAL
+	MANUAL,
+	LOW_POWER
 }system_mode_t;
 
 

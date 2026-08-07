@@ -16,6 +16,9 @@ char command[10];
 command_syntax_t full_command = {0};
 extern uint8_t system_mode;
 extern cli_t cli;
+extern uint8_t curr_duty_cycle;
+extern uint8_t curr_relay_state;
+extern uint8_t curr_alarm_state;
 void command_parser(uint8_t* data_buffer)
 {
 	if (strcmp((char *)data_buffer, "help") == 0)
@@ -38,6 +41,7 @@ void command_parser(uint8_t* data_buffer)
 		    	uint8_t duty_cycle = (uint8_t)full_command.value;
 		    	if (duty_cycle <= 100 && duty_cycle >= 0)
 		    	{
+		    		curr_duty_cycle = duty_cycle;
 					fan_speed_config(duty_cycle);
 		    	}
 		    	else
@@ -59,6 +63,7 @@ void command_parser(uint8_t* data_buffer)
 				uint8_t light_state = (uint8_t)full_command.value;
 				if (light_state == RELAY_OFF || light_state == RELAY_ON)
 				{
+					curr_relay_state = light_state;
 					light_relay_config(light_state);
 				}
 				else
@@ -79,6 +84,7 @@ void command_parser(uint8_t* data_buffer)
 				uint8_t alarm_state = (uint8_t)full_command.value;
 				if (alarm_state == ALARM_LIGHT_OFF || alarm_state == ALARM_LIGHT_ON)
 				{
+					curr_alarm_state = alarm_state;
 					alarm_light_config(alarm_state);
 				}
 				else
@@ -98,11 +104,11 @@ void command_parser(uint8_t* data_buffer)
 	}
 	else if (strcmp((char *)data_buffer, "quit") == 0)
 	{
+		log_debug("command is: quit");
+		cli.user_auth_stat = USER_NOT_AUTHENTICATED;
 		system_mode = AUTOMATIC;
 		log_info("system mode changed to auto mode");
-		cli.user_auth_stat = USER_WAITING_AUTH_USERNAME;
 		system_mode_transition(AUTOMATIC);
-		log_debug("command is: quit");
 	}
 	else if (strcmp((char *)data_buffer, '\n') == 0)
 	{

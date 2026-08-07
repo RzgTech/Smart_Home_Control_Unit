@@ -21,6 +21,10 @@ user_status authentication(cli_t *cli)
 	    	cli->user_auth_stat = USER_WAITING_AUTH_USERNAME;
 	        printmsg("username: ");
 	    }
+	    else
+	    {
+	    	log_error("Invalid command!");
+	    }
 	    break;
 
 	case USER_WAITING_AUTH_USERNAME:
@@ -32,7 +36,7 @@ user_status authentication(cli_t *cli)
 	    }
 	    else
 	    {
-	        printmsg("Invalid username!\r");
+	        log_error("Invalid username!");
 	        printmsg("username: ");
 	    }
 	    break;
@@ -49,7 +53,7 @@ user_status authentication(cli_t *cli)
 	    else
 	    {
 	    	cli->user_auth_stat = USER_WAITING_AUTH_USERNAME;
-	        printmsg("Invalid password!\r");
+	    	log_error("Invalid password!");
 	        printmsg("username: ");
 	    }
 	    break;
