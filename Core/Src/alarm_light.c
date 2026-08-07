@@ -13,7 +13,7 @@ uint8_t alarm_light_decision(uint16_t temperature)
 
 	if (temperature > TEMPERATURE_THRESHOLD)
 	{
-		printmsg("ATTENTION!!! EXTREMELY HIGH TEMPERATURE\n\r");
+		log_wrn("ATTENTION!!! EXTREMELY HIGH TEMPERATURE");
 		alarm_light_status = ALARM_LIGHT_ON;
 	}
 	else
@@ -28,6 +28,6 @@ void alarm_light_config(uint8_t alarm_status)
 {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, alarm_status);
 
-	printmsg("alarm light state changed to %d\n\r", alarm_status);
+	log_info("alarm light state changed to %d", alarm_status);
 }
 

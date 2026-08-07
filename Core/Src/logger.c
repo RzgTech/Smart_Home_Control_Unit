@@ -5,7 +5,9 @@
  *      Author: Vahid
  */
 #include "logger.h"
+#include "stm32f4xx_hal.h"
 extern uint8_t system_mode;
+extern UART_HandleTypeDef huart2;
 static const char *log_level_str[] =
 {
 	[LOG_INFO]    = "INFO",
@@ -20,7 +22,7 @@ static const char *system_mode_str[] =
 	[MANUAL]    = "MANUAL"
 };
 
-static log_level_t current_log_level = LOG_DEBUG; //configure this to get only the desired types of logs
+static log_level_t current_log_level = LOG_INFO; //configure this to get only the desired types of logs
 
 static void log_message(const log_level_t level, const char* format, va_list args) //this is a static function, if you declare it in logger.h file
 {																      //it gives you a warning bcs it must be private only to the .c file
@@ -49,8 +51,7 @@ static void log_message(const log_level_t level, const char* format, va_list arg
              timestamp,
 			 in_message);
 
-
-    printmsg(log_message);
+    HAL_UART_Transmit(&huart2,(uint8_t *)log_message, strlen(log_message), HAL_MAX_DELAY);
 }
 
 void log_info(const char *format, ...)

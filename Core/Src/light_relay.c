@@ -26,7 +26,7 @@ void light_relay_config(uint8_t relay_state)
 {
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, relay_state);
 
-	printmsg("light relay state changed to %d\n\r", relay_state);
+	log_info("light relay state changed to %d", relay_state);
 }
 
 

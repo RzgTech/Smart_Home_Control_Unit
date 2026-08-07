@@ -32,15 +32,13 @@ void command_parser(uint8_t* data_buffer)
 
 	    if (strcmp(full_command.command, "fan") == 0)
 	    {
-	    	printmsg("inserted command: fan\r");
+	    	log_debug("inserted command: fan");
 	    	if (full_command.option == 'd')
 	    	{
 		    	uint8_t duty_cycle = (uint8_t)full_command.value;
 		    	if (duty_cycle <= 100 || duty_cycle >= 0)
 		    	{
 					fan_speed_config(duty_cycle);
-					//printmsg("fan duty cycle set to = %d\r", full_command.value);
-					log_debug("fan duty cycle set to = %d", full_command.value);
 		    	}
 		    	else
 		    	{
@@ -49,7 +47,7 @@ void command_parser(uint8_t* data_buffer)
 	    	}
 	    	else
 	    	{
-	    		printmsg("Invalid command: type help\r");
+	    		log_error("Invalid command: type help");
 	    	}
 
 	    }
@@ -57,7 +55,7 @@ void command_parser(uint8_t* data_buffer)
 		{
 	    	if (full_command.option == 's')
 	    	{
-				printmsg("inserted command: light\r");
+	    		log_debug("inserted command: light");
 				uint8_t light_state = (uint8_t)full_command.value;
 				if (light_state == RELAY_OFF || light_state == RELAY_ON)
 				{
@@ -65,19 +63,19 @@ void command_parser(uint8_t* data_buffer)
 				}
 				else
 				{
-					printmsg("Invalid command: light state can be 0 or 1\r");
+					log_error("Invalid command: light state can be 0 or 1");
 				}
 	    	}
 	    	else
 	    	{
-	    		printmsg("Invalid command: type help\r");
+	    		log_error("Invalid command: type help");
 	    	}
 	    }
 	    else if (strcmp(full_command.command, "alarm") == 0 && full_command.option == 's')
 		{
 	    	if (full_command.option == 's')
 	    	{
-				printmsg("inserted command: alarm\r");
+	    		log_debug("inserted command: alarm");
 				uint8_t alarm_state = (uint8_t)full_command.value;
 				if (alarm_state == ALARM_LIGHT_OFF || alarm_state == ALARM_LIGHT_ON)
 				{
@@ -85,25 +83,26 @@ void command_parser(uint8_t* data_buffer)
 				}
 				else
 				{
-					printmsg("Invalid command: light alarm state can be 0 or 1\r");
+					log_error("Invalid command: light alarm state can be 0 or 1");
 				}
 	    	}
 	    	else
 	    	{
-	    		printmsg("Invalid command: type help\r");
+	    		log_error("Invalid command: type help");
 	    	}
 		}
 	    else
 	    {
-	    	printmsg("Invalid command\r");
+	    	log_error("Invalid command\r");
 	    }
 	}
 	else if (strcmp((char *)data_buffer, "quit") == 0)
 	{
 		system_mode = AUTOMATIC;
+		log_info("system mode changed to auto mode");
 		cli.user_auth_stat = USER_WAITING_AUTH_USERNAME;
 		system_mode_transition(AUTOMATIC);
-		printmsg("command is: quit\r");
+		log_debug("command is: quit");
 	}
 	else if (strcmp((char *)data_buffer, '\n') == 0)
 	{
@@ -111,6 +110,6 @@ void command_parser(uint8_t* data_buffer)
 	}
 	else
 	{
-		printmsg("Invalid command\r");
+		log_error("Invalid command\r");
 	}
 }

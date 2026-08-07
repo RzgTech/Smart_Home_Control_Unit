@@ -32,7 +32,9 @@ Core/Src/it.o: ../Core/Src/it.c ../Core/Inc/main_app.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rtc_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ ../Core/Inc/logger.h ../Core/Inc/time_management.h \
+ ../Core/Inc/main_app.h
 ../Core/Inc/main_app.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -68,3 +70,6 @@ Core/Src/it.o: ../Core/Src/it.c ../Core/Inc/main_app.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+../Core/Inc/logger.h:
+../Core/Inc/time_management.h:
+../Core/Inc/main_app.h:

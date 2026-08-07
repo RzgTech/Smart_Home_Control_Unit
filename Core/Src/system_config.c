@@ -125,7 +125,7 @@ void SystemClock_Config(uint8_t frequency)
 
 
 	default:
-		printf("Invalid clock frequency\n");
+		log_error("Invalid clock frequency\n");
 		return;
 	}
 

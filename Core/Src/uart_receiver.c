@@ -28,7 +28,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
             cli.count = 0;
             memset(cli.data_buffer, 0, DATA_BUFFER_SIZE);
 
-            printmsg("Input too long!\r");
+            log_error("Input too long!");
             printmsg("#: ");
         }
 
@@ -52,7 +52,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			{
 				if(authentication(&cli) == USER_AUTHENTICATED)
 				{
-					printmsg("\rAuthentication successful\r");
+					log_info("\rAuthentication successful");
 					printmsg("#: ");
 				}
 			}
