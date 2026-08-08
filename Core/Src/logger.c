@@ -6,7 +6,7 @@
  */
 #include "logger.h"
 #include "system_mode.h"
-#include "stm32f4xx_hal.h"
+#include "main_app.h"
 extern uint8_t system_mode;
 extern UART_HandleTypeDef huart2;
 extern const char *system_mode_str[];

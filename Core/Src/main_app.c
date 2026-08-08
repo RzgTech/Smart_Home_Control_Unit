@@ -11,12 +11,12 @@
 #include "system_mode.h"
 #include "fan.h"
 #include "authentication.h"
-#include "command_parser.h"
 #include "light_relay.h"
 #include "alarm_light.h"
-#include "time_management.h"
 #include "logger.h"
 #include "adc.h"
+
+#define LOW_POWER_MODE TRUE
 
 extern UART_HandleTypeDef huart2;
 extern uint8_t system_mode;
@@ -50,7 +50,7 @@ int main(void)
 				light_relay_control_auto(light_adc_value);
 			}
 		}
-
+#if LOW_POWER_MODE
 		//going to sleep
 		if (system_events == EVENT_EMPTY)
 		{
@@ -62,6 +62,7 @@ int main(void)
 				HAL_ResumeTick();
 			}
 		}
+#endif
 	}
 
 	return 0;
