@@ -6,9 +6,12 @@
  */
 #include "main_app.h"
 #include "authentication.h"
+#include "system_mode.h"
+
 const char* username = "admin";
 const char* password = "1234";
 extern uint8_t system_mode;
+extern const char *system_mode_str[];
 
 user_status authentication(cli_t *cli)
 {
@@ -47,7 +50,7 @@ user_status authentication(cli_t *cli)
 	    {
 	    	cli->user_auth_stat = USER_AUTHENTICATED;
 	    	system_mode = MANUAL;
-	    	log_info("system mode changed to manual mode");
+	    	log_info("system mode changed to %s mode", system_mode_str[system_mode]);
 	    	system_mode_transition(MANUAL);
 	    }
 	    else

@@ -4,7 +4,7 @@
  *  Created on: Jul 16, 2026
  *      Author: Vahid
  */
-#include "main_app.h"
+#include "system_mode.h"
 #include "fan.h"
 #include "light_relay.h"
 #include "command_parser.h"
@@ -15,6 +15,7 @@
 char command[10];
 command_syntax_t full_command = {0};
 extern uint8_t system_mode;
+extern const char *system_mode_str[];
 extern cli_t cli;
 extern uint8_t curr_duty_cycle;
 extern uint8_t curr_relay_state;
@@ -107,7 +108,7 @@ void command_parser(uint8_t* data_buffer)
 		log_debug("command is: quit");
 		cli.user_auth_stat = USER_NOT_AUTHENTICATED;
 		system_mode = AUTOMATIC;
-		log_info("system mode changed to auto mode");
+		log_info("system mode changed to %s mode", system_mode_str[system_mode]);
 		system_mode_transition(AUTOMATIC);
 	}
 	else if (strcmp((char *)data_buffer, '\n') == 0)

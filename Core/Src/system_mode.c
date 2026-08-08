@@ -5,7 +5,16 @@
  *      Author: Vahid
  */
 #include "system_config.h"
-#include "main_app.h"
+#include "system_mode.h"
+
+const char *system_mode_str[] =
+{
+	[STARTUP]   = "STARTUP",
+	[AUTOMATIC] = "AUTO",
+	[MANUAL]    = "MANUAL"
+};
+
+
 extern TIM_HandleTypeDef htim6;
 
 void system_mode_transition(uint8_t system_mode)  //transition TO system_mode

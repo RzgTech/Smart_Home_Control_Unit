@@ -8,6 +8,7 @@
 
 #include "main_app.h"
 #include "system_config.h"
+#include "system_mode.h"
 #include "fan.h"
 #include "authentication.h"
 #include "command_parser.h"
@@ -18,13 +19,13 @@
 #include "adc.h"
 
 extern UART_HandleTypeDef huart2;
+extern uint8_t system_mode;
 extern cli_t cli;
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 1;
 volatile uint32_t system_events = EVENT_EMPTY;  //avoid optimizing it by compiler
 uint8_t curr_relay_state = RELAY_OFF;
 uint8_t curr_alarm_state = ALARM_LIGHT_OFF;
-uint8_t system_mode = AUTOMATIC;
 
 int main(void)
 {

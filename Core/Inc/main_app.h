@@ -28,14 +28,6 @@
 
 void welcome(void);
 void printmsg(char *format,...);
-void system_mode_transition(uint8_t system_mode);
-
-typedef enum
-{
-	AUTOMATIC,
-	MANUAL,
-	LOW_POWER
-}system_mode_t;
 
 
 

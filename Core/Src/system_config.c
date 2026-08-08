@@ -7,19 +7,24 @@
 
 #include "system_config.h"
 #include "time_management.h"
+#include "system_mode.h"
+#include "logger.h"
 #include <stdio.h>
 #include <string.h>
 
+extern const char *system_mode_str[];
 UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim2;
 RTC_HandleTypeDef hrtc;
+uint8_t system_mode;
 
 uint8_t recv_data = 0;
 
 void system_Init(void)
 {
+	system_mode = STARTUP;
 	HAL_Init();
 	SystemClock_Config(SYS_CLOCK_FREQ_50_MHZ);
 	RELAY_GPIO_Init();
@@ -29,6 +34,10 @@ void system_Init(void)
 	UART_Init();
 	ADC_Init();
 	RTC_Init();
+	log_info("system is successfully initialized");
+	system_mode = AUTOMATIC;
+	log_info("system mode changed to %s mode", system_mode_str[system_mode]);
+
 }
 
 void SystemClock_Config(uint8_t frequency)

@@ -5,9 +5,12 @@
  *      Author: Vahid
  */
 #include "logger.h"
+#include "system_mode.h"
 #include "stm32f4xx_hal.h"
 extern uint8_t system_mode;
 extern UART_HandleTypeDef huart2;
+extern const char *system_mode_str[];
+
 static const char *log_level_str[] =
 {
 	[LOG_INFO]    = "INFO",
@@ -15,13 +18,6 @@ static const char *log_level_str[] =
 	[LOG_WARNING] = "WARNING",
 	[LOG_ERROR]   = "ERROR"
 };  //https://chatgpt.com/g/g-p-6a537f94b6f481918c5f72ad900a5271-smart-home-control-unit-project/c/6a73a959-f0a8-83ed-9cfe-1c2a0742e141
-
-static const char *system_mode_str[] =
-{
-	[AUTOMATIC] = "AUTO",
-	[MANUAL]    = "MANUAL",
-	[LOW_POWER] = "LOWPOWER"
-};
 
 static log_level_t current_log_level = LOG_INFO; //configure this to get only the desired types of logs
 
