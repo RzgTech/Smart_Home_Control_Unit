@@ -64,10 +64,8 @@ void fan_speed_config(uint8_t duty_cycle)
 	log_info("fan duty cycle changed to %d", duty_cycle);
 }
 
-void fan_control_auto(void)
+void fan_control_auto(uint16_t temperature)
 {
-	float temperature = ADC_Convert_To_Temperature();
-	log_debug("Temperature is: %.2f °C", temperature);
 	uint8_t new_duty_cycle = fan_decision(temperature);
 
 	if (curr_duty_cycle != new_duty_cycle)

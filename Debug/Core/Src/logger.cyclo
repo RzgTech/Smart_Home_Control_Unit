@@ -3,3 +3,4 @@
 ../Core/Src/logger.c:62:6:log_debug	1
 ../Core/Src/logger.c:71:6:log_wrn	1
 ../Core/Src/logger.c:79:6:log_error	1
+../Core/Src/logger.c:87:6:printmsg	1

@@ -16,5 +16,6 @@
 
 uint8_t alarm_light_decision(uint16_t temperature);
 void alarm_light_config(uint8_t alarm_status);
+void alarm_light_control_auto(uint16_t temperature);
 
 #endif /* INC_ALARM_LIGHT_H_ */

@@ -26,6 +26,7 @@ void log_debug(const char *format, ...);
 void log_info(const char *format, ...);
 void log_wrn(const char *format, ...);
 void log_error(const char *format, ...);
+void printmsg(char *format,...);
 
 
 #endif /* INC_LOGGER_H_ */

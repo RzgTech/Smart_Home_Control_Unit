@@ -15,6 +15,7 @@
 
 uint8_t light_relay_decision(uint16_t light_value);
 void light_relay_config(uint8_t relay_state);
+void light_relay_control_auto(uint16_t light_adc_value);
 
 
 

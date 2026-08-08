@@ -27,8 +27,5 @@
 #define EVENT_LIGHT_ADC_SAMPLE		(1U << 2)
 
 void welcome(void);
-void printmsg(char *format,...);
-
-
 
 #endif /* INC_MAIN_APP_H_ */
