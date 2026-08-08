@@ -17,3 +17,4 @@ typedef enum
 
 uint8_t fan_decision(uint16_t temperature);
 void fan_speed_config(uint8_t duty_cycle);
+void fan_control_auto(void);

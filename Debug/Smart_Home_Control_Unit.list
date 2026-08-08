@@ -9,43 +9,43 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   2 .rodata       000007e4  0800a210  0800a210  0000b210  2**3
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  0800a9f4  0800a9f4  0000c260  2**0
+  3 .ARM.extab    00000000  0800a9f4  0800a9f4  0000c264  2**0
                   CONTENTS, READONLY
   4 .ARM          00000008  0800a9f4  0800a9f4  0000b9f4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  0800a9fc  0800a9fc  0000c260  2**0
+  5 .preinit_array 00000000  0800a9fc  0800a9fc  0000c264  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   6 .init_array   00000004  0800a9fc  0800a9fc  0000b9fc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   7 .fini_array   00000004  0800aa00  0800aa00  0000ba00  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .data         00000260  20000000  0800aa04  0000c000  2**2
+  8 .data         00000264  20000000  0800aa04  0000c000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000002d0  20000260  0800ac64  0000c260  2**2
+  9 .bss          000002d0  20000264  0800ac68  0000c264  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  20000530  0800ac64  0000c530  2**0
+ 10 ._user_heap_stack 00000604  20000534  0800ac68  0000c534  2**0
                   ALLOC
- 11 .ARM.attributes 00000030  00000000  00000000  0000c260  2**0
+ 11 .ARM.attributes 00000030  00000000  00000000  0000c264  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00015697  00000000  00000000  0000c290  2**0
+ 12 .debug_info   00015a5e  00000000  00000000  0000c294  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00003718  00000000  00000000  00021927  2**0
+ 13 .debug_abbrev 0000390a  00000000  00000000  00021cf2  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00001200  00000000  00000000  00025040  2**3
+ 14 .debug_aranges 00001220  00000000  00000000  00025600  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000dfb  00000000  00000000  00026240  2**0
+ 15 .debug_rnglists 00000e0e  00000000  00000000  00026820  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000278d7  00000000  00000000  0002703b  2**0
+ 16 .debug_macro  00027c43  00000000  00000000  0002762e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0001a5b1  00000000  00000000  0004e912  2**0
+ 17 .debug_line   0001af2a  00000000  00000000  0004f271  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000e848f  00000000  00000000  00068ec3  2**0
+ 18 .debug_str    000e84be  00000000  00000000  0006a19b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00151352  2**0
+ 19 .comment      00000043  00000000  00000000  00152659  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00005e8c  00000000  00000000  00151398  2**2
+ 20 .debug_frame  00005ec0  00000000  00000000  0015269c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000071  00000000  00000000  00157224  2**0
+ 21 .debug_line_str 00000071  00000000  00000000  0015855c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -62,7 +62,7 @@ Disassembly of section .text:
  80001e2:	2301      	movs	r3, #1
  80001e4:	7023      	strb	r3, [r4, #0]
  80001e6:	bd10      	pop	{r4, pc}
- 80001e8:	20000260 	.word	0x20000260
+ 80001e8:	20000264 	.word	0x20000264
  80001ec:	00000000 	.word	0x00000000
  80001f0:	0800a1f4 	.word	0x0800a1f4
 
@@ -75,7 +75,7 @@ Disassembly of section .text:
  80001fe:	f3af 8000 	nop.w
  8000202:	bd08      	pop	{r3, pc}
  8000204:	00000000 	.word	0x00000000
- 8000208:	20000264 	.word	0x20000264
+ 8000208:	20000268 	.word	0x20000268
  800020c:	0800a1f4 	.word	0x0800a1f4
 
 08000210 <strcmp>:
@@ -1236,1438 +1236,1443 @@ Disassembly of section .text:
  8000f30:	4770      	bx	lr
  8000f32:	bf00      	nop
 
-08000f34 <alarm_light_decision>:
+08000f34 <ADC_Read>:
+#include "adc.h"
+
+extern ADC_HandleTypeDef hadc1;
+
+uint16_t ADC_Read(uint32_t channel)
+{
+ 8000f34:	b580      	push	{r7, lr}
+ 8000f36:	b084      	sub	sp, #16
+ 8000f38:	af00      	add	r7, sp, #0
+ 8000f3a:	6078      	str	r0, [r7, #4]
+
+	ADC_Channel_config(channel);
+ 8000f3c:	6878      	ldr	r0, [r7, #4]
+ 8000f3e:	f000 f853 	bl	8000fe8 <ADC_Channel_config>
+    HAL_ADC_Start(&hadc1);
+ 8000f42:	480a      	ldr	r0, [pc, #40]	@ (8000f6c <ADC_Read+0x38>)
+ 8000f44:	f001 fb7c 	bl	8002640 <HAL_ADC_Start>
+    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+ 8000f48:	f04f 31ff 	mov.w	r1, #4294967295
+ 8000f4c:	4807      	ldr	r0, [pc, #28]	@ (8000f6c <ADC_Read+0x38>)
+ 8000f4e:	f001 fc7c 	bl	800284a <HAL_ADC_PollForConversion>
+
+    uint16_t value = HAL_ADC_GetValue(&hadc1);
+ 8000f52:	4806      	ldr	r0, [pc, #24]	@ (8000f6c <ADC_Read+0x38>)
+ 8000f54:	f001 fd04 	bl	8002960 <HAL_ADC_GetValue>
+ 8000f58:	4603      	mov	r3, r0
+ 8000f5a:	81fb      	strh	r3, [r7, #14]
+
+    HAL_ADC_Stop(&hadc1);
+ 8000f5c:	4803      	ldr	r0, [pc, #12]	@ (8000f6c <ADC_Read+0x38>)
+ 8000f5e:	f001 fc41 	bl	80027e4 <HAL_ADC_Stop>
+    return value;
+ 8000f62:	89fb      	ldrh	r3, [r7, #14]
+}
+ 8000f64:	4618      	mov	r0, r3
+ 8000f66:	3710      	adds	r7, #16
+ 8000f68:	46bd      	mov	sp, r7
+ 8000f6a:	bd80      	pop	{r7, pc}
+ 8000f6c:	200002e8 	.word	0x200002e8
+
+08000f70 <ADC_Convert_To_Temperature>:
+
+float ADC_Convert_To_Temperature()
+{
+ 8000f70:	b580      	push	{r7, lr}
+ 8000f72:	b082      	sub	sp, #8
+ 8000f74:	af00      	add	r7, sp, #0
+	uint16_t adc_value = ADC_Read(ADC_CHANNEL_TEMPERATURE);
+ 8000f76:	2000      	movs	r0, #0
+ 8000f78:	f7ff ffdc 	bl	8000f34 <ADC_Read>
+ 8000f7c:	4603      	mov	r3, r0
+ 8000f7e:	80fb      	strh	r3, [r7, #6]
+	// Convert ADC value to temperature in Celsius
+	float voltage = ((float)adc_value * 3.3f) / 4095.0f;
+ 8000f80:	88fb      	ldrh	r3, [r7, #6]
+ 8000f82:	ee07 3a90 	vmov	s15, r3
+ 8000f86:	eef8 7a67 	vcvt.f32.u32	s15, s15
+ 8000f8a:	ed9f 7a0a 	vldr	s14, [pc, #40]	@ 8000fb4 <ADC_Convert_To_Temperature+0x44>
+ 8000f8e:	ee27 7a87 	vmul.f32	s14, s15, s14
+ 8000f92:	eddf 6a09 	vldr	s13, [pc, #36]	@ 8000fb8 <ADC_Convert_To_Temperature+0x48>
+ 8000f96:	eec7 7a26 	vdiv.f32	s15, s14, s13
+ 8000f9a:	edc7 7a00 	vstr	s15, [r7]
+	return voltage * 100.0f;
+ 8000f9e:	edd7 7a00 	vldr	s15, [r7]
+ 8000fa2:	ed9f 7a06 	vldr	s14, [pc, #24]	@ 8000fbc <ADC_Convert_To_Temperature+0x4c>
+ 8000fa6:	ee67 7a87 	vmul.f32	s15, s15, s14
+}
+ 8000faa:	eeb0 0a67 	vmov.f32	s0, s15
+ 8000fae:	3708      	adds	r7, #8
+ 8000fb0:	46bd      	mov	sp, r7
+ 8000fb2:	bd80      	pop	{r7, pc}
+ 8000fb4:	40533333 	.word	0x40533333
+ 8000fb8:	457ff000 	.word	0x457ff000
+ 8000fbc:	42c80000 	.word	0x42c80000
+
+08000fc0 <ADC_Convert_To_Light>:
+
+uint16_t ADC_Convert_To_Light()
+{
+ 8000fc0:	b580      	push	{r7, lr}
+ 8000fc2:	b082      	sub	sp, #8
+ 8000fc4:	af00      	add	r7, sp, #0
+	uint16_t adc_value = ADC_Read(ADC_CHANNEL_LIGHT);
+ 8000fc6:	2001      	movs	r0, #1
+ 8000fc8:	f7ff ffb4 	bl	8000f34 <ADC_Read>
+ 8000fcc:	4603      	mov	r3, r0
+ 8000fce:	80fb      	strh	r3, [r7, #6]
+	log_debug("Light Value is: %u", adc_value);
+ 8000fd0:	88fb      	ldrh	r3, [r7, #6]
+ 8000fd2:	4619      	mov	r1, r3
+ 8000fd4:	4803      	ldr	r0, [pc, #12]	@ (8000fe4 <ADC_Convert_To_Light+0x24>)
+ 8000fd6:	f000 fb5a 	bl	800168e <log_debug>
+
+	return adc_value;
+ 8000fda:	88fb      	ldrh	r3, [r7, #6]
+}
+ 8000fdc:	4618      	mov	r0, r3
+ 8000fde:	3708      	adds	r7, #8
+ 8000fe0:	46bd      	mov	sp, r7
+ 8000fe2:	bd80      	pop	{r7, pc}
+ 8000fe4:	0800a210 	.word	0x0800a210
+
+08000fe8 <ADC_Channel_config>:
+
+void ADC_Channel_config(uint32_t channel)
+{
+ 8000fe8:	b580      	push	{r7, lr}
+ 8000fea:	b086      	sub	sp, #24
+ 8000fec:	af00      	add	r7, sp, #0
+ 8000fee:	6078      	str	r0, [r7, #4]
+	ADC_ChannelConfTypeDef sConfig = {0};
+ 8000ff0:	f107 0308 	add.w	r3, r7, #8
+ 8000ff4:	2200      	movs	r2, #0
+ 8000ff6:	601a      	str	r2, [r3, #0]
+ 8000ff8:	605a      	str	r2, [r3, #4]
+ 8000ffa:	609a      	str	r2, [r3, #8]
+ 8000ffc:	60da      	str	r2, [r3, #12]
+
+	sConfig.Channel = channel; // Select the desired channel
+ 8000ffe:	687b      	ldr	r3, [r7, #4]
+ 8001000:	60bb      	str	r3, [r7, #8]
+	sConfig.Rank = 1; // Set the rank for the conversion
+ 8001002:	2301      	movs	r3, #1
+ 8001004:	60fb      	str	r3, [r7, #12]
+	sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES; // Set the sampling time
+ 8001006:	2304      	movs	r3, #4
+ 8001008:	613b      	str	r3, [r7, #16]
+
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+ 800100a:	f107 0308 	add.w	r3, r7, #8
+ 800100e:	4619      	mov	r1, r3
+ 8001010:	4805      	ldr	r0, [pc, #20]	@ (8001028 <ADC_Channel_config+0x40>)
+ 8001012:	f001 fcb3 	bl	800297c <HAL_ADC_ConfigChannel>
+ 8001016:	4603      	mov	r3, r0
+ 8001018:	2b00      	cmp	r3, #0
+ 800101a:	d001      	beq.n	8001020 <ADC_Channel_config+0x38>
+	{
+		Error_handler();
+ 800101c:	f001 f8b0 	bl	8002180 <Error_handler>
+	}
+}
+ 8001020:	bf00      	nop
+ 8001022:	3718      	adds	r7, #24
+ 8001024:	46bd      	mov	sp, r7
+ 8001026:	bd80      	pop	{r7, pc}
+ 8001028:	200002e8 	.word	0x200002e8
+
+0800102c <alarm_light_decision>:
  */
 
 #include "alarm_light.h"
 
 uint8_t alarm_light_decision(uint16_t temperature)
 {
- 8000f34:	b580      	push	{r7, lr}
- 8000f36:	b084      	sub	sp, #16
- 8000f38:	af00      	add	r7, sp, #0
- 8000f3a:	4603      	mov	r3, r0
- 8000f3c:	80fb      	strh	r3, [r7, #6]
+ 800102c:	b580      	push	{r7, lr}
+ 800102e:	b084      	sub	sp, #16
+ 8001030:	af00      	add	r7, sp, #0
+ 8001032:	4603      	mov	r3, r0
+ 8001034:	80fb      	strh	r3, [r7, #6]
 	uint8_t alarm_light_status;
 
 	if (temperature > TEMPERATURE_THRESHOLD)
- 8000f3e:	88fb      	ldrh	r3, [r7, #6]
- 8000f40:	2b32      	cmp	r3, #50	@ 0x32
- 8000f42:	d905      	bls.n	8000f50 <alarm_light_decision+0x1c>
+ 8001036:	88fb      	ldrh	r3, [r7, #6]
+ 8001038:	2b32      	cmp	r3, #50	@ 0x32
+ 800103a:	d905      	bls.n	8001048 <alarm_light_decision+0x1c>
 	{
 		log_wrn("ATTENTION!!! EXTREMELY HIGH TEMPERATURE");
- 8000f44:	4806      	ldr	r0, [pc, #24]	@ (8000f60 <alarm_light_decision+0x2c>)
- 8000f46:	f000 fb09 	bl	800155c <log_wrn>
+ 800103c:	4806      	ldr	r0, [pc, #24]	@ (8001058 <alarm_light_decision+0x2c>)
+ 800103e:	f000 fb39 	bl	80016b4 <log_wrn>
 		alarm_light_status = ALARM_LIGHT_ON;
- 8000f4a:	2301      	movs	r3, #1
- 8000f4c:	73fb      	strb	r3, [r7, #15]
- 8000f4e:	e001      	b.n	8000f54 <alarm_light_decision+0x20>
+ 8001042:	2301      	movs	r3, #1
+ 8001044:	73fb      	strb	r3, [r7, #15]
+ 8001046:	e001      	b.n	800104c <alarm_light_decision+0x20>
 	}
 	else
 	{
 		alarm_light_status = ALARM_LIGHT_OFF;
- 8000f50:	2300      	movs	r3, #0
- 8000f52:	73fb      	strb	r3, [r7, #15]
+ 8001048:	2300      	movs	r3, #0
+ 800104a:	73fb      	strb	r3, [r7, #15]
 	}
 
 	return alarm_light_status;
- 8000f54:	7bfb      	ldrb	r3, [r7, #15]
+ 800104c:	7bfb      	ldrb	r3, [r7, #15]
 }
- 8000f56:	4618      	mov	r0, r3
- 8000f58:	3710      	adds	r7, #16
- 8000f5a:	46bd      	mov	sp, r7
- 8000f5c:	bd80      	pop	{r7, pc}
- 8000f5e:	bf00      	nop
- 8000f60:	0800a210 	.word	0x0800a210
+ 800104e:	4618      	mov	r0, r3
+ 8001050:	3710      	adds	r7, #16
+ 8001052:	46bd      	mov	sp, r7
+ 8001054:	bd80      	pop	{r7, pc}
+ 8001056:	bf00      	nop
+ 8001058:	0800a224 	.word	0x0800a224
 
-08000f64 <alarm_light_config>:
+0800105c <alarm_light_config>:
 
 void alarm_light_config(uint8_t alarm_status)
 {
- 8000f64:	b580      	push	{r7, lr}
- 8000f66:	b082      	sub	sp, #8
- 8000f68:	af00      	add	r7, sp, #0
- 8000f6a:	4603      	mov	r3, r0
- 8000f6c:	71fb      	strb	r3, [r7, #7]
+ 800105c:	b580      	push	{r7, lr}
+ 800105e:	b082      	sub	sp, #8
+ 8001060:	af00      	add	r7, sp, #0
+ 8001062:	4603      	mov	r3, r0
+ 8001064:	71fb      	strb	r3, [r7, #7]
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, alarm_status);
- 8000f6e:	79fb      	ldrb	r3, [r7, #7]
- 8000f70:	461a      	mov	r2, r3
- 8000f72:	f44f 7180 	mov.w	r1, #256	@ 0x100
- 8000f76:	4806      	ldr	r0, [pc, #24]	@ (8000f90 <alarm_light_config+0x2c>)
- 8000f78:	f002 fa90 	bl	800349c <HAL_GPIO_WritePin>
+ 8001066:	79fb      	ldrb	r3, [r7, #7]
+ 8001068:	461a      	mov	r2, r3
+ 800106a:	f44f 7180 	mov.w	r1, #256	@ 0x100
+ 800106e:	4806      	ldr	r0, [pc, #24]	@ (8001088 <alarm_light_config+0x2c>)
+ 8001070:	f002 fa14 	bl	800349c <HAL_GPIO_WritePin>
 
 	log_info("alarm light state changed to %d", alarm_status);
- 8000f7c:	79fb      	ldrb	r3, [r7, #7]
- 8000f7e:	4619      	mov	r1, r3
- 8000f80:	4804      	ldr	r0, [pc, #16]	@ (8000f94 <alarm_light_config+0x30>)
- 8000f82:	f000 fac5 	bl	8001510 <log_info>
+ 8001074:	79fb      	ldrb	r3, [r7, #7]
+ 8001076:	4619      	mov	r1, r3
+ 8001078:	4804      	ldr	r0, [pc, #16]	@ (800108c <alarm_light_config+0x30>)
+ 800107a:	f000 faf5 	bl	8001668 <log_info>
 }
- 8000f86:	bf00      	nop
- 8000f88:	3708      	adds	r7, #8
- 8000f8a:	46bd      	mov	sp, r7
- 8000f8c:	bd80      	pop	{r7, pc}
- 8000f8e:	bf00      	nop
- 8000f90:	40020000 	.word	0x40020000
- 8000f94:	0800a238 	.word	0x0800a238
+ 800107e:	bf00      	nop
+ 8001080:	3708      	adds	r7, #8
+ 8001082:	46bd      	mov	sp, r7
+ 8001084:	bd80      	pop	{r7, pc}
+ 8001086:	bf00      	nop
+ 8001088:	40020000 	.word	0x40020000
+ 800108c:	0800a24c 	.word	0x0800a24c
 
-08000f98 <authentication>:
+08001090 <authentication>:
 const char* username = "admin";
 const char* password = "1234";
 extern uint8_t system_mode;
 
 user_status authentication(cli_t *cli)
 {
- 8000f98:	b580      	push	{r7, lr}
- 8000f9a:	b082      	sub	sp, #8
- 8000f9c:	af00      	add	r7, sp, #0
- 8000f9e:	6078      	str	r0, [r7, #4]
+ 8001090:	b580      	push	{r7, lr}
+ 8001092:	b082      	sub	sp, #8
+ 8001094:	af00      	add	r7, sp, #0
+ 8001096:	6078      	str	r0, [r7, #4]
 	switch (cli->user_auth_stat)
- 8000fa0:	687b      	ldr	r3, [r7, #4]
- 8000fa2:	f893 3066 	ldrb.w	r3, [r3, #102]	@ 0x66
- 8000fa6:	2b02      	cmp	r3, #2
- 8000fa8:	d006      	beq.n	8000fb8 <authentication+0x20>
- 8000faa:	2b02      	cmp	r3, #2
- 8000fac:	dc57      	bgt.n	800105e <authentication+0xc6>
- 8000fae:	2b00      	cmp	r3, #0
- 8000fb0:	d017      	beq.n	8000fe2 <authentication+0x4a>
- 8000fb2:	2b01      	cmp	r3, #1
- 8000fb4:	d02f      	beq.n	8001016 <authentication+0x7e>
+ 8001098:	687b      	ldr	r3, [r7, #4]
+ 800109a:	f893 3066 	ldrb.w	r3, [r3, #102]	@ 0x66
+ 800109e:	2b02      	cmp	r3, #2
+ 80010a0:	d006      	beq.n	80010b0 <authentication+0x20>
+ 80010a2:	2b02      	cmp	r3, #2
+ 80010a4:	dc57      	bgt.n	8001156 <authentication+0xc6>
+ 80010a6:	2b00      	cmp	r3, #0
+ 80010a8:	d017      	beq.n	80010da <authentication+0x4a>
+ 80010aa:	2b01      	cmp	r3, #1
+ 80010ac:	d02f      	beq.n	800110e <authentication+0x7e>
 	        printmsg("username: ");
 	    }
 	    break;
 
 	default:
 	    break;
- 8000fb6:	e052      	b.n	800105e <authentication+0xc6>
+ 80010ae:	e052      	b.n	8001156 <authentication+0xc6>
 	    if (strcmp((char *)(cli->data_buffer), "manual") == 0)
- 8000fb8:	687b      	ldr	r3, [r7, #4]
- 8000fba:	3302      	adds	r3, #2
- 8000fbc:	492c      	ldr	r1, [pc, #176]	@ (8001070 <authentication+0xd8>)
- 8000fbe:	4618      	mov	r0, r3
- 8000fc0:	f7ff f926 	bl	8000210 <strcmp>
- 8000fc4:	4603      	mov	r3, r0
- 8000fc6:	2b00      	cmp	r3, #0
- 8000fc8:	d107      	bne.n	8000fda <authentication+0x42>
+ 80010b0:	687b      	ldr	r3, [r7, #4]
+ 80010b2:	3302      	adds	r3, #2
+ 80010b4:	492c      	ldr	r1, [pc, #176]	@ (8001168 <authentication+0xd8>)
+ 80010b6:	4618      	mov	r0, r3
+ 80010b8:	f7ff f8aa 	bl	8000210 <strcmp>
+ 80010bc:	4603      	mov	r3, r0
+ 80010be:	2b00      	cmp	r3, #0
+ 80010c0:	d107      	bne.n	80010d2 <authentication+0x42>
 	    	cli->user_auth_stat = USER_WAITING_AUTH_USERNAME;
- 8000fca:	687b      	ldr	r3, [r7, #4]
- 8000fcc:	2200      	movs	r2, #0
- 8000fce:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
+ 80010c2:	687b      	ldr	r3, [r7, #4]
+ 80010c4:	2200      	movs	r2, #0
+ 80010c6:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
 	        printmsg("username: ");
- 8000fd2:	4828      	ldr	r0, [pc, #160]	@ (8001074 <authentication+0xdc>)
- 8000fd4:	f000 fc54 	bl	8001880 <printmsg>
+ 80010ca:	4828      	ldr	r0, [pc, #160]	@ (800116c <authentication+0xdc>)
+ 80010cc:	f000 fbd8 	bl	8001880 <printmsg>
 	    break;
- 8000fd8:	e042      	b.n	8001060 <authentication+0xc8>
+ 80010d0:	e042      	b.n	8001158 <authentication+0xc8>
 	    	log_error("Invalid command!");
- 8000fda:	4827      	ldr	r0, [pc, #156]	@ (8001078 <authentication+0xe0>)
- 8000fdc:	f000 fad1 	bl	8001582 <log_error>
+ 80010d2:	4827      	ldr	r0, [pc, #156]	@ (8001170 <authentication+0xe0>)
+ 80010d4:	f000 fb01 	bl	80016da <log_error>
 	    break;
- 8000fe0:	e03e      	b.n	8001060 <authentication+0xc8>
+ 80010d8:	e03e      	b.n	8001158 <authentication+0xc8>
 	    if (strcmp((char *)(cli->data_buffer), username) == 0)
- 8000fe2:	687b      	ldr	r3, [r7, #4]
- 8000fe4:	3302      	adds	r3, #2
- 8000fe6:	4a25      	ldr	r2, [pc, #148]	@ (800107c <authentication+0xe4>)
- 8000fe8:	6812      	ldr	r2, [r2, #0]
- 8000fea:	4611      	mov	r1, r2
- 8000fec:	4618      	mov	r0, r3
- 8000fee:	f7ff f90f 	bl	8000210 <strcmp>
- 8000ff2:	4603      	mov	r3, r0
- 8000ff4:	2b00      	cmp	r3, #0
- 8000ff6:	d107      	bne.n	8001008 <authentication+0x70>
+ 80010da:	687b      	ldr	r3, [r7, #4]
+ 80010dc:	3302      	adds	r3, #2
+ 80010de:	4a25      	ldr	r2, [pc, #148]	@ (8001174 <authentication+0xe4>)
+ 80010e0:	6812      	ldr	r2, [r2, #0]
+ 80010e2:	4611      	mov	r1, r2
+ 80010e4:	4618      	mov	r0, r3
+ 80010e6:	f7ff f893 	bl	8000210 <strcmp>
+ 80010ea:	4603      	mov	r3, r0
+ 80010ec:	2b00      	cmp	r3, #0
+ 80010ee:	d107      	bne.n	8001100 <authentication+0x70>
 	    	cli->user_auth_stat = USER_WAITING_AUTH_PASSWORD;
- 8000ff8:	687b      	ldr	r3, [r7, #4]
- 8000ffa:	2201      	movs	r2, #1
- 8000ffc:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
+ 80010f0:	687b      	ldr	r3, [r7, #4]
+ 80010f2:	2201      	movs	r2, #1
+ 80010f4:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
 	        printmsg("password: ");
- 8001000:	481f      	ldr	r0, [pc, #124]	@ (8001080 <authentication+0xe8>)
- 8001002:	f000 fc3d 	bl	8001880 <printmsg>
+ 80010f8:	481f      	ldr	r0, [pc, #124]	@ (8001178 <authentication+0xe8>)
+ 80010fa:	f000 fbc1 	bl	8001880 <printmsg>
 	    break;
- 8001006:	e02b      	b.n	8001060 <authentication+0xc8>
+ 80010fe:	e02b      	b.n	8001158 <authentication+0xc8>
 	        log_error("Invalid username!");
- 8001008:	481e      	ldr	r0, [pc, #120]	@ (8001084 <authentication+0xec>)
- 800100a:	f000 faba 	bl	8001582 <log_error>
+ 8001100:	481e      	ldr	r0, [pc, #120]	@ (800117c <authentication+0xec>)
+ 8001102:	f000 faea 	bl	80016da <log_error>
 	        printmsg("username: ");
- 800100e:	4819      	ldr	r0, [pc, #100]	@ (8001074 <authentication+0xdc>)
- 8001010:	f000 fc36 	bl	8001880 <printmsg>
+ 8001106:	4819      	ldr	r0, [pc, #100]	@ (800116c <authentication+0xdc>)
+ 8001108:	f000 fbba 	bl	8001880 <printmsg>
 	    break;
- 8001014:	e024      	b.n	8001060 <authentication+0xc8>
+ 800110c:	e024      	b.n	8001158 <authentication+0xc8>
 	    if (strcmp((char *)(cli->data_buffer), password) == 0)
- 8001016:	687b      	ldr	r3, [r7, #4]
- 8001018:	3302      	adds	r3, #2
- 800101a:	4a1b      	ldr	r2, [pc, #108]	@ (8001088 <authentication+0xf0>)
- 800101c:	6812      	ldr	r2, [r2, #0]
- 800101e:	4611      	mov	r1, r2
- 8001020:	4618      	mov	r0, r3
- 8001022:	f7ff f8f5 	bl	8000210 <strcmp>
- 8001026:	4603      	mov	r3, r0
- 8001028:	2b00      	cmp	r3, #0
- 800102a:	d10d      	bne.n	8001048 <authentication+0xb0>
+ 800110e:	687b      	ldr	r3, [r7, #4]
+ 8001110:	3302      	adds	r3, #2
+ 8001112:	4a1b      	ldr	r2, [pc, #108]	@ (8001180 <authentication+0xf0>)
+ 8001114:	6812      	ldr	r2, [r2, #0]
+ 8001116:	4611      	mov	r1, r2
+ 8001118:	4618      	mov	r0, r3
+ 800111a:	f7ff f879 	bl	8000210 <strcmp>
+ 800111e:	4603      	mov	r3, r0
+ 8001120:	2b00      	cmp	r3, #0
+ 8001122:	d10d      	bne.n	8001140 <authentication+0xb0>
 	    	cli->user_auth_stat = USER_AUTHENTICATED;
- 800102c:	687b      	ldr	r3, [r7, #4]
- 800102e:	2203      	movs	r2, #3
- 8001030:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
+ 8001124:	687b      	ldr	r3, [r7, #4]
+ 8001126:	2203      	movs	r2, #3
+ 8001128:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
 	    	system_mode = MANUAL;
- 8001034:	4b15      	ldr	r3, [pc, #84]	@ (800108c <authentication+0xf4>)
- 8001036:	2201      	movs	r2, #1
- 8001038:	701a      	strb	r2, [r3, #0]
+ 800112c:	4b15      	ldr	r3, [pc, #84]	@ (8001184 <authentication+0xf4>)
+ 800112e:	2201      	movs	r2, #1
+ 8001130:	701a      	strb	r2, [r3, #0]
 	    	log_info("system mode changed to manual mode");
- 800103a:	4815      	ldr	r0, [pc, #84]	@ (8001090 <authentication+0xf8>)
- 800103c:	f000 fa68 	bl	8001510 <log_info>
+ 8001132:	4815      	ldr	r0, [pc, #84]	@ (8001188 <authentication+0xf8>)
+ 8001134:	f000 fa98 	bl	8001668 <log_info>
 	    	system_mode_transition(MANUAL);
- 8001040:	2001      	movs	r0, #1
- 8001042:	f001 f8a1 	bl	8002188 <system_mode_transition>
+ 8001138:	2001      	movs	r0, #1
+ 800113a:	f001 f825 	bl	8002188 <system_mode_transition>
 	    break;
- 8001046:	e00b      	b.n	8001060 <authentication+0xc8>
+ 800113e:	e00b      	b.n	8001158 <authentication+0xc8>
 	    	cli->user_auth_stat = USER_WAITING_AUTH_USERNAME;
- 8001048:	687b      	ldr	r3, [r7, #4]
- 800104a:	2200      	movs	r2, #0
- 800104c:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
+ 8001140:	687b      	ldr	r3, [r7, #4]
+ 8001142:	2200      	movs	r2, #0
+ 8001144:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
 	    	log_error("Invalid password!");
- 8001050:	4810      	ldr	r0, [pc, #64]	@ (8001094 <authentication+0xfc>)
- 8001052:	f000 fa96 	bl	8001582 <log_error>
+ 8001148:	4810      	ldr	r0, [pc, #64]	@ (800118c <authentication+0xfc>)
+ 800114a:	f000 fac6 	bl	80016da <log_error>
 	        printmsg("username: ");
- 8001056:	4807      	ldr	r0, [pc, #28]	@ (8001074 <authentication+0xdc>)
- 8001058:	f000 fc12 	bl	8001880 <printmsg>
+ 800114e:	4807      	ldr	r0, [pc, #28]	@ (800116c <authentication+0xdc>)
+ 8001150:	f000 fb96 	bl	8001880 <printmsg>
 	    break;
- 800105c:	e000      	b.n	8001060 <authentication+0xc8>
+ 8001154:	e000      	b.n	8001158 <authentication+0xc8>
 	    break;
- 800105e:	bf00      	nop
+ 8001156:	bf00      	nop
 	}
 
 	return cli->user_auth_stat;
- 8001060:	687b      	ldr	r3, [r7, #4]
- 8001062:	f893 3066 	ldrb.w	r3, [r3, #102]	@ 0x66
+ 8001158:	687b      	ldr	r3, [r7, #4]
+ 800115a:	f893 3066 	ldrb.w	r3, [r3, #102]	@ 0x66
 }
- 8001066:	4618      	mov	r0, r3
- 8001068:	3708      	adds	r7, #8
- 800106a:	46bd      	mov	sp, r7
- 800106c:	bd80      	pop	{r7, pc}
- 800106e:	bf00      	nop
- 8001070:	0800a268 	.word	0x0800a268
- 8001074:	0800a270 	.word	0x0800a270
- 8001078:	0800a27c 	.word	0x0800a27c
- 800107c:	20000000 	.word	0x20000000
- 8001080:	0800a290 	.word	0x0800a290
- 8001084:	0800a29c 	.word	0x0800a29c
- 8001088:	20000004 	.word	0x20000004
- 800108c:	20000297 	.word	0x20000297
- 8001090:	0800a2b0 	.word	0x0800a2b0
- 8001094:	0800a2d4 	.word	0x0800a2d4
+ 800115e:	4618      	mov	r0, r3
+ 8001160:	3708      	adds	r7, #8
+ 8001162:	46bd      	mov	sp, r7
+ 8001164:	bd80      	pop	{r7, pc}
+ 8001166:	bf00      	nop
+ 8001168:	0800a27c 	.word	0x0800a27c
+ 800116c:	0800a284 	.word	0x0800a284
+ 8001170:	0800a290 	.word	0x0800a290
+ 8001174:	20000000 	.word	0x20000000
+ 8001178:	0800a2a4 	.word	0x0800a2a4
+ 800117c:	0800a2b0 	.word	0x0800a2b0
+ 8001180:	20000004 	.word	0x20000004
+ 8001184:	2000029a 	.word	0x2000029a
+ 8001188:	0800a2c4 	.word	0x0800a2c4
+ 800118c:	0800a2e8 	.word	0x0800a2e8
 
-08001098 <command_parser>:
+08001190 <command_parser>:
 extern cli_t cli;
 extern uint8_t curr_duty_cycle;
 extern uint8_t curr_relay_state;
 extern uint8_t curr_alarm_state;
 void command_parser(uint8_t* data_buffer)
 {
- 8001098:	b580      	push	{r7, lr}
- 800109a:	b086      	sub	sp, #24
- 800109c:	af02      	add	r7, sp, #8
- 800109e:	6078      	str	r0, [r7, #4]
+ 8001190:	b580      	push	{r7, lr}
+ 8001192:	b086      	sub	sp, #24
+ 8001194:	af02      	add	r7, sp, #8
+ 8001196:	6078      	str	r0, [r7, #4]
 	if (strcmp((char *)data_buffer, "help") == 0)
- 80010a0:	495f      	ldr	r1, [pc, #380]	@ (8001220 <command_parser+0x188>)
- 80010a2:	6878      	ldr	r0, [r7, #4]
- 80010a4:	f7ff f8b4 	bl	8000210 <strcmp>
- 80010a8:	4603      	mov	r3, r0
- 80010aa:	2b00      	cmp	r3, #0
- 80010ac:	d10c      	bne.n	80010c8 <command_parser+0x30>
+ 8001198:	495f      	ldr	r1, [pc, #380]	@ (8001318 <command_parser+0x188>)
+ 800119a:	6878      	ldr	r0, [r7, #4]
+ 800119c:	f7ff f838 	bl	8000210 <strcmp>
+ 80011a0:	4603      	mov	r3, r0
+ 80011a2:	2b00      	cmp	r3, #0
+ 80011a4:	d10c      	bne.n	80011c0 <command_parser+0x30>
 	{
 		printmsg("fan -d duty_cycle_value: 0 - 100\r");
- 80010ae:	485d      	ldr	r0, [pc, #372]	@ (8001224 <command_parser+0x18c>)
- 80010b0:	f000 fbe6 	bl	8001880 <printmsg>
+ 80011a6:	485d      	ldr	r0, [pc, #372]	@ (800131c <command_parser+0x18c>)
+ 80011a8:	f000 fb6a 	bl	8001880 <printmsg>
 		printmsg("light -s light_state_value: 0 - 1\r");
- 80010b4:	485c      	ldr	r0, [pc, #368]	@ (8001228 <command_parser+0x190>)
- 80010b6:	f000 fbe3 	bl	8001880 <printmsg>
+ 80011ac:	485c      	ldr	r0, [pc, #368]	@ (8001320 <command_parser+0x190>)
+ 80011ae:	f000 fb67 	bl	8001880 <printmsg>
 		printmsg("alarm -s Value: 0 - 1\r");
- 80010ba:	485c      	ldr	r0, [pc, #368]	@ (800122c <command_parser+0x194>)
- 80010bc:	f000 fbe0 	bl	8001880 <printmsg>
+ 80011b2:	485c      	ldr	r0, [pc, #368]	@ (8001324 <command_parser+0x194>)
+ 80011b4:	f000 fb64 	bl	8001880 <printmsg>
 		printmsg("quit\r");
- 80010c0:	485b      	ldr	r0, [pc, #364]	@ (8001230 <command_parser+0x198>)
- 80010c2:	f000 fbdd 	bl	8001880 <printmsg>
+ 80011b8:	485b      	ldr	r0, [pc, #364]	@ (8001328 <command_parser+0x198>)
+ 80011ba:	f000 fb61 	bl	8001880 <printmsg>
 	}
 	else
 	{
 		log_error("Invalid command\r");
 	}
 }
- 80010c6:	e0a7      	b.n	8001218 <command_parser+0x180>
+ 80011be:	e0a7      	b.n	8001310 <command_parser+0x180>
 	else if (sscanf((char *)data_buffer, "%9s -%c %d",
- 80010c8:	4b5a      	ldr	r3, [pc, #360]	@ (8001234 <command_parser+0x19c>)
- 80010ca:	9300      	str	r3, [sp, #0]
- 80010cc:	4b5a      	ldr	r3, [pc, #360]	@ (8001238 <command_parser+0x1a0>)
- 80010ce:	4a5b      	ldr	r2, [pc, #364]	@ (800123c <command_parser+0x1a4>)
- 80010d0:	495b      	ldr	r1, [pc, #364]	@ (8001240 <command_parser+0x1a8>)
- 80010d2:	6878      	ldr	r0, [r7, #4]
- 80010d4:	f006 fa74 	bl	80075c0 <siscanf>
- 80010d8:	4603      	mov	r3, r0
- 80010da:	2b03      	cmp	r3, #3
- 80010dc:	d179      	bne.n	80011d2 <command_parser+0x13a>
+ 80011c0:	4b5a      	ldr	r3, [pc, #360]	@ (800132c <command_parser+0x19c>)
+ 80011c2:	9300      	str	r3, [sp, #0]
+ 80011c4:	4b5a      	ldr	r3, [pc, #360]	@ (8001330 <command_parser+0x1a0>)
+ 80011c6:	4a5b      	ldr	r2, [pc, #364]	@ (8001334 <command_parser+0x1a4>)
+ 80011c8:	495b      	ldr	r1, [pc, #364]	@ (8001338 <command_parser+0x1a8>)
+ 80011ca:	6878      	ldr	r0, [r7, #4]
+ 80011cc:	f006 f9f8 	bl	80075c0 <siscanf>
+ 80011d0:	4603      	mov	r3, r0
+ 80011d2:	2b03      	cmp	r3, #3
+ 80011d4:	d179      	bne.n	80012ca <command_parser+0x13a>
 	    if (strcmp(full_command.command, "fan") == 0)
- 80010de:	4959      	ldr	r1, [pc, #356]	@ (8001244 <command_parser+0x1ac>)
- 80010e0:	4856      	ldr	r0, [pc, #344]	@ (800123c <command_parser+0x1a4>)
- 80010e2:	f7ff f895 	bl	8000210 <strcmp>
- 80010e6:	4603      	mov	r3, r0
- 80010e8:	2b00      	cmp	r3, #0
- 80010ea:	d11c      	bne.n	8001126 <command_parser+0x8e>
+ 80011d6:	4959      	ldr	r1, [pc, #356]	@ (800133c <command_parser+0x1ac>)
+ 80011d8:	4856      	ldr	r0, [pc, #344]	@ (8001334 <command_parser+0x1a4>)
+ 80011da:	f7ff f819 	bl	8000210 <strcmp>
+ 80011de:	4603      	mov	r3, r0
+ 80011e0:	2b00      	cmp	r3, #0
+ 80011e2:	d11c      	bne.n	800121e <command_parser+0x8e>
 	    	log_debug("inserted command: fan");
- 80010ec:	4856      	ldr	r0, [pc, #344]	@ (8001248 <command_parser+0x1b0>)
- 80010ee:	f000 fa22 	bl	8001536 <log_debug>
+ 80011e4:	4856      	ldr	r0, [pc, #344]	@ (8001340 <command_parser+0x1b0>)
+ 80011e6:	f000 fa52 	bl	800168e <log_debug>
 	    	if (full_command.option == 'd')
- 80010f2:	4b52      	ldr	r3, [pc, #328]	@ (800123c <command_parser+0x1a4>)
- 80010f4:	7a9b      	ldrb	r3, [r3, #10]
- 80010f6:	2b64      	cmp	r3, #100	@ 0x64
- 80010f8:	d111      	bne.n	800111e <command_parser+0x86>
+ 80011ea:	4b52      	ldr	r3, [pc, #328]	@ (8001334 <command_parser+0x1a4>)
+ 80011ec:	7a9b      	ldrb	r3, [r3, #10]
+ 80011ee:	2b64      	cmp	r3, #100	@ 0x64
+ 80011f0:	d111      	bne.n	8001216 <command_parser+0x86>
 		    	uint8_t duty_cycle = (uint8_t)full_command.value;
- 80010fa:	4b50      	ldr	r3, [pc, #320]	@ (800123c <command_parser+0x1a4>)
- 80010fc:	68db      	ldr	r3, [r3, #12]
- 80010fe:	737b      	strb	r3, [r7, #13]
+ 80011f2:	4b50      	ldr	r3, [pc, #320]	@ (8001334 <command_parser+0x1a4>)
+ 80011f4:	68db      	ldr	r3, [r3, #12]
+ 80011f6:	737b      	strb	r3, [r7, #13]
 		    	if (duty_cycle <= 100 && duty_cycle >= 0)
- 8001100:	7b7b      	ldrb	r3, [r7, #13]
- 8001102:	2b64      	cmp	r3, #100	@ 0x64
- 8001104:	d807      	bhi.n	8001116 <command_parser+0x7e>
+ 80011f8:	7b7b      	ldrb	r3, [r7, #13]
+ 80011fa:	2b64      	cmp	r3, #100	@ 0x64
+ 80011fc:	d807      	bhi.n	800120e <command_parser+0x7e>
 		    		curr_duty_cycle = duty_cycle;
- 8001106:	4a51      	ldr	r2, [pc, #324]	@ (800124c <command_parser+0x1b4>)
- 8001108:	7b7b      	ldrb	r3, [r7, #13]
- 800110a:	7013      	strb	r3, [r2, #0]
+ 80011fe:	4a51      	ldr	r2, [pc, #324]	@ (8001344 <command_parser+0x1b4>)
+ 8001200:	7b7b      	ldrb	r3, [r7, #13]
+ 8001202:	7013      	strb	r3, [r2, #0]
 					fan_speed_config(duty_cycle);
- 800110c:	7b7b      	ldrb	r3, [r7, #13]
- 800110e:	4618      	mov	r0, r3
- 8001110:	f000 f926 	bl	8001360 <fan_speed_config>
+ 8001204:	7b7b      	ldrb	r3, [r7, #13]
+ 8001206:	4618      	mov	r0, r3
+ 8001208:	f000 f926 	bl	8001458 <fan_speed_config>
 }
- 8001114:	e080      	b.n	8001218 <command_parser+0x180>
+ 800120c:	e080      	b.n	8001310 <command_parser+0x180>
 		    		log_error("fan duty cycle must be between 0 and 100");
- 8001116:	484e      	ldr	r0, [pc, #312]	@ (8001250 <command_parser+0x1b8>)
- 8001118:	f000 fa33 	bl	8001582 <log_error>
+ 800120e:	484e      	ldr	r0, [pc, #312]	@ (8001348 <command_parser+0x1b8>)
+ 8001210:	f000 fa63 	bl	80016da <log_error>
 }
- 800111c:	e07c      	b.n	8001218 <command_parser+0x180>
+ 8001214:	e07c      	b.n	8001310 <command_parser+0x180>
 	    		log_error("Invalid command: type help");
- 800111e:	484d      	ldr	r0, [pc, #308]	@ (8001254 <command_parser+0x1bc>)
- 8001120:	f000 fa2f 	bl	8001582 <log_error>
+ 8001216:	484d      	ldr	r0, [pc, #308]	@ (800134c <command_parser+0x1bc>)
+ 8001218:	f000 fa5f 	bl	80016da <log_error>
 }
- 8001124:	e078      	b.n	8001218 <command_parser+0x180>
+ 800121c:	e078      	b.n	8001310 <command_parser+0x180>
 	    else if (strcmp(full_command.command, "light") == 0)
- 8001126:	494c      	ldr	r1, [pc, #304]	@ (8001258 <command_parser+0x1c0>)
- 8001128:	4844      	ldr	r0, [pc, #272]	@ (800123c <command_parser+0x1a4>)
- 800112a:	f7ff f871 	bl	8000210 <strcmp>
- 800112e:	4603      	mov	r3, r0
- 8001130:	2b00      	cmp	r3, #0
- 8001132:	d11f      	bne.n	8001174 <command_parser+0xdc>
+ 800121e:	494c      	ldr	r1, [pc, #304]	@ (8001350 <command_parser+0x1c0>)
+ 8001220:	4844      	ldr	r0, [pc, #272]	@ (8001334 <command_parser+0x1a4>)
+ 8001222:	f7fe fff5 	bl	8000210 <strcmp>
+ 8001226:	4603      	mov	r3, r0
+ 8001228:	2b00      	cmp	r3, #0
+ 800122a:	d11f      	bne.n	800126c <command_parser+0xdc>
 	    	if (full_command.option == 's')
- 8001134:	4b41      	ldr	r3, [pc, #260]	@ (800123c <command_parser+0x1a4>)
- 8001136:	7a9b      	ldrb	r3, [r3, #10]
- 8001138:	2b73      	cmp	r3, #115	@ 0x73
- 800113a:	d117      	bne.n	800116c <command_parser+0xd4>
+ 800122c:	4b41      	ldr	r3, [pc, #260]	@ (8001334 <command_parser+0x1a4>)
+ 800122e:	7a9b      	ldrb	r3, [r3, #10]
+ 8001230:	2b73      	cmp	r3, #115	@ 0x73
+ 8001232:	d117      	bne.n	8001264 <command_parser+0xd4>
 	    		log_debug("inserted command: light");
- 800113c:	4847      	ldr	r0, [pc, #284]	@ (800125c <command_parser+0x1c4>)
- 800113e:	f000 f9fa 	bl	8001536 <log_debug>
+ 8001234:	4847      	ldr	r0, [pc, #284]	@ (8001354 <command_parser+0x1c4>)
+ 8001236:	f000 fa2a 	bl	800168e <log_debug>
 				uint8_t light_state = (uint8_t)full_command.value;
- 8001142:	4b3e      	ldr	r3, [pc, #248]	@ (800123c <command_parser+0x1a4>)
- 8001144:	68db      	ldr	r3, [r3, #12]
- 8001146:	73bb      	strb	r3, [r7, #14]
+ 800123a:	4b3e      	ldr	r3, [pc, #248]	@ (8001334 <command_parser+0x1a4>)
+ 800123c:	68db      	ldr	r3, [r3, #12]
+ 800123e:	73bb      	strb	r3, [r7, #14]
 				if (light_state == RELAY_OFF || light_state == RELAY_ON)
- 8001148:	7bbb      	ldrb	r3, [r7, #14]
- 800114a:	2b00      	cmp	r3, #0
- 800114c:	d002      	beq.n	8001154 <command_parser+0xbc>
- 800114e:	7bbb      	ldrb	r3, [r7, #14]
- 8001150:	2b01      	cmp	r3, #1
- 8001152:	d107      	bne.n	8001164 <command_parser+0xcc>
+ 8001240:	7bbb      	ldrb	r3, [r7, #14]
+ 8001242:	2b00      	cmp	r3, #0
+ 8001244:	d002      	beq.n	800124c <command_parser+0xbc>
+ 8001246:	7bbb      	ldrb	r3, [r7, #14]
+ 8001248:	2b01      	cmp	r3, #1
+ 800124a:	d107      	bne.n	800125c <command_parser+0xcc>
 					curr_relay_state = light_state;
- 8001154:	4a42      	ldr	r2, [pc, #264]	@ (8001260 <command_parser+0x1c8>)
- 8001156:	7bbb      	ldrb	r3, [r7, #14]
- 8001158:	7013      	strb	r3, [r2, #0]
+ 800124c:	4a42      	ldr	r2, [pc, #264]	@ (8001358 <command_parser+0x1c8>)
+ 800124e:	7bbb      	ldrb	r3, [r7, #14]
+ 8001250:	7013      	strb	r3, [r2, #0]
 					light_relay_config(light_state);
- 800115a:	7bbb      	ldrb	r3, [r7, #14]
- 800115c:	4618      	mov	r0, r3
- 800115e:	f000 f953 	bl	8001408 <light_relay_config>
- 8001162:	e059      	b.n	8001218 <command_parser+0x180>
+ 8001252:	7bbb      	ldrb	r3, [r7, #14]
+ 8001254:	4618      	mov	r0, r3
+ 8001256:	f000 f983 	bl	8001560 <light_relay_config>
+ 800125a:	e059      	b.n	8001310 <command_parser+0x180>
 					log_error("Invalid command: light state can be 0 or 1");
- 8001164:	483f      	ldr	r0, [pc, #252]	@ (8001264 <command_parser+0x1cc>)
- 8001166:	f000 fa0c 	bl	8001582 <log_error>
+ 800125c:	483f      	ldr	r0, [pc, #252]	@ (800135c <command_parser+0x1cc>)
+ 800125e:	f000 fa3c 	bl	80016da <log_error>
 }
- 800116a:	e055      	b.n	8001218 <command_parser+0x180>
+ 8001262:	e055      	b.n	8001310 <command_parser+0x180>
 	    		log_error("Invalid command: type help");
- 800116c:	4839      	ldr	r0, [pc, #228]	@ (8001254 <command_parser+0x1bc>)
- 800116e:	f000 fa08 	bl	8001582 <log_error>
+ 8001264:	4839      	ldr	r0, [pc, #228]	@ (800134c <command_parser+0x1bc>)
+ 8001266:	f000 fa38 	bl	80016da <log_error>
 }
- 8001172:	e051      	b.n	8001218 <command_parser+0x180>
+ 800126a:	e051      	b.n	8001310 <command_parser+0x180>
 	    else if (strcmp(full_command.command, "alarm") == 0 && full_command.option == 's')
- 8001174:	493c      	ldr	r1, [pc, #240]	@ (8001268 <command_parser+0x1d0>)
- 8001176:	4831      	ldr	r0, [pc, #196]	@ (800123c <command_parser+0x1a4>)
- 8001178:	f7ff f84a 	bl	8000210 <strcmp>
- 800117c:	4603      	mov	r3, r0
- 800117e:	2b00      	cmp	r3, #0
- 8001180:	d123      	bne.n	80011ca <command_parser+0x132>
- 8001182:	4b2e      	ldr	r3, [pc, #184]	@ (800123c <command_parser+0x1a4>)
- 8001184:	7a9b      	ldrb	r3, [r3, #10]
- 8001186:	2b73      	cmp	r3, #115	@ 0x73
- 8001188:	d11f      	bne.n	80011ca <command_parser+0x132>
+ 800126c:	493c      	ldr	r1, [pc, #240]	@ (8001360 <command_parser+0x1d0>)
+ 800126e:	4831      	ldr	r0, [pc, #196]	@ (8001334 <command_parser+0x1a4>)
+ 8001270:	f7fe ffce 	bl	8000210 <strcmp>
+ 8001274:	4603      	mov	r3, r0
+ 8001276:	2b00      	cmp	r3, #0
+ 8001278:	d123      	bne.n	80012c2 <command_parser+0x132>
+ 800127a:	4b2e      	ldr	r3, [pc, #184]	@ (8001334 <command_parser+0x1a4>)
+ 800127c:	7a9b      	ldrb	r3, [r3, #10]
+ 800127e:	2b73      	cmp	r3, #115	@ 0x73
+ 8001280:	d11f      	bne.n	80012c2 <command_parser+0x132>
 	    	if (full_command.option == 's')
- 800118a:	4b2c      	ldr	r3, [pc, #176]	@ (800123c <command_parser+0x1a4>)
- 800118c:	7a9b      	ldrb	r3, [r3, #10]
- 800118e:	2b73      	cmp	r3, #115	@ 0x73
- 8001190:	d117      	bne.n	80011c2 <command_parser+0x12a>
+ 8001282:	4b2c      	ldr	r3, [pc, #176]	@ (8001334 <command_parser+0x1a4>)
+ 8001284:	7a9b      	ldrb	r3, [r3, #10]
+ 8001286:	2b73      	cmp	r3, #115	@ 0x73
+ 8001288:	d117      	bne.n	80012ba <command_parser+0x12a>
 	    		log_debug("inserted command: alarm");
- 8001192:	4836      	ldr	r0, [pc, #216]	@ (800126c <command_parser+0x1d4>)
- 8001194:	f000 f9cf 	bl	8001536 <log_debug>
+ 800128a:	4836      	ldr	r0, [pc, #216]	@ (8001364 <command_parser+0x1d4>)
+ 800128c:	f000 f9ff 	bl	800168e <log_debug>
 				uint8_t alarm_state = (uint8_t)full_command.value;
- 8001198:	4b28      	ldr	r3, [pc, #160]	@ (800123c <command_parser+0x1a4>)
- 800119a:	68db      	ldr	r3, [r3, #12]
- 800119c:	73fb      	strb	r3, [r7, #15]
+ 8001290:	4b28      	ldr	r3, [pc, #160]	@ (8001334 <command_parser+0x1a4>)
+ 8001292:	68db      	ldr	r3, [r3, #12]
+ 8001294:	73fb      	strb	r3, [r7, #15]
 				if (alarm_state == ALARM_LIGHT_OFF || alarm_state == ALARM_LIGHT_ON)
- 800119e:	7bfb      	ldrb	r3, [r7, #15]
- 80011a0:	2b00      	cmp	r3, #0
- 80011a2:	d002      	beq.n	80011aa <command_parser+0x112>
- 80011a4:	7bfb      	ldrb	r3, [r7, #15]
- 80011a6:	2b01      	cmp	r3, #1
- 80011a8:	d107      	bne.n	80011ba <command_parser+0x122>
+ 8001296:	7bfb      	ldrb	r3, [r7, #15]
+ 8001298:	2b00      	cmp	r3, #0
+ 800129a:	d002      	beq.n	80012a2 <command_parser+0x112>
+ 800129c:	7bfb      	ldrb	r3, [r7, #15]
+ 800129e:	2b01      	cmp	r3, #1
+ 80012a0:	d107      	bne.n	80012b2 <command_parser+0x122>
 					curr_alarm_state = alarm_state;
- 80011aa:	4a31      	ldr	r2, [pc, #196]	@ (8001270 <command_parser+0x1d8>)
- 80011ac:	7bfb      	ldrb	r3, [r7, #15]
- 80011ae:	7013      	strb	r3, [r2, #0]
+ 80012a2:	4a31      	ldr	r2, [pc, #196]	@ (8001368 <command_parser+0x1d8>)
+ 80012a4:	7bfb      	ldrb	r3, [r7, #15]
+ 80012a6:	7013      	strb	r3, [r2, #0]
 					alarm_light_config(alarm_state);
- 80011b0:	7bfb      	ldrb	r3, [r7, #15]
- 80011b2:	4618      	mov	r0, r3
- 80011b4:	f7ff fed6 	bl	8000f64 <alarm_light_config>
+ 80012a8:	7bfb      	ldrb	r3, [r7, #15]
+ 80012aa:	4618      	mov	r0, r3
+ 80012ac:	f7ff fed6 	bl	800105c <alarm_light_config>
 	    	if (full_command.option == 's')
- 80011b8:	e02e      	b.n	8001218 <command_parser+0x180>
+ 80012b0:	e02e      	b.n	8001310 <command_parser+0x180>
 					log_error("Invalid command: light alarm state can be 0 or 1");
- 80011ba:	482e      	ldr	r0, [pc, #184]	@ (8001274 <command_parser+0x1dc>)
- 80011bc:	f000 f9e1 	bl	8001582 <log_error>
+ 80012b2:	482e      	ldr	r0, [pc, #184]	@ (800136c <command_parser+0x1dc>)
+ 80012b4:	f000 fa11 	bl	80016da <log_error>
 	    	if (full_command.option == 's')
- 80011c0:	e02a      	b.n	8001218 <command_parser+0x180>
+ 80012b8:	e02a      	b.n	8001310 <command_parser+0x180>
 	    		log_error("Invalid command: type help");
- 80011c2:	4824      	ldr	r0, [pc, #144]	@ (8001254 <command_parser+0x1bc>)
- 80011c4:	f000 f9dd 	bl	8001582 <log_error>
+ 80012ba:	4824      	ldr	r0, [pc, #144]	@ (800134c <command_parser+0x1bc>)
+ 80012bc:	f000 fa0d 	bl	80016da <log_error>
 	    	if (full_command.option == 's')
- 80011c8:	e026      	b.n	8001218 <command_parser+0x180>
+ 80012c0:	e026      	b.n	8001310 <command_parser+0x180>
 	    	log_error("Invalid command\r");
- 80011ca:	482b      	ldr	r0, [pc, #172]	@ (8001278 <command_parser+0x1e0>)
- 80011cc:	f000 f9d9 	bl	8001582 <log_error>
+ 80012c2:	482b      	ldr	r0, [pc, #172]	@ (8001370 <command_parser+0x1e0>)
+ 80012c4:	f000 fa09 	bl	80016da <log_error>
 }
- 80011d0:	e022      	b.n	8001218 <command_parser+0x180>
+ 80012c8:	e022      	b.n	8001310 <command_parser+0x180>
 	else if (strcmp((char *)data_buffer, "quit") == 0)
- 80011d2:	492a      	ldr	r1, [pc, #168]	@ (800127c <command_parser+0x1e4>)
- 80011d4:	6878      	ldr	r0, [r7, #4]
- 80011d6:	f7ff f81b 	bl	8000210 <strcmp>
- 80011da:	4603      	mov	r3, r0
- 80011dc:	2b00      	cmp	r3, #0
- 80011de:	d110      	bne.n	8001202 <command_parser+0x16a>
+ 80012ca:	492a      	ldr	r1, [pc, #168]	@ (8001374 <command_parser+0x1e4>)
+ 80012cc:	6878      	ldr	r0, [r7, #4]
+ 80012ce:	f7fe ff9f 	bl	8000210 <strcmp>
+ 80012d2:	4603      	mov	r3, r0
+ 80012d4:	2b00      	cmp	r3, #0
+ 80012d6:	d110      	bne.n	80012fa <command_parser+0x16a>
 		log_debug("command is: quit");
- 80011e0:	4827      	ldr	r0, [pc, #156]	@ (8001280 <command_parser+0x1e8>)
- 80011e2:	f000 f9a8 	bl	8001536 <log_debug>
+ 80012d8:	4827      	ldr	r0, [pc, #156]	@ (8001378 <command_parser+0x1e8>)
+ 80012da:	f000 f9d8 	bl	800168e <log_debug>
 		cli.user_auth_stat = USER_NOT_AUTHENTICATED;
- 80011e6:	4b27      	ldr	r3, [pc, #156]	@ (8001284 <command_parser+0x1ec>)
- 80011e8:	2202      	movs	r2, #2
- 80011ea:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
+ 80012de:	4b27      	ldr	r3, [pc, #156]	@ (800137c <command_parser+0x1ec>)
+ 80012e0:	2202      	movs	r2, #2
+ 80012e2:	f883 2066 	strb.w	r2, [r3, #102]	@ 0x66
 		system_mode = AUTOMATIC;
- 80011ee:	4b26      	ldr	r3, [pc, #152]	@ (8001288 <command_parser+0x1f0>)
- 80011f0:	2200      	movs	r2, #0
- 80011f2:	701a      	strb	r2, [r3, #0]
+ 80012e6:	4b26      	ldr	r3, [pc, #152]	@ (8001380 <command_parser+0x1f0>)
+ 80012e8:	2200      	movs	r2, #0
+ 80012ea:	701a      	strb	r2, [r3, #0]
 		log_info("system mode changed to auto mode");
- 80011f4:	4825      	ldr	r0, [pc, #148]	@ (800128c <command_parser+0x1f4>)
- 80011f6:	f000 f98b 	bl	8001510 <log_info>
+ 80012ec:	4825      	ldr	r0, [pc, #148]	@ (8001384 <command_parser+0x1f4>)
+ 80012ee:	f000 f9bb 	bl	8001668 <log_info>
 		system_mode_transition(AUTOMATIC);
- 80011fa:	2000      	movs	r0, #0
- 80011fc:	f000 ffc4 	bl	8002188 <system_mode_transition>
+ 80012f2:	2000      	movs	r0, #0
+ 80012f4:	f000 ff48 	bl	8002188 <system_mode_transition>
 }
- 8001200:	e00a      	b.n	8001218 <command_parser+0x180>
+ 80012f8:	e00a      	b.n	8001310 <command_parser+0x180>
 	else if (strcmp((char *)data_buffer, '\n') == 0)
- 8001202:	210a      	movs	r1, #10
- 8001204:	6878      	ldr	r0, [r7, #4]
- 8001206:	f7ff f803 	bl	8000210 <strcmp>
- 800120a:	4603      	mov	r3, r0
- 800120c:	2b00      	cmp	r3, #0
- 800120e:	d003      	beq.n	8001218 <command_parser+0x180>
+ 80012fa:	210a      	movs	r1, #10
+ 80012fc:	6878      	ldr	r0, [r7, #4]
+ 80012fe:	f7fe ff87 	bl	8000210 <strcmp>
+ 8001302:	4603      	mov	r3, r0
+ 8001304:	2b00      	cmp	r3, #0
+ 8001306:	d003      	beq.n	8001310 <command_parser+0x180>
 		log_error("Invalid command\r");
- 8001210:	4819      	ldr	r0, [pc, #100]	@ (8001278 <command_parser+0x1e0>)
- 8001212:	f000 f9b6 	bl	8001582 <log_error>
+ 8001308:	4819      	ldr	r0, [pc, #100]	@ (8001370 <command_parser+0x1e0>)
+ 800130a:	f000 f9e6 	bl	80016da <log_error>
 }
- 8001216:	e7ff      	b.n	8001218 <command_parser+0x180>
- 8001218:	bf00      	nop
- 800121a:	3710      	adds	r7, #16
- 800121c:	46bd      	mov	sp, r7
- 800121e:	bd80      	pop	{r7, pc}
- 8001220:	0800a2e8 	.word	0x0800a2e8
- 8001224:	0800a2f0 	.word	0x0800a2f0
- 8001228:	0800a314 	.word	0x0800a314
- 800122c:	0800a338 	.word	0x0800a338
- 8001230:	0800a350 	.word	0x0800a350
- 8001234:	20000288 	.word	0x20000288
- 8001238:	20000286 	.word	0x20000286
- 800123c:	2000027c 	.word	0x2000027c
- 8001240:	0800a358 	.word	0x0800a358
- 8001244:	0800a364 	.word	0x0800a364
- 8001248:	0800a368 	.word	0x0800a368
- 800124c:	20000294 	.word	0x20000294
- 8001250:	0800a380 	.word	0x0800a380
- 8001254:	0800a3ac 	.word	0x0800a3ac
- 8001258:	0800a3c8 	.word	0x0800a3c8
- 800125c:	0800a3d0 	.word	0x0800a3d0
- 8001260:	20000295 	.word	0x20000295
- 8001264:	0800a3e8 	.word	0x0800a3e8
- 8001268:	0800a414 	.word	0x0800a414
- 800126c:	0800a41c 	.word	0x0800a41c
- 8001270:	20000296 	.word	0x20000296
- 8001274:	0800a434 	.word	0x0800a434
- 8001278:	0800a468 	.word	0x0800a468
- 800127c:	0800a47c 	.word	0x0800a47c
- 8001280:	0800a484 	.word	0x0800a484
- 8001284:	20000028 	.word	0x20000028
- 8001288:	20000297 	.word	0x20000297
- 800128c:	0800a498 	.word	0x0800a498
+ 800130e:	e7ff      	b.n	8001310 <command_parser+0x180>
+ 8001310:	bf00      	nop
+ 8001312:	3710      	adds	r7, #16
+ 8001314:	46bd      	mov	sp, r7
+ 8001316:	bd80      	pop	{r7, pc}
+ 8001318:	0800a2fc 	.word	0x0800a2fc
+ 800131c:	0800a304 	.word	0x0800a304
+ 8001320:	0800a328 	.word	0x0800a328
+ 8001324:	0800a34c 	.word	0x0800a34c
+ 8001328:	0800a364 	.word	0x0800a364
+ 800132c:	2000028c 	.word	0x2000028c
+ 8001330:	2000028a 	.word	0x2000028a
+ 8001334:	20000280 	.word	0x20000280
+ 8001338:	0800a36c 	.word	0x0800a36c
+ 800133c:	0800a378 	.word	0x0800a378
+ 8001340:	0800a37c 	.word	0x0800a37c
+ 8001344:	20000290 	.word	0x20000290
+ 8001348:	0800a394 	.word	0x0800a394
+ 800134c:	0800a3c0 	.word	0x0800a3c0
+ 8001350:	0800a3dc 	.word	0x0800a3dc
+ 8001354:	0800a3e4 	.word	0x0800a3e4
+ 8001358:	20000298 	.word	0x20000298
+ 800135c:	0800a3fc 	.word	0x0800a3fc
+ 8001360:	0800a428 	.word	0x0800a428
+ 8001364:	0800a430 	.word	0x0800a430
+ 8001368:	20000299 	.word	0x20000299
+ 800136c:	0800a448 	.word	0x0800a448
+ 8001370:	0800a47c 	.word	0x0800a47c
+ 8001374:	0800a490 	.word	0x0800a490
+ 8001378:	0800a498 	.word	0x0800a498
+ 800137c:	2000002c 	.word	0x2000002c
+ 8001380:	2000029a 	.word	0x2000029a
+ 8001384:	0800a4ac 	.word	0x0800a4ac
 
-08001290 <fan_decision>:
-#include "fan.h"
+08001388 <fan_decision>:
 
 extern TIM_HandleTypeDef htim2;
+uint8_t curr_duty_cycle = 0U;
 
 uint8_t fan_decision(uint16_t temperature)
 {
- 8001290:	b480      	push	{r7}
- 8001292:	b085      	sub	sp, #20
- 8001294:	af00      	add	r7, sp, #0
- 8001296:	4603      	mov	r3, r0
- 8001298:	80fb      	strh	r3, [r7, #6]
+ 8001388:	b480      	push	{r7}
+ 800138a:	b085      	sub	sp, #20
+ 800138c:	af00      	add	r7, sp, #0
+ 800138e:	4603      	mov	r3, r0
+ 8001390:	80fb      	strh	r3, [r7, #6]
 	uint8_t duty_cycle = 0;
- 800129a:	2300      	movs	r3, #0
- 800129c:	73fb      	strb	r3, [r7, #15]
+ 8001392:	2300      	movs	r3, #0
+ 8001394:	73fb      	strb	r3, [r7, #15]
 
     if (temperature <= 10)
- 800129e:	88fb      	ldrh	r3, [r7, #6]
- 80012a0:	2b0a      	cmp	r3, #10
- 80012a2:	d802      	bhi.n	80012aa <fan_decision+0x1a>
+ 8001396:	88fb      	ldrh	r3, [r7, #6]
+ 8001398:	2b0a      	cmp	r3, #10
+ 800139a:	d802      	bhi.n	80013a2 <fan_decision+0x1a>
     {
     	duty_cycle = FAN_OFF;
- 80012a4:	2300      	movs	r3, #0
- 80012a6:	73fb      	strb	r3, [r7, #15]
- 80012a8:	e052      	b.n	8001350 <fan_decision+0xc0>
+ 800139c:	2300      	movs	r3, #0
+ 800139e:	73fb      	strb	r3, [r7, #15]
+ 80013a0:	e052      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (10 < temperature &&  temperature <= 15)
- 80012aa:	88fb      	ldrh	r3, [r7, #6]
- 80012ac:	2b0a      	cmp	r3, #10
- 80012ae:	d905      	bls.n	80012bc <fan_decision+0x2c>
- 80012b0:	88fb      	ldrh	r3, [r7, #6]
- 80012b2:	2b0f      	cmp	r3, #15
- 80012b4:	d802      	bhi.n	80012bc <fan_decision+0x2c>
+ 80013a2:	88fb      	ldrh	r3, [r7, #6]
+ 80013a4:	2b0a      	cmp	r3, #10
+ 80013a6:	d905      	bls.n	80013b4 <fan_decision+0x2c>
+ 80013a8:	88fb      	ldrh	r3, [r7, #6]
+ 80013aa:	2b0f      	cmp	r3, #15
+ 80013ac:	d802      	bhi.n	80013b4 <fan_decision+0x2c>
     {
     	duty_cycle = 10*FAN_10;
- 80012b6:	230a      	movs	r3, #10
- 80012b8:	73fb      	strb	r3, [r7, #15]
- 80012ba:	e049      	b.n	8001350 <fan_decision+0xc0>
+ 80013ae:	230a      	movs	r3, #10
+ 80013b0:	73fb      	strb	r3, [r7, #15]
+ 80013b2:	e049      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (15 < temperature &&  temperature <= 20)
- 80012bc:	88fb      	ldrh	r3, [r7, #6]
- 80012be:	2b0f      	cmp	r3, #15
- 80012c0:	d905      	bls.n	80012ce <fan_decision+0x3e>
- 80012c2:	88fb      	ldrh	r3, [r7, #6]
- 80012c4:	2b14      	cmp	r3, #20
- 80012c6:	d802      	bhi.n	80012ce <fan_decision+0x3e>
+ 80013b4:	88fb      	ldrh	r3, [r7, #6]
+ 80013b6:	2b0f      	cmp	r3, #15
+ 80013b8:	d905      	bls.n	80013c6 <fan_decision+0x3e>
+ 80013ba:	88fb      	ldrh	r3, [r7, #6]
+ 80013bc:	2b14      	cmp	r3, #20
+ 80013be:	d802      	bhi.n	80013c6 <fan_decision+0x3e>
     {
     	duty_cycle = 10*FAN_20;
- 80012c8:	2314      	movs	r3, #20
- 80012ca:	73fb      	strb	r3, [r7, #15]
- 80012cc:	e040      	b.n	8001350 <fan_decision+0xc0>
+ 80013c0:	2314      	movs	r3, #20
+ 80013c2:	73fb      	strb	r3, [r7, #15]
+ 80013c4:	e040      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (20 < temperature &&  temperature <= 25)
- 80012ce:	88fb      	ldrh	r3, [r7, #6]
- 80012d0:	2b14      	cmp	r3, #20
- 80012d2:	d905      	bls.n	80012e0 <fan_decision+0x50>
- 80012d4:	88fb      	ldrh	r3, [r7, #6]
- 80012d6:	2b19      	cmp	r3, #25
- 80012d8:	d802      	bhi.n	80012e0 <fan_decision+0x50>
+ 80013c6:	88fb      	ldrh	r3, [r7, #6]
+ 80013c8:	2b14      	cmp	r3, #20
+ 80013ca:	d905      	bls.n	80013d8 <fan_decision+0x50>
+ 80013cc:	88fb      	ldrh	r3, [r7, #6]
+ 80013ce:	2b19      	cmp	r3, #25
+ 80013d0:	d802      	bhi.n	80013d8 <fan_decision+0x50>
     {
     	duty_cycle = 10*FAN_30;
- 80012da:	231e      	movs	r3, #30
- 80012dc:	73fb      	strb	r3, [r7, #15]
- 80012de:	e037      	b.n	8001350 <fan_decision+0xc0>
+ 80013d2:	231e      	movs	r3, #30
+ 80013d4:	73fb      	strb	r3, [r7, #15]
+ 80013d6:	e037      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (25 < temperature &&  temperature <= 35)
- 80012e0:	88fb      	ldrh	r3, [r7, #6]
- 80012e2:	2b19      	cmp	r3, #25
- 80012e4:	d905      	bls.n	80012f2 <fan_decision+0x62>
- 80012e6:	88fb      	ldrh	r3, [r7, #6]
- 80012e8:	2b23      	cmp	r3, #35	@ 0x23
- 80012ea:	d802      	bhi.n	80012f2 <fan_decision+0x62>
+ 80013d8:	88fb      	ldrh	r3, [r7, #6]
+ 80013da:	2b19      	cmp	r3, #25
+ 80013dc:	d905      	bls.n	80013ea <fan_decision+0x62>
+ 80013de:	88fb      	ldrh	r3, [r7, #6]
+ 80013e0:	2b23      	cmp	r3, #35	@ 0x23
+ 80013e2:	d802      	bhi.n	80013ea <fan_decision+0x62>
     {
     	duty_cycle = 10*FAN_40;
- 80012ec:	2328      	movs	r3, #40	@ 0x28
- 80012ee:	73fb      	strb	r3, [r7, #15]
- 80012f0:	e02e      	b.n	8001350 <fan_decision+0xc0>
+ 80013e4:	2328      	movs	r3, #40	@ 0x28
+ 80013e6:	73fb      	strb	r3, [r7, #15]
+ 80013e8:	e02e      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (35 < temperature &&  temperature <= 45)
- 80012f2:	88fb      	ldrh	r3, [r7, #6]
- 80012f4:	2b23      	cmp	r3, #35	@ 0x23
- 80012f6:	d905      	bls.n	8001304 <fan_decision+0x74>
- 80012f8:	88fb      	ldrh	r3, [r7, #6]
- 80012fa:	2b2d      	cmp	r3, #45	@ 0x2d
- 80012fc:	d802      	bhi.n	8001304 <fan_decision+0x74>
+ 80013ea:	88fb      	ldrh	r3, [r7, #6]
+ 80013ec:	2b23      	cmp	r3, #35	@ 0x23
+ 80013ee:	d905      	bls.n	80013fc <fan_decision+0x74>
+ 80013f0:	88fb      	ldrh	r3, [r7, #6]
+ 80013f2:	2b2d      	cmp	r3, #45	@ 0x2d
+ 80013f4:	d802      	bhi.n	80013fc <fan_decision+0x74>
     {
     	duty_cycle = 10*FAN_50;
- 80012fe:	2332      	movs	r3, #50	@ 0x32
- 8001300:	73fb      	strb	r3, [r7, #15]
- 8001302:	e025      	b.n	8001350 <fan_decision+0xc0>
+ 80013f6:	2332      	movs	r3, #50	@ 0x32
+ 80013f8:	73fb      	strb	r3, [r7, #15]
+ 80013fa:	e025      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (45 < temperature &&  temperature <= 55)
- 8001304:	88fb      	ldrh	r3, [r7, #6]
- 8001306:	2b2d      	cmp	r3, #45	@ 0x2d
- 8001308:	d905      	bls.n	8001316 <fan_decision+0x86>
- 800130a:	88fb      	ldrh	r3, [r7, #6]
- 800130c:	2b37      	cmp	r3, #55	@ 0x37
- 800130e:	d802      	bhi.n	8001316 <fan_decision+0x86>
+ 80013fc:	88fb      	ldrh	r3, [r7, #6]
+ 80013fe:	2b2d      	cmp	r3, #45	@ 0x2d
+ 8001400:	d905      	bls.n	800140e <fan_decision+0x86>
+ 8001402:	88fb      	ldrh	r3, [r7, #6]
+ 8001404:	2b37      	cmp	r3, #55	@ 0x37
+ 8001406:	d802      	bhi.n	800140e <fan_decision+0x86>
     {
     	duty_cycle = 10*FAN_60;
- 8001310:	233c      	movs	r3, #60	@ 0x3c
- 8001312:	73fb      	strb	r3, [r7, #15]
- 8001314:	e01c      	b.n	8001350 <fan_decision+0xc0>
+ 8001408:	233c      	movs	r3, #60	@ 0x3c
+ 800140a:	73fb      	strb	r3, [r7, #15]
+ 800140c:	e01c      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (55 < temperature &&  temperature <= 70)
- 8001316:	88fb      	ldrh	r3, [r7, #6]
- 8001318:	2b37      	cmp	r3, #55	@ 0x37
- 800131a:	d905      	bls.n	8001328 <fan_decision+0x98>
- 800131c:	88fb      	ldrh	r3, [r7, #6]
- 800131e:	2b46      	cmp	r3, #70	@ 0x46
- 8001320:	d802      	bhi.n	8001328 <fan_decision+0x98>
+ 800140e:	88fb      	ldrh	r3, [r7, #6]
+ 8001410:	2b37      	cmp	r3, #55	@ 0x37
+ 8001412:	d905      	bls.n	8001420 <fan_decision+0x98>
+ 8001414:	88fb      	ldrh	r3, [r7, #6]
+ 8001416:	2b46      	cmp	r3, #70	@ 0x46
+ 8001418:	d802      	bhi.n	8001420 <fan_decision+0x98>
     {
     	duty_cycle = 10*FAN_70;
- 8001322:	2346      	movs	r3, #70	@ 0x46
- 8001324:	73fb      	strb	r3, [r7, #15]
- 8001326:	e013      	b.n	8001350 <fan_decision+0xc0>
+ 800141a:	2346      	movs	r3, #70	@ 0x46
+ 800141c:	73fb      	strb	r3, [r7, #15]
+ 800141e:	e013      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (70 < temperature &&  temperature <= 80)
- 8001328:	88fb      	ldrh	r3, [r7, #6]
- 800132a:	2b46      	cmp	r3, #70	@ 0x46
- 800132c:	d905      	bls.n	800133a <fan_decision+0xaa>
- 800132e:	88fb      	ldrh	r3, [r7, #6]
- 8001330:	2b50      	cmp	r3, #80	@ 0x50
- 8001332:	d802      	bhi.n	800133a <fan_decision+0xaa>
+ 8001420:	88fb      	ldrh	r3, [r7, #6]
+ 8001422:	2b46      	cmp	r3, #70	@ 0x46
+ 8001424:	d905      	bls.n	8001432 <fan_decision+0xaa>
+ 8001426:	88fb      	ldrh	r3, [r7, #6]
+ 8001428:	2b50      	cmp	r3, #80	@ 0x50
+ 800142a:	d802      	bhi.n	8001432 <fan_decision+0xaa>
     {
     	duty_cycle = 10*FAN_80;
- 8001334:	2350      	movs	r3, #80	@ 0x50
- 8001336:	73fb      	strb	r3, [r7, #15]
- 8001338:	e00a      	b.n	8001350 <fan_decision+0xc0>
+ 800142c:	2350      	movs	r3, #80	@ 0x50
+ 800142e:	73fb      	strb	r3, [r7, #15]
+ 8001430:	e00a      	b.n	8001448 <fan_decision+0xc0>
     }
     else if (80 < temperature &&  temperature <= 90)
- 800133a:	88fb      	ldrh	r3, [r7, #6]
- 800133c:	2b50      	cmp	r3, #80	@ 0x50
- 800133e:	d905      	bls.n	800134c <fan_decision+0xbc>
- 8001340:	88fb      	ldrh	r3, [r7, #6]
- 8001342:	2b5a      	cmp	r3, #90	@ 0x5a
- 8001344:	d802      	bhi.n	800134c <fan_decision+0xbc>
+ 8001432:	88fb      	ldrh	r3, [r7, #6]
+ 8001434:	2b50      	cmp	r3, #80	@ 0x50
+ 8001436:	d905      	bls.n	8001444 <fan_decision+0xbc>
+ 8001438:	88fb      	ldrh	r3, [r7, #6]
+ 800143a:	2b5a      	cmp	r3, #90	@ 0x5a
+ 800143c:	d802      	bhi.n	8001444 <fan_decision+0xbc>
     {
     	duty_cycle = 10*FAN_90;
- 8001346:	235a      	movs	r3, #90	@ 0x5a
- 8001348:	73fb      	strb	r3, [r7, #15]
- 800134a:	e001      	b.n	8001350 <fan_decision+0xc0>
+ 800143e:	235a      	movs	r3, #90	@ 0x5a
+ 8001440:	73fb      	strb	r3, [r7, #15]
+ 8001442:	e001      	b.n	8001448 <fan_decision+0xc0>
     }
     else
     {
     	duty_cycle = 10*FAN_100;
- 800134c:	2364      	movs	r3, #100	@ 0x64
- 800134e:	73fb      	strb	r3, [r7, #15]
+ 8001444:	2364      	movs	r3, #100	@ 0x64
+ 8001446:	73fb      	strb	r3, [r7, #15]
     }
 
     
     return duty_cycle;
- 8001350:	7bfb      	ldrb	r3, [r7, #15]
+ 8001448:	7bfb      	ldrb	r3, [r7, #15]
 }
- 8001352:	4618      	mov	r0, r3
- 8001354:	3714      	adds	r7, #20
- 8001356:	46bd      	mov	sp, r7
- 8001358:	f85d 7b04 	ldr.w	r7, [sp], #4
- 800135c:	4770      	bx	lr
+ 800144a:	4618      	mov	r0, r3
+ 800144c:	3714      	adds	r7, #20
+ 800144e:	46bd      	mov	sp, r7
+ 8001450:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001454:	4770      	bx	lr
 	...
 
-08001360 <fan_speed_config>:
+08001458 <fan_speed_config>:
 
 void fan_speed_config(uint8_t duty_cycle)
 {
- 8001360:	b580      	push	{r7, lr}
- 8001362:	b082      	sub	sp, #8
- 8001364:	af00      	add	r7, sp, #0
- 8001366:	4603      	mov	r3, r0
- 8001368:	71fb      	strb	r3, [r7, #7]
+ 8001458:	b580      	push	{r7, lr}
+ 800145a:	b082      	sub	sp, #8
+ 800145c:	af00      	add	r7, sp, #0
+ 800145e:	4603      	mov	r3, r0
+ 8001460:	71fb      	strb	r3, [r7, #7]
 	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, (htim2.Init.Period + 1) * duty_cycle / 100);
- 800136a:	4b0b      	ldr	r3, [pc, #44]	@ (8001398 <fan_speed_config+0x38>)
- 800136c:	68db      	ldr	r3, [r3, #12]
- 800136e:	3301      	adds	r3, #1
- 8001370:	79fa      	ldrb	r2, [r7, #7]
- 8001372:	fb03 f202 	mul.w	r2, r3, r2
- 8001376:	4b08      	ldr	r3, [pc, #32]	@ (8001398 <fan_speed_config+0x38>)
- 8001378:	681b      	ldr	r3, [r3, #0]
- 800137a:	4908      	ldr	r1, [pc, #32]	@ (800139c <fan_speed_config+0x3c>)
- 800137c:	fba1 1202 	umull	r1, r2, r1, r2
- 8001380:	0952      	lsrs	r2, r2, #5
- 8001382:	635a      	str	r2, [r3, #52]	@ 0x34
+ 8001462:	4b0b      	ldr	r3, [pc, #44]	@ (8001490 <fan_speed_config+0x38>)
+ 8001464:	68db      	ldr	r3, [r3, #12]
+ 8001466:	3301      	adds	r3, #1
+ 8001468:	79fa      	ldrb	r2, [r7, #7]
+ 800146a:	fb03 f202 	mul.w	r2, r3, r2
+ 800146e:	4b08      	ldr	r3, [pc, #32]	@ (8001490 <fan_speed_config+0x38>)
+ 8001470:	681b      	ldr	r3, [r3, #0]
+ 8001472:	4908      	ldr	r1, [pc, #32]	@ (8001494 <fan_speed_config+0x3c>)
+ 8001474:	fba1 1202 	umull	r1, r2, r1, r2
+ 8001478:	0952      	lsrs	r2, r2, #5
+ 800147a:	635a      	str	r2, [r3, #52]	@ 0x34
 
 	log_info("fan duty cycle changed to %d", duty_cycle);
- 8001384:	79fb      	ldrb	r3, [r7, #7]
- 8001386:	4619      	mov	r1, r3
- 8001388:	4805      	ldr	r0, [pc, #20]	@ (80013a0 <fan_speed_config+0x40>)
- 800138a:	f000 f8c1 	bl	8001510 <log_info>
+ 800147c:	79fb      	ldrb	r3, [r7, #7]
+ 800147e:	4619      	mov	r1, r3
+ 8001480:	4805      	ldr	r0, [pc, #20]	@ (8001498 <fan_speed_config+0x40>)
+ 8001482:	f000 f8f1 	bl	8001668 <log_info>
 }
- 800138e:	bf00      	nop
- 8001390:	3708      	adds	r7, #8
- 8001392:	46bd      	mov	sp, r7
- 8001394:	bd80      	pop	{r7, pc}
- 8001396:	bf00      	nop
- 8001398:	20000374 	.word	0x20000374
- 800139c:	51eb851f 	.word	0x51eb851f
- 80013a0:	0800a4bc 	.word	0x0800a4bc
+ 8001486:	bf00      	nop
+ 8001488:	3708      	adds	r7, #8
+ 800148a:	46bd      	mov	sp, r7
+ 800148c:	bd80      	pop	{r7, pc}
+ 800148e:	bf00      	nop
+ 8001490:	20000378 	.word	0x20000378
+ 8001494:	51eb851f 	.word	0x51eb851f
+ 8001498:	0800a4d0 	.word	0x0800a4d0
 
-080013a4 <SysTick_Handler>:
+0800149c <fan_control_auto>:
+
+void fan_control_auto(void)
+{
+ 800149c:	b580      	push	{r7, lr}
+ 800149e:	b082      	sub	sp, #8
+ 80014a0:	af00      	add	r7, sp, #0
+	float temperature = ADC_Convert_To_Temperature();
+ 80014a2:	f7ff fd65 	bl	8000f70 <ADC_Convert_To_Temperature>
+ 80014a6:	ed87 0a01 	vstr	s0, [r7, #4]
+	log_debug("Temperature is: %.2f °C", temperature);
+ 80014aa:	6878      	ldr	r0, [r7, #4]
+ 80014ac:	f7ff f87c 	bl	80005a8 <__aeabi_f2d>
+ 80014b0:	4602      	mov	r2, r0
+ 80014b2:	460b      	mov	r3, r1
+ 80014b4:	480f      	ldr	r0, [pc, #60]	@ (80014f4 <fan_control_auto+0x58>)
+ 80014b6:	f000 f8ea 	bl	800168e <log_debug>
+	uint8_t new_duty_cycle = fan_decision(temperature);
+ 80014ba:	edd7 7a01 	vldr	s15, [r7, #4]
+ 80014be:	eefc 7ae7 	vcvt.u32.f32	s15, s15
+ 80014c2:	ee17 3a90 	vmov	r3, s15
+ 80014c6:	b29b      	uxth	r3, r3
+ 80014c8:	4618      	mov	r0, r3
+ 80014ca:	f7ff ff5d 	bl	8001388 <fan_decision>
+ 80014ce:	4603      	mov	r3, r0
+ 80014d0:	70fb      	strb	r3, [r7, #3]
+
+	if (curr_duty_cycle != new_duty_cycle)
+ 80014d2:	4b09      	ldr	r3, [pc, #36]	@ (80014f8 <fan_control_auto+0x5c>)
+ 80014d4:	781b      	ldrb	r3, [r3, #0]
+ 80014d6:	78fa      	ldrb	r2, [r7, #3]
+ 80014d8:	429a      	cmp	r2, r3
+ 80014da:	d006      	beq.n	80014ea <fan_control_auto+0x4e>
+	{
+		curr_duty_cycle = new_duty_cycle;
+ 80014dc:	4a06      	ldr	r2, [pc, #24]	@ (80014f8 <fan_control_auto+0x5c>)
+ 80014de:	78fb      	ldrb	r3, [r7, #3]
+ 80014e0:	7013      	strb	r3, [r2, #0]
+		fan_speed_config(new_duty_cycle);
+ 80014e2:	78fb      	ldrb	r3, [r7, #3]
+ 80014e4:	4618      	mov	r0, r3
+ 80014e6:	f7ff ffb7 	bl	8001458 <fan_speed_config>
+	}
+
+}
+ 80014ea:	bf00      	nop
+ 80014ec:	3708      	adds	r7, #8
+ 80014ee:	46bd      	mov	sp, r7
+ 80014f0:	bd80      	pop	{r7, pc}
+ 80014f2:	bf00      	nop
+ 80014f4:	0800a4f0 	.word	0x0800a4f0
+ 80014f8:	20000290 	.word	0x20000290
+
+080014fc <SysTick_Handler>:
 #include "main_app.h"
 extern UART_HandleTypeDef huart2;
 extern TIM_HandleTypeDef htim6;
 
 void SysTick_Handler(void)
 {
- 80013a4:	b580      	push	{r7, lr}
- 80013a6:	af00      	add	r7, sp, #0
+ 80014fc:	b580      	push	{r7, lr}
+ 80014fe:	af00      	add	r7, sp, #0
 
   HAL_IncTick();
- 80013a8:	f001 f8c6 	bl	8002538 <HAL_IncTick>
+ 8001500:	f001 f81a 	bl	8002538 <HAL_IncTick>
   HAL_SYSTICK_IRQHandler();
- 80013ac:	f001 fe42 	bl	8003034 <HAL_SYSTICK_IRQHandler>
+ 8001504:	f001 fd96 	bl	8003034 <HAL_SYSTICK_IRQHandler>
 
 }
- 80013b0:	bf00      	nop
- 80013b2:	bd80      	pop	{r7, pc}
+ 8001508:	bf00      	nop
+ 800150a:	bd80      	pop	{r7, pc}
 
-080013b4 <USART2_IRQHandler>:
+0800150c <USART2_IRQHandler>:
 
 void USART2_IRQHandler(void)
 {
- 80013b4:	b580      	push	{r7, lr}
- 80013b6:	af00      	add	r7, sp, #0
+ 800150c:	b580      	push	{r7, lr}
+ 800150e:	af00      	add	r7, sp, #0
 	HAL_UART_IRQHandler(&huart2);
- 80013b8:	4802      	ldr	r0, [pc, #8]	@ (80013c4 <USART2_IRQHandler+0x10>)
- 80013ba:	f004 fc47 	bl	8005c4c <HAL_UART_IRQHandler>
+ 8001510:	4802      	ldr	r0, [pc, #8]	@ (800151c <USART2_IRQHandler+0x10>)
+ 8001512:	f004 fb9b 	bl	8005c4c <HAL_UART_IRQHandler>
 
 }
- 80013be:	bf00      	nop
- 80013c0:	bd80      	pop	{r7, pc}
- 80013c2:	bf00      	nop
- 80013c4:	2000029c 	.word	0x2000029c
+ 8001516:	bf00      	nop
+ 8001518:	bd80      	pop	{r7, pc}
+ 800151a:	bf00      	nop
+ 800151c:	200002a0 	.word	0x200002a0
 
-080013c8 <TIM6_DAC_IRQHandler>:
+08001520 <TIM6_DAC_IRQHandler>:
 
 void TIM6_DAC_IRQHandler(void)
 {
- 80013c8:	b580      	push	{r7, lr}
- 80013ca:	af00      	add	r7, sp, #0
+ 8001520:	b580      	push	{r7, lr}
+ 8001522:	af00      	add	r7, sp, #0
 	HAL_TIM_IRQHandler(&htim6);
- 80013cc:	4802      	ldr	r0, [pc, #8]	@ (80013d8 <TIM6_DAC_IRQHandler+0x10>)
- 80013ce:	f003 fed3 	bl	8005178 <HAL_TIM_IRQHandler>
+ 8001524:	4802      	ldr	r0, [pc, #8]	@ (8001530 <TIM6_DAC_IRQHandler+0x10>)
+ 8001526:	f003 fe27 	bl	8005178 <HAL_TIM_IRQHandler>
 }
- 80013d2:	bf00      	nop
- 80013d4:	bd80      	pop	{r7, pc}
- 80013d6:	bf00      	nop
- 80013d8:	2000032c 	.word	0x2000032c
+ 800152a:	bf00      	nop
+ 800152c:	bd80      	pop	{r7, pc}
+ 800152e:	bf00      	nop
+ 8001530:	20000330 	.word	0x20000330
 
-080013dc <light_relay_decision>:
+08001534 <light_relay_decision>:
  */
 #include "main_app.h"
 #include "light_relay.h"
 
 uint8_t light_relay_decision(uint16_t light_value)
 {
- 80013dc:	b480      	push	{r7}
- 80013de:	b085      	sub	sp, #20
- 80013e0:	af00      	add	r7, sp, #0
- 80013e2:	4603      	mov	r3, r0
- 80013e4:	80fb      	strh	r3, [r7, #6]
+ 8001534:	b480      	push	{r7}
+ 8001536:	b085      	sub	sp, #20
+ 8001538:	af00      	add	r7, sp, #0
+ 800153a:	4603      	mov	r3, r0
+ 800153c:	80fb      	strh	r3, [r7, #6]
 	uint8_t light_relay_status;
 	if (light_value < LIGHT_MODE_THRESHOLD)
- 80013e6:	88fb      	ldrh	r3, [r7, #6]
- 80013e8:	f640 32b7 	movw	r2, #2999	@ 0xbb7
- 80013ec:	4293      	cmp	r3, r2
- 80013ee:	d802      	bhi.n	80013f6 <light_relay_decision+0x1a>
+ 800153e:	88fb      	ldrh	r3, [r7, #6]
+ 8001540:	f640 32b7 	movw	r2, #2999	@ 0xbb7
+ 8001544:	4293      	cmp	r3, r2
+ 8001546:	d802      	bhi.n	800154e <light_relay_decision+0x1a>
 	{
 		light_relay_status = RELAY_OFF;
- 80013f0:	2300      	movs	r3, #0
- 80013f2:	73fb      	strb	r3, [r7, #15]
- 80013f4:	e001      	b.n	80013fa <light_relay_decision+0x1e>
+ 8001548:	2300      	movs	r3, #0
+ 800154a:	73fb      	strb	r3, [r7, #15]
+ 800154c:	e001      	b.n	8001552 <light_relay_decision+0x1e>
 	}
 	else
 	{
 		light_relay_status = RELAY_ON;
- 80013f6:	2301      	movs	r3, #1
- 80013f8:	73fb      	strb	r3, [r7, #15]
+ 800154e:	2301      	movs	r3, #1
+ 8001550:	73fb      	strb	r3, [r7, #15]
 	}
 
 	return light_relay_status;
- 80013fa:	7bfb      	ldrb	r3, [r7, #15]
+ 8001552:	7bfb      	ldrb	r3, [r7, #15]
 }
- 80013fc:	4618      	mov	r0, r3
- 80013fe:	3714      	adds	r7, #20
- 8001400:	46bd      	mov	sp, r7
- 8001402:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001406:	4770      	bx	lr
+ 8001554:	4618      	mov	r0, r3
+ 8001556:	3714      	adds	r7, #20
+ 8001558:	46bd      	mov	sp, r7
+ 800155a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800155e:	4770      	bx	lr
 
-08001408 <light_relay_config>:
+08001560 <light_relay_config>:
 
 void light_relay_config(uint8_t relay_state)
 {
- 8001408:	b580      	push	{r7, lr}
- 800140a:	b082      	sub	sp, #8
- 800140c:	af00      	add	r7, sp, #0
- 800140e:	4603      	mov	r3, r0
- 8001410:	71fb      	strb	r3, [r7, #7]
+ 8001560:	b580      	push	{r7, lr}
+ 8001562:	b082      	sub	sp, #8
+ 8001564:	af00      	add	r7, sp, #0
+ 8001566:	4603      	mov	r3, r0
+ 8001568:	71fb      	strb	r3, [r7, #7]
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, relay_state);
- 8001412:	79fb      	ldrb	r3, [r7, #7]
- 8001414:	461a      	mov	r2, r3
- 8001416:	2101      	movs	r1, #1
- 8001418:	4805      	ldr	r0, [pc, #20]	@ (8001430 <light_relay_config+0x28>)
- 800141a:	f002 f83f 	bl	800349c <HAL_GPIO_WritePin>
+ 800156a:	79fb      	ldrb	r3, [r7, #7]
+ 800156c:	461a      	mov	r2, r3
+ 800156e:	2101      	movs	r1, #1
+ 8001570:	4805      	ldr	r0, [pc, #20]	@ (8001588 <light_relay_config+0x28>)
+ 8001572:	f001 ff93 	bl	800349c <HAL_GPIO_WritePin>
 
 	log_info("light relay state changed to %d", relay_state);
- 800141e:	79fb      	ldrb	r3, [r7, #7]
- 8001420:	4619      	mov	r1, r3
- 8001422:	4804      	ldr	r0, [pc, #16]	@ (8001434 <light_relay_config+0x2c>)
- 8001424:	f000 f874 	bl	8001510 <log_info>
+ 8001576:	79fb      	ldrb	r3, [r7, #7]
+ 8001578:	4619      	mov	r1, r3
+ 800157a:	4804      	ldr	r0, [pc, #16]	@ (800158c <light_relay_config+0x2c>)
+ 800157c:	f000 f874 	bl	8001668 <log_info>
 }
- 8001428:	bf00      	nop
- 800142a:	3708      	adds	r7, #8
- 800142c:	46bd      	mov	sp, r7
- 800142e:	bd80      	pop	{r7, pc}
- 8001430:	40020400 	.word	0x40020400
- 8001434:	0800a4dc 	.word	0x0800a4dc
+ 8001580:	bf00      	nop
+ 8001582:	3708      	adds	r7, #8
+ 8001584:	46bd      	mov	sp, r7
+ 8001586:	bd80      	pop	{r7, pc}
+ 8001588:	40020400 	.word	0x40020400
+ 800158c:	0800a50c 	.word	0x0800a50c
 
-08001438 <log_message>:
+08001590 <log_message>:
 };
 
 static log_level_t current_log_level = LOG_INFO; //configure this to get only the desired types of logs
 
 static void log_message(const log_level_t level, const char* format, va_list args) //this is a static function, if you declare it in logger.h file
 {																      //it gives you a warning bcs it must be private only to the .c file
- 8001438:	b580      	push	{r7, lr}
- 800143a:	b0f4      	sub	sp, #464	@ 0x1d0
- 800143c:	af04      	add	r7, sp, #16
- 800143e:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
- 8001442:	f5a3 73dc 	sub.w	r3, r3, #440	@ 0x1b8
- 8001446:	6019      	str	r1, [r3, #0]
- 8001448:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
- 800144c:	f5a3 73de 	sub.w	r3, r3, #444	@ 0x1bc
- 8001450:	601a      	str	r2, [r3, #0]
- 8001452:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
- 8001456:	f2a3 13b1 	subw	r3, r3, #433	@ 0x1b1
- 800145a:	4602      	mov	r2, r0
- 800145c:	701a      	strb	r2, [r3, #0]
+ 8001590:	b580      	push	{r7, lr}
+ 8001592:	b0f4      	sub	sp, #464	@ 0x1d0
+ 8001594:	af04      	add	r7, sp, #16
+ 8001596:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
+ 800159a:	f5a3 73dc 	sub.w	r3, r3, #440	@ 0x1b8
+ 800159e:	6019      	str	r1, [r3, #0]
+ 80015a0:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
+ 80015a4:	f5a3 73de 	sub.w	r3, r3, #444	@ 0x1bc
+ 80015a8:	601a      	str	r2, [r3, #0]
+ 80015aa:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
+ 80015ae:	f2a3 13b1 	subw	r3, r3, #433	@ 0x1b1
+ 80015b2:	4602      	mov	r2, r0
+ 80015b4:	701a      	strb	r2, [r3, #0]
 	if (level < current_log_level)
- 800145e:	4b26      	ldr	r3, [pc, #152]	@ (80014f8 <log_message+0xc0>)
- 8001460:	781b      	ldrb	r3, [r3, #0]
- 8001462:	f507 72e0 	add.w	r2, r7, #448	@ 0x1c0
- 8001466:	f2a2 12b1 	subw	r2, r2, #433	@ 0x1b1
- 800146a:	7812      	ldrb	r2, [r2, #0]
- 800146c:	429a      	cmp	r2, r3
- 800146e:	d33e      	bcc.n	80014ee <log_message+0xb6>
+ 80015b6:	4b26      	ldr	r3, [pc, #152]	@ (8001650 <log_message+0xc0>)
+ 80015b8:	781b      	ldrb	r3, [r3, #0]
+ 80015ba:	f507 72e0 	add.w	r2, r7, #448	@ 0x1c0
+ 80015be:	f2a2 12b1 	subw	r2, r2, #433	@ 0x1b1
+ 80015c2:	7812      	ldrb	r2, [r2, #0]
+ 80015c4:	429a      	cmp	r2, r3
+ 80015c6:	d33e      	bcc.n	8001646 <log_message+0xb6>
     char log_message[LOG_MESSAGE_MAX_LEN];
     char in_message[LOG_MESSAGE_MAX_LEN];
     char timestamp[RTC_DATETIME_STR_LEN];
 
 
 	vsnprintf(in_message,
- 8001470:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
- 8001474:	f5a3 73de 	sub.w	r3, r3, #444	@ 0x1bc
- 8001478:	f507 72e0 	add.w	r2, r7, #448	@ 0x1c0
- 800147c:	f5a2 72dc 	sub.w	r2, r2, #440	@ 0x1b8
- 8001480:	f107 0030 	add.w	r0, r7, #48	@ 0x30
- 8001484:	681b      	ldr	r3, [r3, #0]
- 8001486:	6812      	ldr	r2, [r2, #0]
- 8001488:	21c8      	movs	r1, #200	@ 0xc8
- 800148a:	f006 f939 	bl	8007700 <vsniprintf>
+ 80015c8:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
+ 80015cc:	f5a3 73de 	sub.w	r3, r3, #444	@ 0x1bc
+ 80015d0:	f507 72e0 	add.w	r2, r7, #448	@ 0x1c0
+ 80015d4:	f5a2 72dc 	sub.w	r2, r2, #440	@ 0x1b8
+ 80015d8:	f107 0030 	add.w	r0, r7, #48	@ 0x30
+ 80015dc:	681b      	ldr	r3, [r3, #0]
+ 80015de:	6812      	ldr	r2, [r2, #0]
+ 80015e0:	21c8      	movs	r1, #200	@ 0xc8
+ 80015e2:	f006 f88d 	bl	8007700 <vsniprintf>
 	             sizeof(in_message),
 				 format,
 				 args);
 
     RTC_Get_Time_Date(timestamp);
- 800148e:	f107 0310 	add.w	r3, r7, #16
- 8001492:	4618      	mov	r0, r3
- 8001494:	f000 feee 	bl	8002274 <RTC_Get_Time_Date>
+ 80015e6:	f107 0310 	add.w	r3, r7, #16
+ 80015ea:	4618      	mov	r0, r3
+ 80015ec:	f000 fe42 	bl	8002274 <RTC_Get_Time_Date>
 
     snprintf(log_message,
- 8001498:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
- 800149c:	f2a3 13b1 	subw	r3, r3, #433	@ 0x1b1
- 80014a0:	781b      	ldrb	r3, [r3, #0]
- 80014a2:	4a16      	ldr	r2, [pc, #88]	@ (80014fc <log_message+0xc4>)
- 80014a4:	f852 1023 	ldr.w	r1, [r2, r3, lsl #2]
- 80014a8:	4b15      	ldr	r3, [pc, #84]	@ (8001500 <log_message+0xc8>)
- 80014aa:	781b      	ldrb	r3, [r3, #0]
- 80014ac:	461a      	mov	r2, r3
- 80014ae:	4b15      	ldr	r3, [pc, #84]	@ (8001504 <log_message+0xcc>)
- 80014b0:	f853 3022 	ldr.w	r3, [r3, r2, lsl #2]
- 80014b4:	f107 00f8 	add.w	r0, r7, #248	@ 0xf8
- 80014b8:	f107 0230 	add.w	r2, r7, #48	@ 0x30
- 80014bc:	9202      	str	r2, [sp, #8]
- 80014be:	f107 0210 	add.w	r2, r7, #16
- 80014c2:	9201      	str	r2, [sp, #4]
- 80014c4:	9300      	str	r3, [sp, #0]
- 80014c6:	460b      	mov	r3, r1
- 80014c8:	4a0f      	ldr	r2, [pc, #60]	@ (8001508 <log_message+0xd0>)
- 80014ca:	21c8      	movs	r1, #200	@ 0xc8
- 80014cc:	f006 f842 	bl	8007554 <sniprintf>
+ 80015f0:	f507 73e0 	add.w	r3, r7, #448	@ 0x1c0
+ 80015f4:	f2a3 13b1 	subw	r3, r3, #433	@ 0x1b1
+ 80015f8:	781b      	ldrb	r3, [r3, #0]
+ 80015fa:	4a16      	ldr	r2, [pc, #88]	@ (8001654 <log_message+0xc4>)
+ 80015fc:	f852 1023 	ldr.w	r1, [r2, r3, lsl #2]
+ 8001600:	4b15      	ldr	r3, [pc, #84]	@ (8001658 <log_message+0xc8>)
+ 8001602:	781b      	ldrb	r3, [r3, #0]
+ 8001604:	461a      	mov	r2, r3
+ 8001606:	4b15      	ldr	r3, [pc, #84]	@ (800165c <log_message+0xcc>)
+ 8001608:	f853 3022 	ldr.w	r3, [r3, r2, lsl #2]
+ 800160c:	f107 00f8 	add.w	r0, r7, #248	@ 0xf8
+ 8001610:	f107 0230 	add.w	r2, r7, #48	@ 0x30
+ 8001614:	9202      	str	r2, [sp, #8]
+ 8001616:	f107 0210 	add.w	r2, r7, #16
+ 800161a:	9201      	str	r2, [sp, #4]
+ 800161c:	9300      	str	r3, [sp, #0]
+ 800161e:	460b      	mov	r3, r1
+ 8001620:	4a0f      	ldr	r2, [pc, #60]	@ (8001660 <log_message+0xd0>)
+ 8001622:	21c8      	movs	r1, #200	@ 0xc8
+ 8001624:	f005 ff96 	bl	8007554 <sniprintf>
 			 log_level_str[level],
 			 system_mode_str[system_mode],
              timestamp,
 			 in_message);
 
     HAL_UART_Transmit(&huart2,(uint8_t *)log_message, strlen(log_message), HAL_MAX_DELAY);
- 80014d0:	f107 03f8 	add.w	r3, r7, #248	@ 0xf8
- 80014d4:	4618      	mov	r0, r3
- 80014d6:	f7fe fefb 	bl	80002d0 <strlen>
- 80014da:	4603      	mov	r3, r0
- 80014dc:	b29a      	uxth	r2, r3
- 80014de:	f107 01f8 	add.w	r1, r7, #248	@ 0xf8
- 80014e2:	f04f 33ff 	mov.w	r3, #4294967295
- 80014e6:	4809      	ldr	r0, [pc, #36]	@ (800150c <log_message+0xd4>)
- 80014e8:	f004 faff 	bl	8005aea <HAL_UART_Transmit>
- 80014ec:	e000      	b.n	80014f0 <log_message+0xb8>
+ 8001628:	f107 03f8 	add.w	r3, r7, #248	@ 0xf8
+ 800162c:	4618      	mov	r0, r3
+ 800162e:	f7fe fe4f 	bl	80002d0 <strlen>
+ 8001632:	4603      	mov	r3, r0
+ 8001634:	b29a      	uxth	r2, r3
+ 8001636:	f107 01f8 	add.w	r1, r7, #248	@ 0xf8
+ 800163a:	f04f 33ff 	mov.w	r3, #4294967295
+ 800163e:	4809      	ldr	r0, [pc, #36]	@ (8001664 <log_message+0xd4>)
+ 8001640:	f004 fa53 	bl	8005aea <HAL_UART_Transmit>
+ 8001644:	e000      	b.n	8001648 <log_message+0xb8>
 		return;
- 80014ee:	bf00      	nop
+ 8001646:	bf00      	nop
 }
- 80014f0:	f507 77e0 	add.w	r7, r7, #448	@ 0x1c0
- 80014f4:	46bd      	mov	sp, r7
- 80014f6:	bd80      	pop	{r7, pc}
- 80014f8:	2000028c 	.word	0x2000028c
- 80014fc:	20000008 	.word	0x20000008
- 8001500:	20000297 	.word	0x20000297
- 8001504:	20000018 	.word	0x20000018
- 8001508:	0800a52c 	.word	0x0800a52c
- 800150c:	2000029c 	.word	0x2000029c
+ 8001648:	f507 77e0 	add.w	r7, r7, #448	@ 0x1c0
+ 800164c:	46bd      	mov	sp, r7
+ 800164e:	bd80      	pop	{r7, pc}
+ 8001650:	20000291 	.word	0x20000291
+ 8001654:	20000008 	.word	0x20000008
+ 8001658:	2000029a 	.word	0x2000029a
+ 800165c:	20000018 	.word	0x20000018
+ 8001660:	0800a568 	.word	0x0800a568
+ 8001664:	200002a0 	.word	0x200002a0
 
-08001510 <log_info>:
+08001668 <log_info>:
 
 void log_info(const char *format, ...)
 {
- 8001510:	b40f      	push	{r0, r1, r2, r3}
- 8001512:	b580      	push	{r7, lr}
- 8001514:	b082      	sub	sp, #8
- 8001516:	af00      	add	r7, sp, #0
+ 8001668:	b40f      	push	{r0, r1, r2, r3}
+ 800166a:	b580      	push	{r7, lr}
+ 800166c:	b082      	sub	sp, #8
+ 800166e:	af00      	add	r7, sp, #0
     va_list args;
     va_start(args, format);
- 8001518:	f107 0314 	add.w	r3, r7, #20
- 800151c:	607b      	str	r3, [r7, #4]
+ 8001670:	f107 0314 	add.w	r3, r7, #20
+ 8001674:	607b      	str	r3, [r7, #4]
 	log_message(LOG_INFO, format, args);
- 800151e:	687a      	ldr	r2, [r7, #4]
- 8001520:	6939      	ldr	r1, [r7, #16]
- 8001522:	2000      	movs	r0, #0
- 8001524:	f7ff ff88 	bl	8001438 <log_message>
+ 8001676:	687a      	ldr	r2, [r7, #4]
+ 8001678:	6939      	ldr	r1, [r7, #16]
+ 800167a:	2000      	movs	r0, #0
+ 800167c:	f7ff ff88 	bl	8001590 <log_message>
 	va_end(args);
 }
- 8001528:	bf00      	nop
- 800152a:	3708      	adds	r7, #8
- 800152c:	46bd      	mov	sp, r7
- 800152e:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
- 8001532:	b004      	add	sp, #16
- 8001534:	4770      	bx	lr
+ 8001680:	bf00      	nop
+ 8001682:	3708      	adds	r7, #8
+ 8001684:	46bd      	mov	sp, r7
+ 8001686:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
+ 800168a:	b004      	add	sp, #16
+ 800168c:	4770      	bx	lr
 
-08001536 <log_debug>:
+0800168e <log_debug>:
 
 void log_debug(const char *format, ...)
 {
- 8001536:	b40f      	push	{r0, r1, r2, r3}
- 8001538:	b580      	push	{r7, lr}
- 800153a:	b082      	sub	sp, #8
- 800153c:	af00      	add	r7, sp, #0
+ 800168e:	b40f      	push	{r0, r1, r2, r3}
+ 8001690:	b580      	push	{r7, lr}
+ 8001692:	b082      	sub	sp, #8
+ 8001694:	af00      	add	r7, sp, #0
     va_list args;
     va_start(args, format);
- 800153e:	f107 0314 	add.w	r3, r7, #20
- 8001542:	607b      	str	r3, [r7, #4]
+ 8001696:	f107 0314 	add.w	r3, r7, #20
+ 800169a:	607b      	str	r3, [r7, #4]
 	log_message(LOG_DEBUG, format, args);
- 8001544:	687a      	ldr	r2, [r7, #4]
- 8001546:	6939      	ldr	r1, [r7, #16]
- 8001548:	2001      	movs	r0, #1
- 800154a:	f7ff ff75 	bl	8001438 <log_message>
+ 800169c:	687a      	ldr	r2, [r7, #4]
+ 800169e:	6939      	ldr	r1, [r7, #16]
+ 80016a0:	2001      	movs	r0, #1
+ 80016a2:	f7ff ff75 	bl	8001590 <log_message>
 	va_end(args);
 }
- 800154e:	bf00      	nop
- 8001550:	3708      	adds	r7, #8
- 8001552:	46bd      	mov	sp, r7
- 8001554:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
- 8001558:	b004      	add	sp, #16
- 800155a:	4770      	bx	lr
+ 80016a6:	bf00      	nop
+ 80016a8:	3708      	adds	r7, #8
+ 80016aa:	46bd      	mov	sp, r7
+ 80016ac:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
+ 80016b0:	b004      	add	sp, #16
+ 80016b2:	4770      	bx	lr
 
-0800155c <log_wrn>:
+080016b4 <log_wrn>:
 
 
 void log_wrn(const char *format, ...)
 {
- 800155c:	b40f      	push	{r0, r1, r2, r3}
- 800155e:	b580      	push	{r7, lr}
- 8001560:	b082      	sub	sp, #8
- 8001562:	af00      	add	r7, sp, #0
+ 80016b4:	b40f      	push	{r0, r1, r2, r3}
+ 80016b6:	b580      	push	{r7, lr}
+ 80016b8:	b082      	sub	sp, #8
+ 80016ba:	af00      	add	r7, sp, #0
     va_list args;
     va_start(args, format);
- 8001564:	f107 0314 	add.w	r3, r7, #20
- 8001568:	607b      	str	r3, [r7, #4]
+ 80016bc:	f107 0314 	add.w	r3, r7, #20
+ 80016c0:	607b      	str	r3, [r7, #4]
 	log_message(LOG_WARNING, format, args);
- 800156a:	687a      	ldr	r2, [r7, #4]
- 800156c:	6939      	ldr	r1, [r7, #16]
- 800156e:	2002      	movs	r0, #2
- 8001570:	f7ff ff62 	bl	8001438 <log_message>
+ 80016c2:	687a      	ldr	r2, [r7, #4]
+ 80016c4:	6939      	ldr	r1, [r7, #16]
+ 80016c6:	2002      	movs	r0, #2
+ 80016c8:	f7ff ff62 	bl	8001590 <log_message>
 	va_end(args);
 }
- 8001574:	bf00      	nop
- 8001576:	3708      	adds	r7, #8
- 8001578:	46bd      	mov	sp, r7
- 800157a:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
- 800157e:	b004      	add	sp, #16
- 8001580:	4770      	bx	lr
+ 80016cc:	bf00      	nop
+ 80016ce:	3708      	adds	r7, #8
+ 80016d0:	46bd      	mov	sp, r7
+ 80016d2:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
+ 80016d6:	b004      	add	sp, #16
+ 80016d8:	4770      	bx	lr
 
-08001582 <log_error>:
+080016da <log_error>:
 
 void log_error(const char *format, ...)
 {
- 8001582:	b40f      	push	{r0, r1, r2, r3}
- 8001584:	b580      	push	{r7, lr}
- 8001586:	b082      	sub	sp, #8
- 8001588:	af00      	add	r7, sp, #0
+ 80016da:	b40f      	push	{r0, r1, r2, r3}
+ 80016dc:	b580      	push	{r7, lr}
+ 80016de:	b082      	sub	sp, #8
+ 80016e0:	af00      	add	r7, sp, #0
     va_list args;
     va_start(args, format);
- 800158a:	f107 0314 	add.w	r3, r7, #20
- 800158e:	607b      	str	r3, [r7, #4]
+ 80016e2:	f107 0314 	add.w	r3, r7, #20
+ 80016e6:	607b      	str	r3, [r7, #4]
 	log_message(LOG_ERROR, format, args);
- 8001590:	687a      	ldr	r2, [r7, #4]
- 8001592:	6939      	ldr	r1, [r7, #16]
- 8001594:	2003      	movs	r0, #3
- 8001596:	f7ff ff4f 	bl	8001438 <log_message>
+ 80016e8:	687a      	ldr	r2, [r7, #4]
+ 80016ea:	6939      	ldr	r1, [r7, #16]
+ 80016ec:	2003      	movs	r0, #3
+ 80016ee:	f7ff ff4f 	bl	8001590 <log_message>
 	va_end(args);
 }
- 800159a:	bf00      	nop
- 800159c:	3708      	adds	r7, #8
- 800159e:	46bd      	mov	sp, r7
- 80015a0:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
- 80015a4:	b004      	add	sp, #16
- 80015a6:	4770      	bx	lr
+ 80016f2:	bf00      	nop
+ 80016f4:	3708      	adds	r7, #8
+ 80016f6:	46bd      	mov	sp, r7
+ 80016f8:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
+ 80016fc:	b004      	add	sp, #16
+ 80016fe:	4770      	bx	lr
 
-080015a8 <main>:
+08001700 <main>:
 uint8_t curr_relay_state = RELAY_OFF;
 uint8_t curr_alarm_state = ALARM_LIGHT_OFF;
 uint8_t system_mode = AUTOMATIC;
 
 int main(void)
 {
- 80015a8:	b580      	push	{r7, lr}
- 80015aa:	b084      	sub	sp, #16
- 80015ac:	af00      	add	r7, sp, #0
+ 8001700:	b580      	push	{r7, lr}
+ 8001702:	b084      	sub	sp, #16
+ 8001704:	af00      	add	r7, sp, #0
 	system_Init();
- 80015ae:	f000 fb99 	bl	8001ce4 <system_Init>
+ 8001706:	f000 faed 	bl	8001ce4 <system_Init>
 	welcome();
- 80015b2:	f000 f899 	bl	80016e8 <welcome>
+ 800170a:	f000 f873 	bl	80017f4 <welcome>
 	//RTC_Set_Time_Date(19, 10, 0, 2, RTC_MONTH_AUGUST, 2026); // Set time to 19:10:00 and date to 2nd August 2026
 	while(1)
 	{
 		if(system_mode == AUTOMATIC)
- 80015b6:	4b44      	ldr	r3, [pc, #272]	@ (80016c8 <main+0x120>)
- 80015b8:	781b      	ldrb	r3, [r3, #0]
- 80015ba:	2b00      	cmp	r3, #0
- 80015bc:	d17f      	bne.n	80016be <main+0x116>
+ 800170e:	4b33      	ldr	r3, [pc, #204]	@ (80017dc <main+0xdc>)
+ 8001710:	781b      	ldrb	r3, [r3, #0]
+ 8001712:	2b00      	cmp	r3, #0
+ 8001714:	d14c      	bne.n	80017b0 <main+0xb0>
 		{
 			if (system_events & EVENT_TEMP_ADC_SAMPLE)
- 80015be:	4b43      	ldr	r3, [pc, #268]	@ (80016cc <main+0x124>)
- 80015c0:	681b      	ldr	r3, [r3, #0]
- 80015c2:	f003 0302 	and.w	r3, r3, #2
- 80015c6:	2b00      	cmp	r3, #0
- 80015c8:	d041      	beq.n	800164e <main+0xa6>
+ 8001716:	4b32      	ldr	r3, [pc, #200]	@ (80017e0 <main+0xe0>)
+ 8001718:	681b      	ldr	r3, [r3, #0]
+ 800171a:	f003 0302 	and.w	r3, r3, #2
+ 800171e:	2b00      	cmp	r3, #0
+ 8001720:	d023      	beq.n	800176a <main+0x6a>
 			{
 				system_events &= ~EVENT_TEMP_ADC_SAMPLE;
- 80015ca:	4b40      	ldr	r3, [pc, #256]	@ (80016cc <main+0x124>)
- 80015cc:	681b      	ldr	r3, [r3, #0]
- 80015ce:	f023 0302 	bic.w	r3, r3, #2
- 80015d2:	4a3e      	ldr	r2, [pc, #248]	@ (80016cc <main+0x124>)
- 80015d4:	6013      	str	r3, [r2, #0]
+ 8001722:	4b2f      	ldr	r3, [pc, #188]	@ (80017e0 <main+0xe0>)
+ 8001724:	681b      	ldr	r3, [r3, #0]
+ 8001726:	f023 0302 	bic.w	r3, r3, #2
+ 800172a:	4a2d      	ldr	r2, [pc, #180]	@ (80017e0 <main+0xe0>)
+ 800172c:	6013      	str	r3, [r2, #0]
 				float temperature = ADC_Convert_To_Temperature();
- 80015d6:	f000 f8b9 	bl	800174c <ADC_Convert_To_Temperature>
- 80015da:	ed87 0a03 	vstr	s0, [r7, #12]
-				log_debug("Temperature is: %.2f °C", temperature);
- 80015de:	68f8      	ldr	r0, [r7, #12]
- 80015e0:	f7fe ffe2 	bl	80005a8 <__aeabi_f2d>
- 80015e4:	4602      	mov	r2, r0
- 80015e6:	460b      	mov	r3, r1
- 80015e8:	4839      	ldr	r0, [pc, #228]	@ (80016d0 <main+0x128>)
- 80015ea:	f7ff ffa4 	bl	8001536 <log_debug>
+ 800172e:	f7ff fc1f 	bl	8000f70 <ADC_Convert_To_Temperature>
+ 8001732:	ed87 0a03 	vstr	s0, [r7, #12]
 				uint8_t new_alarm_state = alarm_light_decision(temperature);
- 80015ee:	edd7 7a03 	vldr	s15, [r7, #12]
- 80015f2:	eefc 7ae7 	vcvt.u32.f32	s15, s15
- 80015f6:	ee17 3a90 	vmov	r3, s15
- 80015fa:	b29b      	uxth	r3, r3
- 80015fc:	4618      	mov	r0, r3
- 80015fe:	f7ff fc99 	bl	8000f34 <alarm_light_decision>
- 8001602:	4603      	mov	r3, r0
- 8001604:	72fb      	strb	r3, [r7, #11]
-				uint8_t new_duty_cycle = fan_decision(temperature);
- 8001606:	edd7 7a03 	vldr	s15, [r7, #12]
- 800160a:	eefc 7ae7 	vcvt.u32.f32	s15, s15
- 800160e:	ee17 3a90 	vmov	r3, s15
- 8001612:	b29b      	uxth	r3, r3
- 8001614:	4618      	mov	r0, r3
- 8001616:	f7ff fe3b 	bl	8001290 <fan_decision>
- 800161a:	4603      	mov	r3, r0
- 800161c:	72bb      	strb	r3, [r7, #10]
+ 8001736:	edd7 7a03 	vldr	s15, [r7, #12]
+ 800173a:	eefc 7ae7 	vcvt.u32.f32	s15, s15
+ 800173e:	ee17 3a90 	vmov	r3, s15
+ 8001742:	b29b      	uxth	r3, r3
+ 8001744:	4618      	mov	r0, r3
+ 8001746:	f7ff fc71 	bl	800102c <alarm_light_decision>
+ 800174a:	4603      	mov	r3, r0
+ 800174c:	72fb      	strb	r3, [r7, #11]
 				if (curr_alarm_state != new_alarm_state)
- 800161e:	4b2d      	ldr	r3, [pc, #180]	@ (80016d4 <main+0x12c>)
- 8001620:	781b      	ldrb	r3, [r3, #0]
- 8001622:	7afa      	ldrb	r2, [r7, #11]
- 8001624:	429a      	cmp	r2, r3
- 8001626:	d006      	beq.n	8001636 <main+0x8e>
+ 800174e:	4b25      	ldr	r3, [pc, #148]	@ (80017e4 <main+0xe4>)
+ 8001750:	781b      	ldrb	r3, [r3, #0]
+ 8001752:	7afa      	ldrb	r2, [r7, #11]
+ 8001754:	429a      	cmp	r2, r3
+ 8001756:	d006      	beq.n	8001766 <main+0x66>
 				{
 					curr_alarm_state = new_alarm_state;
- 8001628:	4a2a      	ldr	r2, [pc, #168]	@ (80016d4 <main+0x12c>)
- 800162a:	7afb      	ldrb	r3, [r7, #11]
- 800162c:	7013      	strb	r3, [r2, #0]
+ 8001758:	4a22      	ldr	r2, [pc, #136]	@ (80017e4 <main+0xe4>)
+ 800175a:	7afb      	ldrb	r3, [r7, #11]
+ 800175c:	7013      	strb	r3, [r2, #0]
 					alarm_light_config(new_alarm_state);
- 800162e:	7afb      	ldrb	r3, [r7, #11]
- 8001630:	4618      	mov	r0, r3
- 8001632:	f7ff fc97 	bl	8000f64 <alarm_light_config>
+ 800175e:	7afb      	ldrb	r3, [r7, #11]
+ 8001760:	4618      	mov	r0, r3
+ 8001762:	f7ff fc7b 	bl	800105c <alarm_light_config>
 				}
-				if (curr_duty_cycle != new_duty_cycle)
- 8001636:	4b28      	ldr	r3, [pc, #160]	@ (80016d8 <main+0x130>)
- 8001638:	781b      	ldrb	r3, [r3, #0]
- 800163a:	7aba      	ldrb	r2, [r7, #10]
- 800163c:	429a      	cmp	r2, r3
- 800163e:	d006      	beq.n	800164e <main+0xa6>
-				{
-					curr_duty_cycle = new_duty_cycle;
- 8001640:	4a25      	ldr	r2, [pc, #148]	@ (80016d8 <main+0x130>)
- 8001642:	7abb      	ldrb	r3, [r7, #10]
- 8001644:	7013      	strb	r3, [r2, #0]
-					fan_speed_config(new_duty_cycle);
- 8001646:	7abb      	ldrb	r3, [r7, #10]
- 8001648:	4618      	mov	r0, r3
- 800164a:	f7ff fe89 	bl	8001360 <fan_speed_config>
-				}
+				fan_control_auto();
+ 8001766:	f7ff fe99 	bl	800149c <fan_control_auto>
 			}
 
 			if (system_events & EVENT_LIGHT_ADC_SAMPLE)
- 800164e:	4b1f      	ldr	r3, [pc, #124]	@ (80016cc <main+0x124>)
- 8001650:	681b      	ldr	r3, [r3, #0]
- 8001652:	f003 0304 	and.w	r3, r3, #4
- 8001656:	2b00      	cmp	r3, #0
- 8001658:	d031      	beq.n	80016be <main+0x116>
+ 800176a:	4b1d      	ldr	r3, [pc, #116]	@ (80017e0 <main+0xe0>)
+ 800176c:	681b      	ldr	r3, [r3, #0]
+ 800176e:	f003 0304 	and.w	r3, r3, #4
+ 8001772:	2b00      	cmp	r3, #0
+ 8001774:	d01c      	beq.n	80017b0 <main+0xb0>
 			{
 				system_events &= ~EVENT_LIGHT_ADC_SAMPLE;
- 800165a:	4b1c      	ldr	r3, [pc, #112]	@ (80016cc <main+0x124>)
- 800165c:	681b      	ldr	r3, [r3, #0]
- 800165e:	f023 0304 	bic.w	r3, r3, #4
- 8001662:	4a1a      	ldr	r2, [pc, #104]	@ (80016cc <main+0x124>)
- 8001664:	6013      	str	r3, [r2, #0]
+ 8001776:	4b1a      	ldr	r3, [pc, #104]	@ (80017e0 <main+0xe0>)
+ 8001778:	681b      	ldr	r3, [r3, #0]
+ 800177a:	f023 0304 	bic.w	r3, r3, #4
+ 800177e:	4a18      	ldr	r2, [pc, #96]	@ (80017e0 <main+0xe0>)
+ 8001780:	6013      	str	r3, [r2, #0]
 				uint16_t light_adc_value = ADC_Convert_To_Light(ADC_CHANNEL_LIGHT);
- 8001666:	2001      	movs	r0, #1
- 8001668:	f000 f898 	bl	800179c <ADC_Convert_To_Light>
- 800166c:	4603      	mov	r3, r0
- 800166e:	813b      	strh	r3, [r7, #8]
+ 8001782:	2001      	movs	r0, #1
+ 8001784:	f7ff fc1c 	bl	8000fc0 <ADC_Convert_To_Light>
+ 8001788:	4603      	mov	r3, r0
+ 800178a:	813b      	strh	r3, [r7, #8]
 				uint8_t relay_state = light_relay_decision(light_adc_value);
- 8001670:	893b      	ldrh	r3, [r7, #8]
- 8001672:	4618      	mov	r0, r3
- 8001674:	f7ff feb2 	bl	80013dc <light_relay_decision>
- 8001678:	4603      	mov	r3, r0
- 800167a:	71fb      	strb	r3, [r7, #7]
+ 800178c:	893b      	ldrh	r3, [r7, #8]
+ 800178e:	4618      	mov	r0, r3
+ 8001790:	f7ff fed0 	bl	8001534 <light_relay_decision>
+ 8001794:	4603      	mov	r3, r0
+ 8001796:	71fb      	strb	r3, [r7, #7]
 				if (curr_relay_state != relay_state)
- 800167c:	4b17      	ldr	r3, [pc, #92]	@ (80016dc <main+0x134>)
- 800167e:	781b      	ldrb	r3, [r3, #0]
- 8001680:	79fa      	ldrb	r2, [r7, #7]
- 8001682:	429a      	cmp	r2, r3
- 8001684:	d01b      	beq.n	80016be <main+0x116>
+ 8001798:	4b13      	ldr	r3, [pc, #76]	@ (80017e8 <main+0xe8>)
+ 800179a:	781b      	ldrb	r3, [r3, #0]
+ 800179c:	79fa      	ldrb	r2, [r7, #7]
+ 800179e:	429a      	cmp	r2, r3
+ 80017a0:	d006      	beq.n	80017b0 <main+0xb0>
 				{
 					curr_relay_state = relay_state;
- 8001686:	4a15      	ldr	r2, [pc, #84]	@ (80016dc <main+0x134>)
- 8001688:	79fb      	ldrb	r3, [r7, #7]
- 800168a:	7013      	strb	r3, [r2, #0]
+ 80017a2:	4a11      	ldr	r2, [pc, #68]	@ (80017e8 <main+0xe8>)
+ 80017a4:	79fb      	ldrb	r3, [r7, #7]
+ 80017a6:	7013      	strb	r3, [r2, #0]
 					light_relay_config(relay_state);
- 800168c:	79fb      	ldrb	r3, [r7, #7]
- 800168e:	4618      	mov	r0, r3
- 8001690:	f7ff feba 	bl	8001408 <light_relay_config>
+ 80017a8:	79fb      	ldrb	r3, [r7, #7]
+ 80017aa:	4618      	mov	r0, r3
+ 80017ac:	f7ff fed8 	bl	8001560 <light_relay_config>
 				}
 			}
 		}
 
 		//going to sleep
-		while (system_events == EVENT_EMPTY)
- 8001694:	e013      	b.n	80016be <main+0x116>
+		if (system_events == EVENT_EMPTY)
+ 80017b0:	4b0b      	ldr	r3, [pc, #44]	@ (80017e0 <main+0xe0>)
+ 80017b2:	681b      	ldr	r3, [r3, #0]
+ 80017b4:	2b00      	cmp	r3, #0
+ 80017b6:	d1aa      	bne.n	800170e <main+0xe>
 		{
 			if (system_mode == AUTOMATIC && cli.user_auth_stat != USER_AUTHENTICATED)
- 8001696:	4b0c      	ldr	r3, [pc, #48]	@ (80016c8 <main+0x120>)
- 8001698:	781b      	ldrb	r3, [r3, #0]
- 800169a:	2b00      	cmp	r3, #0
- 800169c:	d10f      	bne.n	80016be <main+0x116>
- 800169e:	4b10      	ldr	r3, [pc, #64]	@ (80016e0 <main+0x138>)
- 80016a0:	f893 3066 	ldrb.w	r3, [r3, #102]	@ 0x66
- 80016a4:	2b03      	cmp	r3, #3
- 80016a6:	d00a      	beq.n	80016be <main+0x116>
+ 80017b8:	4b08      	ldr	r3, [pc, #32]	@ (80017dc <main+0xdc>)
+ 80017ba:	781b      	ldrb	r3, [r3, #0]
+ 80017bc:	2b00      	cmp	r3, #0
+ 80017be:	d1a6      	bne.n	800170e <main+0xe>
+ 80017c0:	4b0a      	ldr	r3, [pc, #40]	@ (80017ec <main+0xec>)
+ 80017c2:	f893 3066 	ldrb.w	r3, [r3, #102]	@ 0x66
+ 80017c6:	2b03      	cmp	r3, #3
+ 80017c8:	d0a1      	beq.n	800170e <main+0xe>
 			{
+				log_info("Entering sleep mode...");
+ 80017ca:	4809      	ldr	r0, [pc, #36]	@ (80017f0 <main+0xf0>)
+ 80017cc:	f7ff ff4c 	bl	8001668 <log_info>
 				HAL_SuspendTick();
- 80016a8:	f000 ff66 	bl	8002578 <HAL_SuspendTick>
-				log_info("system mode changed to low power mode");
- 80016ac:	480d      	ldr	r0, [pc, #52]	@ (80016e4 <main+0x13c>)
- 80016ae:	f7ff ff2f 	bl	8001510 <log_info>
+ 80017d0:	f000 fed2 	bl	8002578 <HAL_SuspendTick>
 				__WFI();
- 80016b2:	bf30      	wfi
-				system_mode = LOW_POWER;
- 80016b4:	4b04      	ldr	r3, [pc, #16]	@ (80016c8 <main+0x120>)
- 80016b6:	2202      	movs	r2, #2
- 80016b8:	701a      	strb	r2, [r3, #0]
+ 80017d4:	bf30      	wfi
 				HAL_ResumeTick();
- 80016ba:	f000 ff6d 	bl	8002598 <HAL_ResumeTick>
-		while (system_events == EVENT_EMPTY)
- 80016be:	4b03      	ldr	r3, [pc, #12]	@ (80016cc <main+0x124>)
- 80016c0:	681b      	ldr	r3, [r3, #0]
- 80016c2:	2b00      	cmp	r3, #0
- 80016c4:	d0e7      	beq.n	8001696 <main+0xee>
+ 80017d6:	f000 fedf 	bl	8002598 <HAL_ResumeTick>
 		if(system_mode == AUTOMATIC)
- 80016c6:	e776      	b.n	80015b6 <main+0xe>
- 80016c8:	20000297 	.word	0x20000297
- 80016cc:	20000290 	.word	0x20000290
- 80016d0:	0800a540 	.word	0x0800a540
- 80016d4:	20000296 	.word	0x20000296
- 80016d8:	20000294 	.word	0x20000294
- 80016dc:	20000295 	.word	0x20000295
- 80016e0:	20000028 	.word	0x20000028
- 80016e4:	0800a55c 	.word	0x0800a55c
+ 80017da:	e798      	b.n	800170e <main+0xe>
+ 80017dc:	2000029a 	.word	0x2000029a
+ 80017e0:	20000294 	.word	0x20000294
+ 80017e4:	20000299 	.word	0x20000299
+ 80017e8:	20000298 	.word	0x20000298
+ 80017ec:	2000002c 	.word	0x2000002c
+ 80017f0:	0800a57c 	.word	0x0800a57c
 
-080016e8 <welcome>:
+080017f4 <welcome>:
 
 	return 0;
 }
 
 void welcome(void)
 {
- 80016e8:	b580      	push	{r7, lr}
- 80016ea:	af00      	add	r7, sp, #0
+ 80017f4:	b580      	push	{r7, lr}
+ 80017f6:	af00      	add	r7, sp, #0
 	printmsg("Control Home Unit\r\n");
- 80016ec:	4805      	ldr	r0, [pc, #20]	@ (8001704 <welcome+0x1c>)
- 80016ee:	f000 f8c7 	bl	8001880 <printmsg>
+ 80017f8:	4805      	ldr	r0, [pc, #20]	@ (8001810 <welcome+0x1c>)
+ 80017fa:	f000 f841 	bl	8001880 <printmsg>
 	printmsg("To enable manual mode type: manual\r\n");
- 80016f2:	4805      	ldr	r0, [pc, #20]	@ (8001708 <welcome+0x20>)
- 80016f4:	f000 f8c4 	bl	8001880 <printmsg>
+ 80017fe:	4805      	ldr	r0, [pc, #20]	@ (8001814 <welcome+0x20>)
+ 8001800:	f000 f83e 	bl	8001880 <printmsg>
 	printmsg("> ");
- 80016f8:	4804      	ldr	r0, [pc, #16]	@ (800170c <welcome+0x24>)
- 80016fa:	f000 f8c1 	bl	8001880 <printmsg>
+ 8001804:	4804      	ldr	r0, [pc, #16]	@ (8001818 <welcome+0x24>)
+ 8001806:	f000 f83b 	bl	8001880 <printmsg>
 }
- 80016fe:	bf00      	nop
- 8001700:	bd80      	pop	{r7, pc}
- 8001702:	bf00      	nop
- 8001704:	0800a584 	.word	0x0800a584
- 8001708:	0800a598 	.word	0x0800a598
- 800170c:	0800a5c0 	.word	0x0800a5c0
+ 800180a:	bf00      	nop
+ 800180c:	bd80      	pop	{r7, pc}
+ 800180e:	bf00      	nop
+ 8001810:	0800a594 	.word	0x0800a594
+ 8001814:	0800a5a8 	.word	0x0800a5a8
+ 8001818:	0800a5d0 	.word	0x0800a5d0
 
-08001710 <ADC_Read>:
-
-uint16_t ADC_Read(uint32_t channel)
-{
- 8001710:	b580      	push	{r7, lr}
- 8001712:	b084      	sub	sp, #16
- 8001714:	af00      	add	r7, sp, #0
- 8001716:	6078      	str	r0, [r7, #4]
-
-	ADC_Channel_config(channel);
- 8001718:	6878      	ldr	r0, [r7, #4]
- 800171a:	f000 f853 	bl	80017c4 <ADC_Channel_config>
-    HAL_ADC_Start(&hadc1);
- 800171e:	480a      	ldr	r0, [pc, #40]	@ (8001748 <ADC_Read+0x38>)
- 8001720:	f000 ff8e 	bl	8002640 <HAL_ADC_Start>
-    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
- 8001724:	f04f 31ff 	mov.w	r1, #4294967295
- 8001728:	4807      	ldr	r0, [pc, #28]	@ (8001748 <ADC_Read+0x38>)
- 800172a:	f001 f88e 	bl	800284a <HAL_ADC_PollForConversion>
-
-    uint16_t value = HAL_ADC_GetValue(&hadc1);
- 800172e:	4806      	ldr	r0, [pc, #24]	@ (8001748 <ADC_Read+0x38>)
- 8001730:	f001 f916 	bl	8002960 <HAL_ADC_GetValue>
- 8001734:	4603      	mov	r3, r0
- 8001736:	81fb      	strh	r3, [r7, #14]
-
-    HAL_ADC_Stop(&hadc1);
- 8001738:	4803      	ldr	r0, [pc, #12]	@ (8001748 <ADC_Read+0x38>)
- 800173a:	f001 f853 	bl	80027e4 <HAL_ADC_Stop>
-    return value;
- 800173e:	89fb      	ldrh	r3, [r7, #14]
-}
- 8001740:	4618      	mov	r0, r3
- 8001742:	3710      	adds	r7, #16
- 8001744:	46bd      	mov	sp, r7
- 8001746:	bd80      	pop	{r7, pc}
- 8001748:	200002e4 	.word	0x200002e4
-
-0800174c <ADC_Convert_To_Temperature>:
-
-float ADC_Convert_To_Temperature()
-{
- 800174c:	b580      	push	{r7, lr}
- 800174e:	b082      	sub	sp, #8
- 8001750:	af00      	add	r7, sp, #0
-	uint16_t adc_value = ADC_Read(ADC_CHANNEL_TEMPERATURE);
- 8001752:	2000      	movs	r0, #0
- 8001754:	f7ff ffdc 	bl	8001710 <ADC_Read>
- 8001758:	4603      	mov	r3, r0
- 800175a:	80fb      	strh	r3, [r7, #6]
-	// Convert ADC value to temperature in Celsius
-	float voltage = ((float)adc_value * 3.3f) / 4095.0f;
- 800175c:	88fb      	ldrh	r3, [r7, #6]
- 800175e:	ee07 3a90 	vmov	s15, r3
- 8001762:	eef8 7a67 	vcvt.f32.u32	s15, s15
- 8001766:	ed9f 7a0a 	vldr	s14, [pc, #40]	@ 8001790 <ADC_Convert_To_Temperature+0x44>
- 800176a:	ee27 7a87 	vmul.f32	s14, s15, s14
- 800176e:	eddf 6a09 	vldr	s13, [pc, #36]	@ 8001794 <ADC_Convert_To_Temperature+0x48>
- 8001772:	eec7 7a26 	vdiv.f32	s15, s14, s13
- 8001776:	edc7 7a00 	vstr	s15, [r7]
-	return voltage * 100.0f; 
- 800177a:	edd7 7a00 	vldr	s15, [r7]
- 800177e:	ed9f 7a06 	vldr	s14, [pc, #24]	@ 8001798 <ADC_Convert_To_Temperature+0x4c>
- 8001782:	ee67 7a87 	vmul.f32	s15, s15, s14
-}
- 8001786:	eeb0 0a67 	vmov.f32	s0, s15
- 800178a:	3708      	adds	r7, #8
- 800178c:	46bd      	mov	sp, r7
- 800178e:	bd80      	pop	{r7, pc}
- 8001790:	40533333 	.word	0x40533333
- 8001794:	457ff000 	.word	0x457ff000
- 8001798:	42c80000 	.word	0x42c80000
-
-0800179c <ADC_Convert_To_Light>:
-
-uint16_t ADC_Convert_To_Light()
-{
- 800179c:	b580      	push	{r7, lr}
- 800179e:	b082      	sub	sp, #8
- 80017a0:	af00      	add	r7, sp, #0
-	uint16_t adc_value = ADC_Read(ADC_CHANNEL_LIGHT);
- 80017a2:	2001      	movs	r0, #1
- 80017a4:	f7ff ffb4 	bl	8001710 <ADC_Read>
- 80017a8:	4603      	mov	r3, r0
- 80017aa:	80fb      	strh	r3, [r7, #6]
-	log_debug("Light Value is: %u", adc_value);
- 80017ac:	88fb      	ldrh	r3, [r7, #6]
- 80017ae:	4619      	mov	r1, r3
- 80017b0:	4803      	ldr	r0, [pc, #12]	@ (80017c0 <ADC_Convert_To_Light+0x24>)
- 80017b2:	f7ff fec0 	bl	8001536 <log_debug>
-
-	return adc_value;
- 80017b6:	88fb      	ldrh	r3, [r7, #6]
-}
- 80017b8:	4618      	mov	r0, r3
- 80017ba:	3708      	adds	r7, #8
- 80017bc:	46bd      	mov	sp, r7
- 80017be:	bd80      	pop	{r7, pc}
- 80017c0:	0800a5c4 	.word	0x0800a5c4
-
-080017c4 <ADC_Channel_config>:
-
-void ADC_Channel_config(uint32_t channel)
-{
- 80017c4:	b580      	push	{r7, lr}
- 80017c6:	b086      	sub	sp, #24
- 80017c8:	af00      	add	r7, sp, #0
- 80017ca:	6078      	str	r0, [r7, #4]
-	ADC_ChannelConfTypeDef sConfig = {0};
- 80017cc:	f107 0308 	add.w	r3, r7, #8
- 80017d0:	2200      	movs	r2, #0
- 80017d2:	601a      	str	r2, [r3, #0]
- 80017d4:	605a      	str	r2, [r3, #4]
- 80017d6:	609a      	str	r2, [r3, #8]
- 80017d8:	60da      	str	r2, [r3, #12]
-
-	sConfig.Channel = channel; // Select the desired channel
- 80017da:	687b      	ldr	r3, [r7, #4]
- 80017dc:	60bb      	str	r3, [r7, #8]
-	sConfig.Rank = 1; // Set the rank for the conversion
- 80017de:	2301      	movs	r3, #1
- 80017e0:	60fb      	str	r3, [r7, #12]
-	sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES; // Set the sampling time
- 80017e2:	2304      	movs	r3, #4
- 80017e4:	613b      	str	r3, [r7, #16]
-
-	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
- 80017e6:	f107 0308 	add.w	r3, r7, #8
- 80017ea:	4619      	mov	r1, r3
- 80017ec:	4805      	ldr	r0, [pc, #20]	@ (8001804 <ADC_Channel_config+0x40>)
- 80017ee:	f001 f8c5 	bl	800297c <HAL_ADC_ConfigChannel>
- 80017f2:	4603      	mov	r3, r0
- 80017f4:	2b00      	cmp	r3, #0
- 80017f6:	d001      	beq.n	80017fc <ADC_Channel_config+0x38>
-	{
-		Error_handler();
- 80017f8:	f000 fcc2 	bl	8002180 <Error_handler>
-	}
-}
- 80017fc:	bf00      	nop
- 80017fe:	3718      	adds	r7, #24
- 8001800:	46bd      	mov	sp, r7
- 8001802:	bd80      	pop	{r7, pc}
- 8001804:	200002e4 	.word	0x200002e4
-
-08001808 <HAL_TIM_PeriodElapsedCallback>:
+0800181c <HAL_TIM_PeriodElapsedCallback>:
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
- 8001808:	b480      	push	{r7}
- 800180a:	b083      	sub	sp, #12
- 800180c:	af00      	add	r7, sp, #0
- 800180e:	6078      	str	r0, [r7, #4]
+ 800181c:	b480      	push	{r7}
+ 800181e:	b083      	sub	sp, #12
+ 8001820:	af00      	add	r7, sp, #0
+ 8001822:	6078      	str	r0, [r7, #4]
 
 	if (htim->Instance == TIM6)
- 8001810:	687b      	ldr	r3, [r7, #4]
- 8001812:	681b      	ldr	r3, [r3, #0]
- 8001814:	4a15      	ldr	r2, [pc, #84]	@ (800186c <HAL_TIM_PeriodElapsedCallback+0x64>)
- 8001816:	4293      	cmp	r3, r2
- 8001818:	d121      	bne.n	800185e <HAL_TIM_PeriodElapsedCallback+0x56>
+ 8001824:	687b      	ldr	r3, [r7, #4]
+ 8001826:	681b      	ldr	r3, [r3, #0]
+ 8001828:	4a11      	ldr	r2, [pc, #68]	@ (8001870 <HAL_TIM_PeriodElapsedCallback+0x54>)
+ 800182a:	4293      	cmp	r3, r2
+ 800182c:	d11a      	bne.n	8001864 <HAL_TIM_PeriodElapsedCallback+0x48>
 	{
-		if (system_mode != MANUAL)
- 800181a:	4b15      	ldr	r3, [pc, #84]	@ (8001870 <HAL_TIM_PeriodElapsedCallback+0x68>)
- 800181c:	781b      	ldrb	r3, [r3, #0]
- 800181e:	2b01      	cmp	r3, #1
- 8001820:	d002      	beq.n	8001828 <HAL_TIM_PeriodElapsedCallback+0x20>
-		{
-			system_mode = AUTOMATIC;
- 8001822:	4b13      	ldr	r3, [pc, #76]	@ (8001870 <HAL_TIM_PeriodElapsedCallback+0x68>)
- 8001824:	2200      	movs	r2, #0
- 8001826:	701a      	strb	r2, [r3, #0]
-		}
 		system_events |= EVENT_TEMP_ADC_SAMPLE;
- 8001828:	4b12      	ldr	r3, [pc, #72]	@ (8001874 <HAL_TIM_PeriodElapsedCallback+0x6c>)
- 800182a:	681b      	ldr	r3, [r3, #0]
- 800182c:	f043 0302 	orr.w	r3, r3, #2
- 8001830:	4a10      	ldr	r2, [pc, #64]	@ (8001874 <HAL_TIM_PeriodElapsedCallback+0x6c>)
- 8001832:	6013      	str	r3, [r2, #0]
+ 800182e:	4b11      	ldr	r3, [pc, #68]	@ (8001874 <HAL_TIM_PeriodElapsedCallback+0x58>)
+ 8001830:	681b      	ldr	r3, [r3, #0]
+ 8001832:	f043 0302 	orr.w	r3, r3, #2
+ 8001836:	4a0f      	ldr	r2, [pc, #60]	@ (8001874 <HAL_TIM_PeriodElapsedCallback+0x58>)
+ 8001838:	6013      	str	r3, [r2, #0]
 		light_counter++;
- 8001834:	4b10      	ldr	r3, [pc, #64]	@ (8001878 <HAL_TIM_PeriodElapsedCallback+0x70>)
- 8001836:	881b      	ldrh	r3, [r3, #0]
- 8001838:	3301      	adds	r3, #1
- 800183a:	b29a      	uxth	r2, r3
- 800183c:	4b0e      	ldr	r3, [pc, #56]	@ (8001878 <HAL_TIM_PeriodElapsedCallback+0x70>)
- 800183e:	801a      	strh	r2, [r3, #0]
+ 800183a:	4b0f      	ldr	r3, [pc, #60]	@ (8001878 <HAL_TIM_PeriodElapsedCallback+0x5c>)
+ 800183c:	881b      	ldrh	r3, [r3, #0]
+ 800183e:	3301      	adds	r3, #1
+ 8001840:	b29a      	uxth	r2, r3
+ 8001842:	4b0d      	ldr	r3, [pc, #52]	@ (8001878 <HAL_TIM_PeriodElapsedCallback+0x5c>)
+ 8001844:	801a      	strh	r2, [r3, #0]
 
 		if (light_counter >= (light_timer_sec/1)) // 1 is the timer of temperature read
- 8001840:	4b0d      	ldr	r3, [pc, #52]	@ (8001878 <HAL_TIM_PeriodElapsedCallback+0x70>)
- 8001842:	881a      	ldrh	r2, [r3, #0]
- 8001844:	4b0d      	ldr	r3, [pc, #52]	@ (800187c <HAL_TIM_PeriodElapsedCallback+0x74>)
- 8001846:	881b      	ldrh	r3, [r3, #0]
- 8001848:	429a      	cmp	r2, r3
- 800184a:	d308      	bcc.n	800185e <HAL_TIM_PeriodElapsedCallback+0x56>
+ 8001846:	4b0c      	ldr	r3, [pc, #48]	@ (8001878 <HAL_TIM_PeriodElapsedCallback+0x5c>)
+ 8001848:	881a      	ldrh	r2, [r3, #0]
+ 800184a:	4b0c      	ldr	r3, [pc, #48]	@ (800187c <HAL_TIM_PeriodElapsedCallback+0x60>)
+ 800184c:	881b      	ldrh	r3, [r3, #0]
+ 800184e:	429a      	cmp	r2, r3
+ 8001850:	d308      	bcc.n	8001864 <HAL_TIM_PeriodElapsedCallback+0x48>
 		{
 			light_counter = 0;
- 800184c:	4b0a      	ldr	r3, [pc, #40]	@ (8001878 <HAL_TIM_PeriodElapsedCallback+0x70>)
- 800184e:	2200      	movs	r2, #0
- 8001850:	801a      	strh	r2, [r3, #0]
+ 8001852:	4b09      	ldr	r3, [pc, #36]	@ (8001878 <HAL_TIM_PeriodElapsedCallback+0x5c>)
+ 8001854:	2200      	movs	r2, #0
+ 8001856:	801a      	strh	r2, [r3, #0]
 			system_events |= EVENT_LIGHT_ADC_SAMPLE;
- 8001852:	4b08      	ldr	r3, [pc, #32]	@ (8001874 <HAL_TIM_PeriodElapsedCallback+0x6c>)
- 8001854:	681b      	ldr	r3, [r3, #0]
- 8001856:	f043 0304 	orr.w	r3, r3, #4
- 800185a:	4a06      	ldr	r2, [pc, #24]	@ (8001874 <HAL_TIM_PeriodElapsedCallback+0x6c>)
- 800185c:	6013      	str	r3, [r2, #0]
+ 8001858:	4b06      	ldr	r3, [pc, #24]	@ (8001874 <HAL_TIM_PeriodElapsedCallback+0x58>)
+ 800185a:	681b      	ldr	r3, [r3, #0]
+ 800185c:	f043 0304 	orr.w	r3, r3, #4
+ 8001860:	4a04      	ldr	r2, [pc, #16]	@ (8001874 <HAL_TIM_PeriodElapsedCallback+0x58>)
+ 8001862:	6013      	str	r3, [r2, #0]
 		}
 	}
 }
- 800185e:	bf00      	nop
- 8001860:	370c      	adds	r7, #12
- 8001862:	46bd      	mov	sp, r7
- 8001864:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001868:	4770      	bx	lr
- 800186a:	bf00      	nop
- 800186c:	40001000 	.word	0x40001000
- 8001870:	20000297 	.word	0x20000297
- 8001874:	20000290 	.word	0x20000290
- 8001878:	2000028e 	.word	0x2000028e
- 800187c:	20000020 	.word	0x20000020
+ 8001864:	bf00      	nop
+ 8001866:	370c      	adds	r7, #12
+ 8001868:	46bd      	mov	sp, r7
+ 800186a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800186e:	4770      	bx	lr
+ 8001870:	40001000 	.word	0x40001000
+ 8001874:	20000294 	.word	0x20000294
+ 8001878:	20000292 	.word	0x20000292
+ 800187c:	20000024 	.word	0x20000024
 
 08001880 <printmsg>:
 
@@ -2709,7 +2714,7 @@ void printmsg(char *format,...)
  80018c2:	b004      	add	sp, #16
  80018c4:	4770      	bx	lr
  80018c6:	bf00      	nop
- 80018c8:	2000029c 	.word	0x2000029c
+ 80018c8:	200002a0 	.word	0x200002a0
 
 080018cc <HAL_MspInit>:
 
@@ -3433,8 +3438,8 @@ void *_sbrk(ptrdiff_t incr)
  8001cd2:	bd80      	pop	{r7, pc}
  8001cd4:	20020000 	.word	0x20020000
  8001cd8:	00000400 	.word	0x00000400
- 8001cdc:	20000298 	.word	0x20000298
- 8001ce0:	20000530 	.word	0x20000530
+ 8001cdc:	2000029c 	.word	0x2000029c
+ 8001ce0:	20000538 	.word	0x20000538
 
 08001ce4 <system_Init>:
 RTC_HandleTypeDef hrtc;
@@ -3714,7 +3719,7 @@ void SystemClock_Config(uint8_t frequency)
 	default:
 		log_error("Invalid clock frequency\n");
  8001e64:	4818      	ldr	r0, [pc, #96]	@ (8001ec8 <SystemClock_Config+0x1b4>)
- 8001e66:	f7ff fb8c 	bl	8001582 <log_error>
+ 8001e66:	f7ff fc38 	bl	80016da <log_error>
  8001e6a:	e023      	b.n	8001eb4 <SystemClock_Config+0x1a0>
 		return;
 	}
@@ -3767,7 +3772,7 @@ void SystemClock_Config(uint8_t frequency)
  8001ebc:	40023800 	.word	0x40023800
  8001ec0:	40007000 	.word	0x40007000
  8001ec4:	420e0044 	.word	0x420e0044
- 8001ec8:	0800a5d8 	.word	0x0800a5d8
+ 8001ec8:	0800a5d4 	.word	0x0800a5d4
  8001ecc:	10624dd3 	.word	0x10624dd3
 
 08001ed0 <UART_Init>:
@@ -3826,9 +3831,9 @@ void UART_Init(void)
  8001f1a:	bf00      	nop
  8001f1c:	bd80      	pop	{r7, pc}
  8001f1e:	bf00      	nop
- 8001f20:	2000029c 	.word	0x2000029c
+ 8001f20:	200002a0 	.word	0x200002a0
  8001f24:	40004400 	.word	0x40004400
- 8001f28:	200003dc 	.word	0x200003dc
+ 8001f28:	200003e0 	.word	0x200003e0
 
 08001f2c <ADC_Init>:
 
@@ -3898,7 +3903,7 @@ void ADC_Init(void)
 }
  8001f8c:	bf00      	nop
  8001f8e:	bd80      	pop	{r7, pc}
- 8001f90:	200002e4 	.word	0x200002e4
+ 8001f90:	200002e8 	.word	0x200002e8
  8001f94:	40012000 	.word	0x40012000
  8001f98:	0f000001 	.word	0x0f000001
 
@@ -3945,7 +3950,7 @@ void TIM6_init(void)
  8001fd2:	bf00      	nop
  8001fd4:	bd80      	pop	{r7, pc}
  8001fd6:	bf00      	nop
- 8001fd8:	2000032c 	.word	0x2000032c
+ 8001fd8:	20000330 	.word	0x20000330
  8001fdc:	40001000 	.word	0x40001000
 
 08001fe0 <TIM2_init>:
@@ -4034,7 +4039,7 @@ void TIM2_init(void)
  8002056:	46bd      	mov	sp, r7
  8002058:	bd80      	pop	{r7, pc}
  800205a:	bf00      	nop
- 800205c:	20000374 	.word	0x20000374
+ 800205c:	20000378 	.word	0x20000378
 
 08002060 <RELAY_GPIO_Init>:
 
@@ -4215,7 +4220,7 @@ void RTC_Init(void)
  8002172:	bf00      	nop
  8002174:	46bd      	mov	sp, r7
  8002176:	bd80      	pop	{r7, pc}
- 8002178:	200003bc 	.word	0x200003bc
+ 8002178:	200003c0 	.word	0x200003c0
  800217c:	40002800 	.word	0x40002800
 
 08002180 <Error_handler>:
@@ -4266,7 +4271,7 @@ void system_mode_transition(uint8_t system_mode)  //transition TO system_mode
  80021ae:	3708      	adds	r7, #8
  80021b0:	46bd      	mov	sp, r7
  80021b2:	bd80      	pop	{r7, pc}
- 80021b4:	2000032c 	.word	0x2000032c
+ 80021b4:	20000330 	.word	0x20000330
 
 080021b8 <SystemInit>:
   *         configuration.
@@ -4394,7 +4399,7 @@ void RTC_Set_Time_Date(uint8_t hours, uint8_t minutes, uint8_t seconds, uint8_t 
  800226a:	46bd      	mov	sp, r7
  800226c:	bd90      	pop	{r4, r7, pc}
  800226e:	bf00      	nop
- 8002270:	200003bc 	.word	0x200003bc
+ 8002270:	200003c0 	.word	0x200003c0
 
 08002274 <RTC_Get_Time_Date>:
 
@@ -4482,8 +4487,8 @@ void RTC_Get_Time_Date(char *buffer)
  80022ee:	46bd      	mov	sp, r7
  80022f0:	bdb0      	pop	{r4, r5, r7, pc}
  80022f2:	bf00      	nop
- 80022f4:	200003bc 	.word	0x200003bc
- 80022f8:	0800a5f4 	.word	0x0800a5f4
+ 80022f4:	200003c0 	.word	0x200003c0
+ 80022f8:	0800a5f0 	.word	0x0800a5f0
 
 080022fc <HAL_UART_RxCpltCallback>:
 		.user_auth_stat = USER_NOT_AUTHENTICATED
@@ -4524,7 +4529,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
             log_error("Input too long!");
  800232a:	482a      	ldr	r0, [pc, #168]	@ (80023d4 <HAL_UART_RxCpltCallback+0xd8>)
- 800232c:	f7ff f929 	bl	8001582 <log_error>
+ 800232c:	f7ff f9d5 	bl	80016da <log_error>
             printmsg("#: ");
  8002330:	4829      	ldr	r0, [pc, #164]	@ (80023d8 <HAL_UART_RxCpltCallback+0xdc>)
  8002332:	f7ff faa5 	bl	8001880 <printmsg>
@@ -4576,7 +4581,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			{
 				command_parser(cli.data_buffer);
  800237a:	4815      	ldr	r0, [pc, #84]	@ (80023d0 <HAL_UART_RxCpltCallback+0xd4>)
- 800237c:	f7fe fe8c 	bl	8001098 <command_parser>
+ 800237c:	f7fe ff08 	bl	8001190 <command_parser>
 				printmsg("#: ");
  8002380:	4815      	ldr	r0, [pc, #84]	@ (80023d8 <HAL_UART_RxCpltCallback+0xdc>)
  8002382:	f7ff fa7d 	bl	8001880 <printmsg>
@@ -4586,14 +4591,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			{
 				if(authentication(&cli) == USER_AUTHENTICATED)
  8002388:	480f      	ldr	r0, [pc, #60]	@ (80023c8 <HAL_UART_RxCpltCallback+0xcc>)
- 800238a:	f7fe fe05 	bl	8000f98 <authentication>
+ 800238a:	f7fe fe81 	bl	8001090 <authentication>
  800238e:	4603      	mov	r3, r0
  8002390:	2b03      	cmp	r3, #3
  8002392:	d105      	bne.n	80023a0 <HAL_UART_RxCpltCallback+0xa4>
 				{
 					log_info("\rAuthentication successful");
  8002394:	4812      	ldr	r0, [pc, #72]	@ (80023e0 <HAL_UART_RxCpltCallback+0xe4>)
- 8002396:	f7ff f8bb 	bl	8001510 <log_info>
+ 8002396:	f7ff f967 	bl	8001668 <log_info>
 					printmsg("#: ");
  800239a:	480f      	ldr	r0, [pc, #60]	@ (80023d8 <HAL_UART_RxCpltCallback+0xdc>)
  800239c:	f7ff fa70 	bl	8001880 <printmsg>
@@ -4630,13 +4635,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
  80023c2:	3708      	adds	r7, #8
  80023c4:	46bd      	mov	sp, r7
  80023c6:	bd80      	pop	{r7, pc}
- 80023c8:	20000028 	.word	0x20000028
- 80023cc:	200003dc 	.word	0x200003dc
- 80023d0:	2000002a 	.word	0x2000002a
- 80023d4:	0800a614 	.word	0x0800a614
- 80023d8:	0800a624 	.word	0x0800a624
- 80023dc:	2000029c 	.word	0x2000029c
- 80023e0:	0800a628 	.word	0x0800a628
+ 80023c8:	2000002c 	.word	0x2000002c
+ 80023cc:	200003e0 	.word	0x200003e0
+ 80023d0:	2000002e 	.word	0x2000002e
+ 80023d4:	0800a610 	.word	0x0800a610
+ 80023d8:	0800a620 	.word	0x0800a620
+ 80023dc:	200002a0 	.word	0x200002a0
+ 80023e0:	0800a624 	.word	0x0800a624
 
 080023e4 <buffer_cleaner>:
 
@@ -4781,7 +4786,7 @@ LoopFillZerobss:
  800246e:	f005 f9cd 	bl	800780c <__libc_init_array>
 /* Call the application's entry point.*/
   bl  main
- 8002472:	f7ff f899 	bl	80015a8 <main>
+ 8002472:	f7ff f945 	bl	8001700 <main>
   bx  lr    
  8002476:	4770      	bx	lr
   ldr   sp, =_estack      /* set stack pointer */
@@ -4789,13 +4794,13 @@ LoopFillZerobss:
   ldr r0, =_sdata
  800247c:	20000000 	.word	0x20000000
   ldr r1, =_edata
- 8002480:	20000260 	.word	0x20000260
+ 8002480:	20000264 	.word	0x20000264
   ldr r2, =_sidata
  8002484:	0800aa04 	.word	0x0800aa04
   ldr r2, =_sbss
- 8002488:	20000260 	.word	0x20000260
+ 8002488:	20000264 	.word	0x20000264
   ldr r4, =_ebss
- 800248c:	20000530 	.word	0x20000530
+ 800248c:	20000534 	.word	0x20000534
 
 08002490 <ADC_IRQHandler>:
  * @retval None       
@@ -4929,9 +4934,9 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
  8002526:	3708      	adds	r7, #8
  8002528:	46bd      	mov	sp, r7
  800252a:	bd80      	pop	{r7, pc}
- 800252c:	20000024 	.word	0x20000024
- 8002530:	20000094 	.word	0x20000094
- 8002534:	20000090 	.word	0x20000090
+ 800252c:	20000028 	.word	0x20000028
+ 8002530:	20000098 	.word	0x20000098
+ 8002534:	20000094 	.word	0x20000094
 
 08002538 <HAL_IncTick>:
  * @note This function is declared as __weak to be overwritten in case of other 
@@ -4957,8 +4962,8 @@ __weak void HAL_IncTick(void)
  8002550:	f85d 7b04 	ldr.w	r7, [sp], #4
  8002554:	4770      	bx	lr
  8002556:	bf00      	nop
- 8002558:	20000094 	.word	0x20000094
- 800255c:	200003e0 	.word	0x200003e0
+ 8002558:	20000098 	.word	0x20000098
+ 800255c:	200003e4 	.word	0x200003e4
 
 08002560 <HAL_GetTick>:
   * @note This function is declared as __weak to be overwritten in case of other 
@@ -4978,7 +4983,7 @@ __weak uint32_t HAL_GetTick(void)
  800256c:	f85d 7b04 	ldr.w	r7, [sp], #4
  8002570:	4770      	bx	lr
  8002572:	bf00      	nop
- 8002574:	200003e0 	.word	0x200003e0
+ 8002574:	200003e4 	.word	0x200003e4
 
 08002578 <HAL_SuspendTick>:
   * @note This function is declared as __weak to be overwritten in case of other
@@ -5435,7 +5440,7 @@ HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef *hadc)
  80027c4:	46bd      	mov	sp, r7
  80027c6:	f85d 7b04 	ldr.w	r7, [sp], #4
  80027ca:	4770      	bx	lr
- 80027cc:	20000024 	.word	0x20000024
+ 80027cc:	20000028 	.word	0x20000028
  80027d0:	431bde83 	.word	0x431bde83
  80027d4:	40012300 	.word	0x40012300
  80027d8:	40012000 	.word	0x40012000
@@ -6133,7 +6138,7 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef *hadc, ADC_ChannelConf
  8002bcc:	40012300 	.word	0x40012300
  8002bd0:	40012000 	.word	0x40012000
  8002bd4:	10000012 	.word	0x10000012
- 8002bd8:	20000024 	.word	0x20000024
+ 8002bd8:	20000028 	.word	0x20000028
  8002bdc:	431bde83 	.word	0x431bde83
 
 08002be0 <ADC_Init>:
@@ -8008,9 +8013,9 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(const RCC_ClkInitTypeDef  *RCC_ClkInitStru
  8003686:	bf00      	nop
  8003688:	40023c00 	.word	0x40023c00
  800368c:	40023800 	.word	0x40023800
- 8003690:	0800a650 	.word	0x0800a650
- 8003694:	20000024 	.word	0x20000024
- 8003698:	20000090 	.word	0x20000090
+ 8003690:	0800a64c 	.word	0x0800a64c
+ 8003694:	20000028 	.word	0x20000028
+ 8003698:	20000094 	.word	0x20000094
 
 0800369c <HAL_RCC_GetHCLKFreq>:
   * @note   The SystemCoreClock CMSIS variable is used to store System Clock Frequency
@@ -8030,7 +8035,7 @@ uint32_t HAL_RCC_GetHCLKFreq(void)
  80036a8:	f85d 7b04 	ldr.w	r7, [sp], #4
  80036ac:	4770      	bx	lr
  80036ae:	bf00      	nop
- 80036b0:	20000024 	.word	0x20000024
+ 80036b0:	20000028 	.word	0x20000028
 
 080036b4 <HAL_RCC_GetPCLK1Freq>:
   * @note   Each time PCLK1 changes, this function must be called to update the
@@ -8056,7 +8061,7 @@ uint32_t HAL_RCC_GetPCLK1Freq(void)
  80036d0:	4618      	mov	r0, r3
  80036d2:	bd80      	pop	{r7, pc}
  80036d4:	40023800 	.word	0x40023800
- 80036d8:	0800a660 	.word	0x0800a660
+ 80036d8:	0800a65c 	.word	0x0800a65c
 
 080036dc <HAL_RCC_GetPCLK2Freq>:
   * @note   Each time PCLK2 changes, this function must be called to update the
@@ -8082,7 +8087,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
  80036f8:	4618      	mov	r0, r3
  80036fa:	bd80      	pop	{r7, pc}
  80036fc:	40023800 	.word	0x40023800
- 8003700:	0800a660 	.word	0x0800a660
+ 8003700:	0800a65c 	.word	0x0800a65c
 
 08003704 <HAL_RCCEx_PeriphCLKConfig>:
   *         the backup registers) and RCC_BDCR register are set to their reset values.
@@ -12769,7 +12774,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
 #else
       HAL_TIM_PeriodElapsedCallback(htim);
  80052de:	6878      	ldr	r0, [r7, #4]
- 80052e0:	f7fc fa92 	bl	8001808 <HAL_TIM_PeriodElapsedCallback>
+ 80052e0:	f7fc fa9c 	bl	800181c <HAL_TIM_PeriodElapsedCallback>
 #endif /* USE_HAL_TIM_REGISTER_CALLBACKS */
     }
   }
@@ -17151,11 +17156,11 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8006f28:	e7ee      	b.n	8006f08 <_printf_float+0x2a4>
  8006f2a:	bf00      	nop
  8006f2c:	7fefffff 	.word	0x7fefffff
- 8006f30:	0800a66c 	.word	0x0800a66c
- 8006f34:	0800a668 	.word	0x0800a668
- 8006f38:	0800a674 	.word	0x0800a674
- 8006f3c:	0800a670 	.word	0x0800a670
- 8006f40:	0800a7a7 	.word	0x0800a7a7
+ 8006f30:	0800a668 	.word	0x0800a668
+ 8006f34:	0800a664 	.word	0x0800a664
+ 8006f38:	0800a670 	.word	0x0800a670
+ 8006f3c:	0800a66c 	.word	0x0800a66c
+ 8006f40:	0800a7a3 	.word	0x0800a7a3
  8006f44:	6da3      	ldr	r3, [r4, #88]	@ 0x58
  8006f46:	f8dd a028 	ldr.w	sl, [sp, #40]	@ 0x28
  8006f4a:	4553      	cmp	r3, sl
@@ -17633,8 +17638,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80073c0:	2500      	movs	r5, #0
  80073c2:	f104 0619 	add.w	r6, r4, #25
  80073c6:	e7f5      	b.n	80073b4 <_printf_i+0x220>
- 80073c8:	0800a678 	.word	0x0800a678
- 80073cc:	0800a689 	.word	0x0800a689
+ 80073c8:	0800a674 	.word	0x0800a674
+ 80073cc:	0800a685 	.word	0x0800a685
 
 080073d0 <std>:
  80073d0:	2300      	movs	r3, #0
@@ -17678,7 +17683,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800742c:	0800763f 	.word	0x0800763f
  8007430:	08007677 	.word	0x08007677
  8007434:	0800769b 	.word	0x0800769b
- 8007438:	200003e4 	.word	0x200003e4
+ 8007438:	200003e8 	.word	0x200003e8
 
 0800743c <stdio_exit_handler>:
  800743c:	4a02      	ldr	r2, [pc, #8]	@ (8007448 <stdio_exit_handler+0xc>)
@@ -17686,9 +17691,9 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8007440:	4803      	ldr	r0, [pc, #12]	@ (8007450 <stdio_exit_handler+0x14>)
  8007442:	f000 b869 	b.w	8007518 <_fwalk_sglue>
  8007446:	bf00      	nop
- 8007448:	20000098 	.word	0x20000098
+ 8007448:	2000009c 	.word	0x2000009c
  800744c:	080097f9 	.word	0x080097f9
- 8007450:	200000a8 	.word	0x200000a8
+ 8007450:	200000ac 	.word	0x200000ac
 
 08007454 <cleanup_stdio>:
  8007454:	6841      	ldr	r1, [r0, #4]
@@ -17713,9 +17718,9 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8007480:	f002 b9ba 	b.w	80097f8 <_fflush_r>
  8007484:	bd10      	pop	{r4, pc}
  8007486:	bf00      	nop
- 8007488:	200003e4 	.word	0x200003e4
- 800748c:	2000044c 	.word	0x2000044c
- 8007490:	200004b4 	.word	0x200004b4
+ 8007488:	200003e8 	.word	0x200003e8
+ 800748c:	20000450 	.word	0x20000450
+ 8007490:	200004b8 	.word	0x200004b8
 
 08007494 <global_stdio_init.part.0>:
  8007494:	b510      	push	{r4, lr}
@@ -17736,21 +17741,21 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80074ba:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  80074be:	2112      	movs	r1, #18
  80074c0:	f7ff bf86 	b.w	80073d0 <std>
- 80074c4:	2000051c 	.word	0x2000051c
- 80074c8:	200003e4 	.word	0x200003e4
+ 80074c4:	20000520 	.word	0x20000520
+ 80074c8:	200003e8 	.word	0x200003e8
  80074cc:	0800743d 	.word	0x0800743d
 
 080074d0 <__sfp_lock_acquire>:
  80074d0:	4801      	ldr	r0, [pc, #4]	@ (80074d8 <__sfp_lock_acquire+0x8>)
  80074d2:	f000 b9c0 	b.w	8007856 <__retarget_lock_acquire_recursive>
  80074d6:	bf00      	nop
- 80074d8:	20000525 	.word	0x20000525
+ 80074d8:	20000529 	.word	0x20000529
 
 080074dc <__sfp_lock_release>:
  80074dc:	4801      	ldr	r0, [pc, #4]	@ (80074e4 <__sfp_lock_release+0x8>)
  80074de:	f000 b9bb 	b.w	8007858 <__retarget_lock_release_recursive>
  80074e2:	bf00      	nop
- 80074e4:	20000525 	.word	0x20000525
+ 80074e4:	20000529 	.word	0x20000529
 
 080074e8 <__sinit>:
  80074e8:	b510      	push	{r4, lr}
@@ -17770,7 +17775,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800750c:	e7f2      	b.n	80074f4 <__sinit+0xc>
  800750e:	bf00      	nop
  8007510:	08007455 	.word	0x08007455
- 8007514:	2000051c 	.word	0x2000051c
+ 8007514:	20000520 	.word	0x20000520
 
 08007518 <_fwalk_sglue>:
  8007518:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -17843,7 +17848,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80075b6:	2200      	movs	r2, #0
  80075b8:	701a      	strb	r2, [r3, #0]
  80075ba:	e7d6      	b.n	800756a <sniprintf+0x16>
- 80075bc:	200000a4 	.word	0x200000a4
+ 80075bc:	200000a8 	.word	0x200000a8
 
 080075c0 <siscanf>:
  80075c0:	b40e      	push	{r1, r2, r3}
@@ -17879,7 +17884,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800760c:	4770      	bx	lr
  800760e:	bf00      	nop
  8007610:	0800763b 	.word	0x0800763b
- 8007614:	200000a4 	.word	0x200000a4
+ 8007614:	200000a8 	.word	0x200000a8
 
 08007618 <__sread>:
  8007618:	b510      	push	{r4, lr}
@@ -17996,7 +18001,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800770e:	f7ff ffc8 	bl	80076a2 <_vsniprintf_r>
  8007712:	b003      	add	sp, #12
  8007714:	f85d fb04 	ldr.w	pc, [sp], #4
- 8007718:	200000a4 	.word	0x200000a4
+ 8007718:	200000a8 	.word	0x200000a8
 
 0800771c <_vsiprintf_r>:
  800771c:	b510      	push	{r4, lr}
@@ -18027,7 +18032,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8007750:	6800      	ldr	r0, [r0, #0]
  8007752:	f7ff bfe3 	b.w	800771c <_vsiprintf_r>
  8007756:	bf00      	nop
- 8007758:	200000a4 	.word	0x200000a4
+ 8007758:	200000a8 	.word	0x200000a8
 
 0800775c <memset>:
  800775c:	4402      	add	r2, r0
@@ -18041,7 +18046,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
 0800776c <_localeconv_r>:
  800776c:	4800      	ldr	r0, [pc, #0]	@ (8007770 <_localeconv_r+0x4>)
  800776e:	4770      	bx	lr
- 8007770:	200001e4 	.word	0x200001e4
+ 8007770:	200001e8 	.word	0x200001e8
 
 08007774 <_close_r>:
  8007774:	b538      	push	{r3, r4, r5, lr}
@@ -18057,7 +18062,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800778a:	b103      	cbz	r3, 800778e <_close_r+0x1a>
  800778c:	6023      	str	r3, [r4, #0]
  800778e:	bd38      	pop	{r3, r4, r5, pc}
- 8007790:	20000520 	.word	0x20000520
+ 8007790:	20000524 	.word	0x20000524
 
 08007794 <_lseek_r>:
  8007794:	b538      	push	{r3, r4, r5, lr}
@@ -18075,7 +18080,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80077ae:	b103      	cbz	r3, 80077b2 <_lseek_r+0x1e>
  80077b0:	6023      	str	r3, [r4, #0]
  80077b2:	bd38      	pop	{r3, r4, r5, pc}
- 80077b4:	20000520 	.word	0x20000520
+ 80077b4:	20000524 	.word	0x20000524
 
 080077b8 <_read_r>:
  80077b8:	b538      	push	{r3, r4, r5, lr}
@@ -18093,7 +18098,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80077d2:	b103      	cbz	r3, 80077d6 <_read_r+0x1e>
  80077d4:	6023      	str	r3, [r4, #0]
  80077d6:	bd38      	pop	{r3, r4, r5, pc}
- 80077d8:	20000520 	.word	0x20000520
+ 80077d8:	20000524 	.word	0x20000524
 
 080077dc <_write_r>:
  80077dc:	b538      	push	{r3, r4, r5, lr}
@@ -18111,14 +18116,14 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80077f6:	b103      	cbz	r3, 80077fa <_write_r+0x1e>
  80077f8:	6023      	str	r3, [r4, #0]
  80077fa:	bd38      	pop	{r3, r4, r5, pc}
- 80077fc:	20000520 	.word	0x20000520
+ 80077fc:	20000524 	.word	0x20000524
 
 08007800 <__errno>:
  8007800:	4b01      	ldr	r3, [pc, #4]	@ (8007808 <__errno+0x8>)
  8007802:	6818      	ldr	r0, [r3, #0]
  8007804:	4770      	bx	lr
  8007806:	bf00      	nop
- 8007808:	200000a4 	.word	0x200000a4
+ 8007808:	200000a8 	.word	0x200000a8
 
 0800780c <__libc_init_array>:
  800780c:	b570      	push	{r4, r5, r6, lr}
@@ -18546,15 +18551,15 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8007c34:	3fc68a28 	.word	0x3fc68a28
  8007c38:	509f79fb 	.word	0x509f79fb
  8007c3c:	3fd34413 	.word	0x3fd34413
- 8007c40:	0800a6a7 	.word	0x0800a6a7
- 8007c44:	0800a6be 	.word	0x0800a6be
+ 8007c40:	0800a6a3 	.word	0x0800a6a3
+ 8007c44:	0800a6ba 	.word	0x0800a6ba
  8007c48:	7ff00000 	.word	0x7ff00000
- 8007c4c:	0800a7a8 	.word	0x0800a7a8
+ 8007c4c:	0800a7a4 	.word	0x0800a7a4
  8007c50:	3ff80000 	.word	0x3ff80000
  8007c54:	0800a828 	.word	0x0800a828
- 8007c58:	0800a716 	.word	0x0800a716
- 8007c5c:	0800a6a3 	.word	0x0800a6a3
- 8007c60:	0800a7a7 	.word	0x0800a7a7
+ 8007c58:	0800a712 	.word	0x0800a712
+ 8007c5c:	0800a69f 	.word	0x0800a69f
+ 8007c60:	0800a7a3 	.word	0x0800a7a3
  8007c64:	f8d9 301c 	ldr.w	r3, [r9, #28]
  8007c68:	6018      	str	r0, [r3, #0]
  8007c6a:	9b03      	ldr	r3, [sp, #12]
@@ -19413,8 +19418,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008500:	f000 f968 	bl	80087d4 <__multadd>
  8008504:	9002      	str	r0, [sp, #8]
  8008506:	e7eb      	b.n	80084e0 <_dtoa_r+0xb70>
- 8008508:	0800a716 	.word	0x0800a716
- 800850c:	0800a69a 	.word	0x0800a69a
+ 8008508:	0800a712 	.word	0x0800a712
+ 800850c:	0800a696 	.word	0x0800a696
 
 08008510 <_free_r>:
  8008510:	b538      	push	{r3, r4, r5, lr}
@@ -19485,7 +19490,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800859a:	e7ca      	b.n	8008532 <_free_r+0x22>
  800859c:	bd38      	pop	{r3, r4, r5, pc}
  800859e:	bf00      	nop
- 80085a0:	2000052c 	.word	0x2000052c
+ 80085a0:	20000530 	.word	0x20000530
 
 080085a4 <malloc>:
  80085a4:	4b02      	ldr	r3, [pc, #8]	@ (80085b0 <malloc+0xc>)
@@ -19493,7 +19498,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80085a8:	6818      	ldr	r0, [r3, #0]
  80085aa:	f000 b825 	b.w	80085f8 <_malloc_r>
  80085ae:	bf00      	nop
- 80085b0:	200000a4 	.word	0x200000a4
+ 80085b0:	200000a8 	.word	0x200000a8
 
 080085b4 <sbrk_aligned>:
  80085b4:	b570      	push	{r4, r5, r6, lr}
@@ -19523,7 +19528,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80085ee:	d1f2      	bne.n	80085d6 <sbrk_aligned+0x22>
  80085f0:	e7ef      	b.n	80085d2 <sbrk_aligned+0x1e>
  80085f2:	bf00      	nop
- 80085f4:	20000528 	.word	0x20000528
+ 80085f4:	2000052c 	.word	0x2000052c
 
 080085f8 <_malloc_r>:
  80085f8:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -19633,19 +19638,19 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80086ee:	6005      	str	r5, [r0, #0]
  80086f0:	e7d6      	b.n	80086a0 <_malloc_r+0xa8>
  80086f2:	bf00      	nop
- 80086f4:	2000052c 	.word	0x2000052c
+ 80086f4:	20000530 	.word	0x20000530
 
 080086f8 <__malloc_lock>:
  80086f8:	4801      	ldr	r0, [pc, #4]	@ (8008700 <__malloc_lock+0x8>)
  80086fa:	f7ff b8ac 	b.w	8007856 <__retarget_lock_acquire_recursive>
  80086fe:	bf00      	nop
- 8008700:	20000524 	.word	0x20000524
+ 8008700:	20000528 	.word	0x20000528
 
 08008704 <__malloc_unlock>:
  8008704:	4801      	ldr	r0, [pc, #4]	@ (800870c <__malloc_unlock+0x8>)
  8008706:	f7ff b8a7 	b.w	8007858 <__retarget_lock_release_recursive>
  800870a:	bf00      	nop
- 800870c:	20000524 	.word	0x20000524
+ 800870c:	20000528 	.word	0x20000528
 
 08008710 <_Balloc>:
  8008710:	b570      	push	{r4, r5, r6, lr}
@@ -19698,8 +19703,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008780:	e9c0 3303 	strd	r3, r3, [r0, #12]
  8008784:	e7f7      	b.n	8008776 <_Balloc+0x66>
  8008786:	bf00      	nop
- 8008788:	0800a6a7 	.word	0x0800a6a7
- 800878c:	0800a727 	.word	0x0800a727
+ 8008788:	0800a6a3 	.word	0x0800a6a3
+ 800878c:	0800a723 	.word	0x0800a723
 
 08008790 <_Bfree>:
  8008790:	b570      	push	{r4, r5, r6, lr}
@@ -19727,8 +19732,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80087c4:	6021      	str	r1, [r4, #0]
  80087c6:	f843 4022 	str.w	r4, [r3, r2, lsl #2]
  80087ca:	bd70      	pop	{r4, r5, r6, pc}
- 80087cc:	0800a6a7 	.word	0x0800a6a7
- 80087d0:	0800a727 	.word	0x0800a727
+ 80087cc:	0800a6a3 	.word	0x0800a6a3
+ 80087d0:	0800a723 	.word	0x0800a723
 
 080087d4 <__multadd>:
  80087d4:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -19782,8 +19787,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008850:	6125      	str	r5, [r4, #16]
  8008852:	4620      	mov	r0, r4
  8008854:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
- 8008858:	0800a716 	.word	0x0800a716
- 800885c:	0800a727 	.word	0x0800a727
+ 8008858:	0800a712 	.word	0x0800a712
+ 800885c:	0800a723 	.word	0x0800a723
 
 08008860 <__hi0bits>:
  8008860:	f5b0 3f80 	cmp.w	r0, #65536	@ 0x10000
@@ -19873,8 +19878,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008916:	6103      	str	r3, [r0, #16]
  8008918:	bd10      	pop	{r4, pc}
  800891a:	bf00      	nop
- 800891c:	0800a716 	.word	0x0800a716
- 8008920:	0800a727 	.word	0x0800a727
+ 800891c:	0800a712 	.word	0x0800a712
+ 8008920:	0800a723 	.word	0x0800a723
 
 08008924 <__multiply>:
  8008924:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -19993,8 +19998,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008a5a:	e79f      	b.n	800899c <__multiply+0x78>
  8008a5c:	3e01      	subs	r6, #1
  8008a5e:	e7a1      	b.n	80089a4 <__multiply+0x80>
- 8008a60:	0800a716 	.word	0x0800a716
- 8008a64:	0800a727 	.word	0x0800a727
+ 8008a60:	0800a712 	.word	0x0800a712
+ 8008a64:	0800a723 	.word	0x0800a723
 
 08008a68 <__pow5mult>:
  8008a68:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -20062,9 +20067,9 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008b08:	4630      	mov	r0, r6
  8008b0a:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
  8008b0e:	bf00      	nop
- 8008b10:	0800a7f4 	.word	0x0800a7f4
- 8008b14:	0800a6a7 	.word	0x0800a6a7
- 8008b18:	0800a727 	.word	0x0800a727
+ 8008b10:	0800a7f0 	.word	0x0800a7f0
+ 8008b14:	0800a6a3 	.word	0x0800a6a3
+ 8008b18:	0800a723 	.word	0x0800a723
 
 08008b1c <__lshift>:
  8008b1c:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -20143,8 +20148,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008be6:	d8f9      	bhi.n	8008bdc <__lshift+0xc0>
  8008be8:	e7ea      	b.n	8008bc0 <__lshift+0xa4>
  8008bea:	bf00      	nop
- 8008bec:	0800a716 	.word	0x0800a716
- 8008bf0:	0800a727 	.word	0x0800a727
+ 8008bec:	0800a712 	.word	0x0800a712
+ 8008bf0:	0800a723 	.word	0x0800a723
 
 08008bf4 <__mcmp>:
  8008bf4:	690a      	ldr	r2, [r1, #16]
@@ -20280,8 +20285,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008d46:	3f01      	subs	r7, #1
  8008d48:	e7e7      	b.n	8008d1a <__mdiff+0xee>
  8008d4a:	bf00      	nop
- 8008d4c:	0800a716 	.word	0x0800a716
- 8008d50:	0800a727 	.word	0x0800a727
+ 8008d4c:	0800a712 	.word	0x0800a712
+ 8008d50:	0800a723 	.word	0x0800a723
 
 08008d54 <__d2b>:
  8008d54:	e92d 43f7 	stmdb	sp!, {r0, r1, r2, r4, r5, r6, r7, r8, r9, lr}
@@ -20347,8 +20352,8 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8008df2:	f7ff fd35 	bl	8008860 <__hi0bits>
  8008df6:	ebc0 1042 	rsb	r0, r0, r2, lsl #5
  8008dfa:	e7e5      	b.n	8008dc8 <__d2b+0x74>
- 8008dfc:	0800a716 	.word	0x0800a716
- 8008e00:	0800a727 	.word	0x0800a727
+ 8008dfc:	0800a712 	.word	0x0800a712
+ 8008e00:	0800a723 	.word	0x0800a723
 
 08008e04 <__ssputs_r>:
  8008e04:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -20625,11 +20630,11 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8009098:	4638      	mov	r0, r7
  800909a:	f7fe f87b 	bl	8007194 <_printf_i>
  800909e:	e7ed      	b.n	800907c <_svfiprintf_r+0x1c0>
- 80090a0:	0800a780 	.word	0x0800a780
- 80090a4:	0800a78a 	.word	0x0800a78a
+ 80090a0:	0800a77c 	.word	0x0800a77c
+ 80090a4:	0800a786 	.word	0x0800a786
  80090a8:	08006c65 	.word	0x08006c65
  80090ac:	08008e05 	.word	0x08008e05
- 80090b0:	0800a786 	.word	0x0800a786
+ 80090b0:	0800a782 	.word	0x0800a782
 
 080090b4 <_sungetc_r>:
  80090b4:	b538      	push	{r3, r4, r5, lr}
@@ -20992,7 +20997,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8009414:	080090b5 	.word	0x080090b5
  8009418:	0800912f 	.word	0x0800912f
  800941c:	0800a8f1 	.word	0x0800a8f1
- 8009420:	0800a786 	.word	0x0800a786
+ 8009420:	0800a782 	.word	0x0800a782
  8009424:	4b0a      	ldr	r3, [pc, #40]	@ (8009450 <__ssvfiscanf_r+0x2e8>)
  8009426:	2b00      	cmp	r3, #0
  8009428:	f43f aec6 	beq.w	80091b8 <__ssvfiscanf_r+0x50>
@@ -21287,10 +21292,10 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80096da:	2001      	movs	r0, #1
  80096dc:	e7f2      	b.n	80096c4 <_scanf_i+0x1bc>
  80096de:	bf00      	nop
- 80096e0:	0800a644 	.word	0x0800a644
+ 80096e0:	0800a640 	.word	0x0800a640
  80096e4:	08009b79 	.word	0x08009b79
  80096e8:	08009c59 	.word	0x08009c59
- 80096ec:	0800a7a1 	.word	0x0800a7a1
+ 80096ec:	0800a79d 	.word	0x0800a79d
 
 080096f0 <__sflush_r>:
  80096f0:	f9b1 200c 	ldrsh.w	r2, [r1, #12]
@@ -21583,7 +21588,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800997a:	b103      	cbz	r3, 800997e <_sbrk_r+0x1a>
  800997c:	6023      	str	r3, [r4, #0]
  800997e:	bd38      	pop	{r3, r4, r5, pc}
- 8009980:	20000520 	.word	0x20000520
+ 8009980:	20000524 	.word	0x20000524
 
 08009984 <memcpy>:
  8009984:	440a      	add	r2, r1
@@ -21618,10 +21623,10 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80099c6:	461c      	mov	r4, r3
  80099c8:	e7f3      	b.n	80099b2 <__assert_func+0x12>
  80099ca:	bf00      	nop
- 80099cc:	200000a4 	.word	0x200000a4
- 80099d0:	0800a7b6 	.word	0x0800a7b6
- 80099d4:	0800a7c3 	.word	0x0800a7c3
- 80099d8:	0800a7f1 	.word	0x0800a7f1
+ 80099cc:	200000a8 	.word	0x200000a8
+ 80099d0:	0800a7b2 	.word	0x0800a7b2
+ 80099d4:	0800a7bf 	.word	0x0800a7bf
+ 80099d8:	0800a7ed 	.word	0x0800a7ed
 
 080099dc <_calloc_r>:
  80099dc:	b570      	push	{r4, r5, r6, lr}
@@ -21926,7 +21931,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8009c90:	f85d eb04 	ldr.w	lr, [sp], #4
  8009c94:	b003      	add	sp, #12
  8009c96:	4770      	bx	lr
- 8009c98:	200000a4 	.word	0x200000a4
+ 8009c98:	200000a8 	.word	0x200000a8
 
 08009c9c <abort>:
  8009c9c:	b508      	push	{r3, lr}
@@ -22207,11 +22212,11 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8009f20:	4630      	mov	r0, r6
  8009f22:	f7fd f937 	bl	8007194 <_printf_i>
  8009f26:	e7e4      	b.n	8009ef2 <_vfiprintf_r+0x1e6>
- 8009f28:	0800a780 	.word	0x0800a780
- 8009f2c:	0800a78a 	.word	0x0800a78a
+ 8009f28:	0800a77c 	.word	0x0800a77c
+ 8009f2c:	0800a786 	.word	0x0800a786
  8009f30:	08006c65 	.word	0x08006c65
  8009f34:	08009ce9 	.word	0x08009ce9
- 8009f38:	0800a786 	.word	0x0800a786
+ 8009f38:	0800a782 	.word	0x0800a782
 
 08009f3c <__swbuf_r>:
  8009f3c:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -22343,7 +22348,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800a05a:	e7f4      	b.n	800a046 <__swsetup_r+0x8e>
  800a05c:	2000      	movs	r0, #0
  800a05e:	e7f7      	b.n	800a050 <__swsetup_r+0x98>
- 800a060:	200000a4 	.word	0x200000a4
+ 800a060:	200000a8 	.word	0x200000a8
 
 0800a064 <_raise_r>:
  800a064:	291f      	cmp	r1, #31
@@ -22387,7 +22392,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800a0b8:	6818      	ldr	r0, [r3, #0]
  800a0ba:	f7ff bfd3 	b.w	800a064 <_raise_r>
  800a0be:	bf00      	nop
- 800a0c0:	200000a4 	.word	0x200000a4
+ 800a0c0:	200000a8 	.word	0x200000a8
 
 0800a0c4 <_kill_r>:
  800a0c4:	b538      	push	{r3, r4, r5, lr}
@@ -22405,7 +22410,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800a0de:	6023      	str	r3, [r4, #0]
  800a0e0:	bd38      	pop	{r3, r4, r5, pc}
  800a0e2:	bf00      	nop
- 800a0e4:	20000520 	.word	0x20000520
+ 800a0e4:	20000524 	.word	0x20000524
 
 0800a0e8 <_getpid_r>:
  800a0e8:	f7f7 bd36 	b.w	8001b58 <_getpid>
@@ -22508,7 +22513,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800a1ca:	6023      	str	r3, [r4, #0]
  800a1cc:	bd38      	pop	{r3, r4, r5, pc}
  800a1ce:	bf00      	nop
- 800a1d0:	20000520 	.word	0x20000520
+ 800a1d0:	20000524 	.word	0x20000524
 
 0800a1d4 <_isatty_r>:
  800a1d4:	b538      	push	{r3, r4, r5, lr}
@@ -22524,7 +22529,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800a1ea:	b103      	cbz	r3, 800a1ee <_isatty_r+0x1a>
  800a1ec:	6023      	str	r3, [r4, #0]
  800a1ee:	bd38      	pop	{r3, r4, r5, pc}
- 800a1f0:	20000520 	.word	0x20000520
+ 800a1f0:	20000524 	.word	0x20000524
 
 0800a1f4 <_init>:
  800a1f4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}

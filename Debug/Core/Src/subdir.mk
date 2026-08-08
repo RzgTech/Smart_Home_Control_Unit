@@ -5,6 +5,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/adc.c \
 ../Core/Src/alarm_light.c \
 ../Core/Src/authentication.c \
 ../Core/Src/command_parser.c \
@@ -23,6 +24,7 @@ C_SRCS += \
 ../Core/Src/uart_receiver.c 
 
 OBJS += \
+./Core/Src/adc.o \
 ./Core/Src/alarm_light.o \
 ./Core/Src/authentication.o \
 ./Core/Src/command_parser.o \
@@ -41,6 +43,7 @@ OBJS += \
 ./Core/Src/uart_receiver.o 
 
 C_DEPS += \
+./Core/Src/adc.d \
 ./Core/Src/alarm_light.d \
 ./Core/Src/authentication.d \
 ./Core/Src/command_parser.d \
@@ -66,7 +69,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/alarm_light.cyclo ./Core/Src/alarm_light.d ./Core/Src/alarm_light.o ./Core/Src/alarm_light.su ./Core/Src/authentication.cyclo ./Core/Src/authentication.d ./Core/Src/authentication.o ./Core/Src/authentication.su ./Core/Src/command_parser.cyclo ./Core/Src/command_parser.d ./Core/Src/command_parser.o ./Core/Src/command_parser.su ./Core/Src/fan.cyclo ./Core/Src/fan.d ./Core/Src/fan.o ./Core/Src/fan.su ./Core/Src/it.cyclo ./Core/Src/it.d ./Core/Src/it.o ./Core/Src/it.su ./Core/Src/light_relay.cyclo ./Core/Src/light_relay.d ./Core/Src/light_relay.o ./Core/Src/light_relay.su ./Core/Src/logger.cyclo ./Core/Src/logger.d ./Core/Src/logger.o ./Core/Src/logger.su ./Core/Src/main_app.cyclo ./Core/Src/main_app.d ./Core/Src/main_app.o ./Core/Src/main_app.su ./Core/Src/msp.cyclo ./Core/Src/msp.d ./Core/Src/msp.o ./Core/Src/msp.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_config.cyclo ./Core/Src/system_config.d ./Core/Src/system_config.o ./Core/Src/system_config.su ./Core/Src/system_mode.cyclo ./Core/Src/system_mode.d ./Core/Src/system_mode.o ./Core/Src/system_mode.su ./Core/Src/system_stm32f4xx.cyclo ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su ./Core/Src/time_management.cyclo ./Core/Src/time_management.d ./Core/Src/time_management.o ./Core/Src/time_management.su ./Core/Src/uart_receiver.cyclo ./Core/Src/uart_receiver.d ./Core/Src/uart_receiver.o ./Core/Src/uart_receiver.su
+	-$(RM) ./Core/Src/adc.cyclo ./Core/Src/adc.d ./Core/Src/adc.o ./Core/Src/adc.su ./Core/Src/alarm_light.cyclo ./Core/Src/alarm_light.d ./Core/Src/alarm_light.o ./Core/Src/alarm_light.su ./Core/Src/authentication.cyclo ./Core/Src/authentication.d ./Core/Src/authentication.o ./Core/Src/authentication.su ./Core/Src/command_parser.cyclo ./Core/Src/command_parser.d ./Core/Src/command_parser.o ./Core/Src/command_parser.su ./Core/Src/fan.cyclo ./Core/Src/fan.d ./Core/Src/fan.o ./Core/Src/fan.su ./Core/Src/it.cyclo ./Core/Src/it.d ./Core/Src/it.o ./Core/Src/it.su ./Core/Src/light_relay.cyclo ./Core/Src/light_relay.d ./Core/Src/light_relay.o ./Core/Src/light_relay.su ./Core/Src/logger.cyclo ./Core/Src/logger.d ./Core/Src/logger.o ./Core/Src/logger.su ./Core/Src/main_app.cyclo ./Core/Src/main_app.d ./Core/Src/main_app.o ./Core/Src/main_app.su ./Core/Src/msp.cyclo ./Core/Src/msp.d ./Core/Src/msp.o ./Core/Src/msp.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_config.cyclo ./Core/Src/system_config.d ./Core/Src/system_config.o ./Core/Src/system_config.su ./Core/Src/system_mode.cyclo ./Core/Src/system_mode.d ./Core/Src/system_mode.o ./Core/Src/system_mode.su ./Core/Src/system_stm32f4xx.cyclo ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su ./Core/Src/time_management.cyclo ./Core/Src/time_management.d ./Core/Src/time_management.o ./Core/Src/time_management.su ./Core/Src/uart_receiver.cyclo ./Core/Src/uart_receiver.d ./Core/Src/uart_receiver.o ./Core/Src/uart_receiver.su
 
 .PHONY: clean-Core-2f-Src
 

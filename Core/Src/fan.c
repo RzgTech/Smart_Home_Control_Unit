@@ -1,6 +1,8 @@
 #include "fan.h"
+#include "adc.h"
 
 extern TIM_HandleTypeDef htim2;
+uint8_t curr_duty_cycle = 0U;
 
 uint8_t fan_decision(uint16_t temperature)
 {
@@ -61,3 +63,19 @@ void fan_speed_config(uint8_t duty_cycle)
 
 	log_info("fan duty cycle changed to %d", duty_cycle);
 }
+
+void fan_control_auto(void)
+{
+	float temperature = ADC_Convert_To_Temperature();
+	log_debug("Temperature is: %.2f °C", temperature);
+	uint8_t new_duty_cycle = fan_decision(temperature);
+
+	if (curr_duty_cycle != new_duty_cycle)
+	{
+		curr_duty_cycle = new_duty_cycle;
+		fan_speed_config(new_duty_cycle);
+	}
+
+}
+
+

@@ -15,14 +15,13 @@
 #include "alarm_light.h"
 #include "time_management.h"
 #include "logger.h"
+#include "adc.h"
 
-extern ADC_HandleTypeDef hadc1;
 extern UART_HandleTypeDef huart2;
 extern cli_t cli;
 static uint16_t light_counter = 0;
 static uint16_t light_timer_sec = 1;
 volatile uint32_t system_events = EVENT_EMPTY;  //avoid optimizing it by compiler
-uint8_t curr_duty_cycle = 0U;
 uint8_t curr_relay_state = RELAY_OFF;
 uint8_t curr_alarm_state = ALARM_LIGHT_OFF;
 uint8_t system_mode = AUTOMATIC;
@@ -40,19 +39,13 @@ int main(void)
 			{
 				system_events &= ~EVENT_TEMP_ADC_SAMPLE;
 				float temperature = ADC_Convert_To_Temperature();
-				log_debug("Temperature is: %.2f °C", temperature);
 				uint8_t new_alarm_state = alarm_light_decision(temperature);
-				uint8_t new_duty_cycle = fan_decision(temperature);
 				if (curr_alarm_state != new_alarm_state)
 				{
 					curr_alarm_state = new_alarm_state;
 					alarm_light_config(new_alarm_state);
 				}
-				if (curr_duty_cycle != new_duty_cycle)
-				{
-					curr_duty_cycle = new_duty_cycle;
-					fan_speed_config(new_duty_cycle);
-				}
+				fan_control_auto();
 			}
 
 			if (system_events & EVENT_LIGHT_ADC_SAMPLE)
@@ -69,14 +62,13 @@ int main(void)
 		}
 
 		//going to sleep
-		while (system_events == EVENT_EMPTY)
+		if (system_events == EVENT_EMPTY)
 		{
 			if (system_mode == AUTOMATIC && cli.user_auth_stat != USER_AUTHENTICATED)
 			{
+				log_info("Entering sleep mode...");
 				HAL_SuspendTick();
-				log_info("system mode changed to low power mode");
 				__WFI();
-				system_mode = LOW_POWER;
 				HAL_ResumeTick();
 			}
 		}
@@ -92,58 +84,11 @@ void welcome(void)
 	printmsg("> ");
 }
 
-uint16_t ADC_Read(uint32_t channel)
-{
-
-	ADC_Channel_config(channel);
-    HAL_ADC_Start(&hadc1);
-    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-
-    uint16_t value = HAL_ADC_GetValue(&hadc1);
-
-    HAL_ADC_Stop(&hadc1);
-    return value;
-}
-
-float ADC_Convert_To_Temperature()
-{
-	uint16_t adc_value = ADC_Read(ADC_CHANNEL_TEMPERATURE);
-	// Convert ADC value to temperature in Celsius
-	float voltage = ((float)adc_value * 3.3f) / 4095.0f;
-	return voltage * 100.0f; 
-}
-
-uint16_t ADC_Convert_To_Light()
-{
-	uint16_t adc_value = ADC_Read(ADC_CHANNEL_LIGHT);
-	log_debug("Light Value is: %u", adc_value);
-
-	return adc_value;
-}
-
-void ADC_Channel_config(uint32_t channel)
-{
-	ADC_ChannelConfTypeDef sConfig = {0};
-
-	sConfig.Channel = channel; // Select the desired channel
-	sConfig.Rank = 1; // Set the rank for the conversion
-	sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES; // Set the sampling time
-
-	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-	{
-		Error_handler();
-	}
-}
-
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 
 	if (htim->Instance == TIM6)
 	{
-		if (system_mode != MANUAL)
-		{
-			system_mode = AUTOMATIC;
-		}
 		system_events |= EVENT_TEMP_ADC_SAMPLE;
 		light_counter++;
 

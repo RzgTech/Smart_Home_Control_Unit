@@ -1,0 +1,4 @@
+../Core/Src/adc.c:12:10:ADC_Read	1
+../Core/Src/adc.c:25:7:ADC_Convert_To_Temperature	1
+../Core/Src/adc.c:33:10:ADC_Convert_To_Light	1
+../Core/Src/adc.c:41:6:ADC_Channel_config	2

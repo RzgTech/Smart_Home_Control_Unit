@@ -19,7 +19,8 @@ static const char *log_level_str[] =
 static const char *system_mode_str[] =
 {
 	[AUTOMATIC] = "AUTO",
-	[MANUAL]    = "MANUAL"
+	[MANUAL]    = "MANUAL",
+	[LOW_POWER] = "LOWPOWER"
 };
 
 static log_level_t current_log_level = LOG_INFO; //configure this to get only the desired types of logs
