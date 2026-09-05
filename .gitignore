@@ -8,3 +8,12 @@
 *.o
 *.launch
 *.list
+*.mk
+*.prefs
+*.log
+*.lst
+*.srec
+*.sym
+*.xml
+*.version
+*.cyclo
