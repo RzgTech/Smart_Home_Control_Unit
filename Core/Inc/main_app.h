@@ -9,7 +9,6 @@
 #define INC_MAIN_APP_H_
 
 #include "stm32f4xx_hal.h"
-#include <FreeRTOS.h>
 #include "logger.h"
 #include <stdint.h>
 #include <stdio.h>
@@ -27,6 +26,6 @@
 #define EVENT_TEMP_ADC_SAMPLE       (1U << 1)
 #define EVENT_LIGHT_ADC_SAMPLE		(1U << 2)
 
-void welcome(void);
+void welcome_task(void);
 
 #endif /* INC_MAIN_APP_H_ */

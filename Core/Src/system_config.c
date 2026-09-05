@@ -34,9 +34,9 @@ void system_Init(void)
 	UART_Init();
 	ADC_Init();
 	RTC_Init();
-	log_info("system is successfully initialized");
+	//log_info("system is successfully initialized");
 	system_mode = AUTOMATIC;
-	log_info("system mode changed to %s mode", system_mode_str[system_mode]);
+	//log_info("system mode changed to %s mode", system_mode_str[system_mode]);
 
 }
 
