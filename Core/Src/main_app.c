@@ -17,6 +17,8 @@
 #include "alarm_light.h"
 #include "logger.h"
 #include "adc.h"
+#include "queue.h"
+
 
 #define LOW_POWER_MODE TRUE
 
@@ -24,12 +26,20 @@ extern UART_HandleTypeDef huart2;
 extern uint8_t system_mode;
 extern cli_t cli;
 volatile uint32_t system_events = EVENT_EMPTY;  //avoid optimizing it by compiler
+QueueHandle_t sensorQueue;
 void sensor_task(void *pvParameters);
+void control_task(void *pvParameters);
 
 int main(void)
 {
 	system_Init();
 	//RTC_Set_Time_Date(19, 10, 0, 2, RTC_MONTH_AUGUST, 2026); // Set time to 19:10:00 and date to 2nd August 2026
+	sensorQueue = xQueueCreate(10, sizeof(SensorData_t));
+	if (sensorQueue == NULL)
+	{
+		Error_handler();
+	}
+
 	xTaskCreate(
 		welcome_task, 
 		"welcome_task", 
@@ -43,9 +53,18 @@ int main(void)
         "Sensor",
         512,
         NULL,
-        tskIDLE_PRIORITY + 2,
+        2,
         NULL
     );
+
+	xTaskCreate(
+		control_task,
+		"Control",
+		512,
+		NULL,
+		3,
+		NULL
+	);
 
 	vTaskStartScheduler();
 	
@@ -87,7 +106,12 @@ void sensor_task(void *pvParameters)
         {
             float temperature = ADC_Convert_To_Temperature();
 
-            printmsg("Temperature: %.2f C\r\n", temperature);
+            SensorData_t message;
+
+			message.type = SENSOR_TEMPERATURE;
+			message.data.temperature = ADC_Convert_To_Temperature();
+
+			xQueueSend(sensorQueue, &message, portMAX_DELAY);
 
             last_temp_sample += temp_period;
         }
@@ -97,12 +121,56 @@ void sensor_task(void *pvParameters)
         {
             uint16_t light_value = ADC_Convert_To_Light();
 
-            printmsg("Light: %u\r\n", light_value);
+            SensorData_t message;
+
+			message.type = SENSOR_LIGHT;
+			message.data.light_value = ADC_Convert_To_Light();
+
+			xQueueSend(sensorQueue, &message, portMAX_DELAY);
 
             last_light_sample += light_period;
         }
 
         vTaskDelay(pdMS_TO_TICKS(10));
+    }
+}
+
+void control_task(void *pvParameters)
+{
+    SensorData_t received_data;
+
+    while (1)
+    {
+        if (xQueueReceive(sensorQueue,
+                          &received_data,
+                          portMAX_DELAY) == pdPASS)
+        {
+            switch (received_data.type)
+            {
+                case SENSOR_TEMPERATURE:
+
+                    fan_control_auto(
+                        (uint16_t)received_data.data.temperature
+                    );
+
+                    alarm_light_control_auto(
+                        (uint16_t)received_data.data.temperature
+                    );
+
+                    break;
+
+                case SENSOR_LIGHT:
+
+                    light_relay_control_auto(
+                        received_data.data.light_value
+                    );
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 }
 

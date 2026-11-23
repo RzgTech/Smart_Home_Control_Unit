@@ -26,6 +26,24 @@
 #define EVENT_TEMP_ADC_SAMPLE       (1U << 1)
 #define EVENT_LIGHT_ADC_SAMPLE		(1U << 2)
 
+typedef enum
+{
+    SENSOR_TEMPERATURE,
+    SENSOR_LIGHT
+} SensorType_t;
+
+typedef struct
+{
+    SensorType_t type;
+
+    union
+    {
+        float temperature;
+        uint16_t light_value;
+    } data;
+
+} SensorData_t;
+
 void welcome_task(void);
 
 #endif /* INC_MAIN_APP_H_ */
