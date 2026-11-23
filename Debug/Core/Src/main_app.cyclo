@@ -1,4 +1,6 @@
-../Core/Src/main_app.c:29:5:main	1
-../Core/Src/main_app.c:57:6:test_task	1
-../Core/Src/main_app.c:66:6:welcome_task	1
-../Core/Src/main_app.c:75:6:sensor_task	3
+../Core/Src/main_app.c:33:5:main	3
+../Core/Src/main_app.c:85:6:test_task	1
+../Core/Src/main_app.c:94:6:welcome_task	1
+../Core/Src/main_app.c:103:6:sensor_task	3
+../Core/Src/main_app.c:147:6:control_task	4
+../Core/Src/main_app.c:186:6:cli_task	10

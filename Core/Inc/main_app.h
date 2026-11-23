@@ -11,6 +11,8 @@
 #include "stm32f4xx_hal.h"
 #include "logger.h"
 #include <stdint.h>
+#include "FreeRTOS.h"
+#include "task.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>

@@ -6,8 +6,6 @@
  */
 
 
-#include "FreeRTOS.h"
-#include "task.h"
 #include "main_app.h"
 #include "system_config.h"
 #include "system_mode.h"
@@ -27,19 +25,21 @@ extern uint8_t system_mode;
 extern cli_t cli;
 volatile uint32_t system_events = EVENT_EMPTY;  //avoid optimizing it by compiler
 QueueHandle_t sensorQueue;
+QueueHandle_t rx_uartQueue;
 void sensor_task(void *pvParameters);
 void control_task(void *pvParameters);
+void cli_task(void *pvParameters);
 
 int main(void)
 {
-	system_Init();
-	//RTC_Set_Time_Date(19, 10, 0, 2, RTC_MONTH_AUGUST, 2026); // Set time to 19:10:00 and date to 2nd August 2026
-	sensorQueue = xQueueCreate(10, sizeof(SensorData_t));
-	if (sensorQueue == NULL)
-	{
-		Error_handler();
-	}
+	rx_uartQueue = xQueueCreate(DATA_BUFFER_SIZE, sizeof(uint8_t));
+    sensorQueue = xQueueCreate(10, sizeof(SensorData_t));
 
+    if (rx_uartQueue == NULL || sensorQueue == NULL)
+    {
+        Error_handler();
+    }
+	system_Init();
 	xTaskCreate(
 		welcome_task, 
 		"welcome_task", 
@@ -53,7 +53,7 @@ int main(void)
         "Sensor",
         512,
         NULL,
-        2,
+        1,
         NULL
     );
 
@@ -62,7 +62,16 @@ int main(void)
 		"Control",
 		512,
 		NULL,
-		3,
+		2,
+		NULL
+	);
+
+	xTaskCreate(
+		cli_task,
+		"CLI",
+		512,
+		NULL,
+		1,
 		NULL
 	);
 
@@ -109,7 +118,7 @@ void sensor_task(void *pvParameters)
             SensorData_t message;
 
 			message.type = SENSOR_TEMPERATURE;
-			message.data.temperature = ADC_Convert_To_Temperature();
+			message.data.temperature = temperature;
 
 			xQueueSend(sensorQueue, &message, portMAX_DELAY);
 
@@ -124,7 +133,7 @@ void sensor_task(void *pvParameters)
             SensorData_t message;
 
 			message.type = SENSOR_LIGHT;
-			message.data.light_value = ADC_Convert_To_Light();
+			message.data.light_value = light_value;
 
 			xQueueSend(sensorQueue, &message, portMAX_DELAY);
 
@@ -174,3 +183,58 @@ void control_task(void *pvParameters)
     }
 }
 
+void cli_task(void *pvParameters)
+{
+	uint8_t received_byte;
+	while(1)
+	{
+		if (xQueueReceive(rx_uartQueue,
+                          &received_byte,
+                          portMAX_DELAY) == pdPASS)
+		{
+			if (cli.overflow)
+			{
+				if (received_byte == '\r')
+				{
+					cli.overflow = FALSE;
+					cli.count = 0;
+					memset(cli.data_buffer, 0, DATA_BUFFER_SIZE);
+
+					log_error("Input too long!");
+					printmsg("#: ");
+				}
+			}
+
+			if (cli.count < DATA_BUFFER_SIZE - 1)  //check for buffer overflow
+			{
+				cli.data_buffer[cli.count++] = received_byte;
+				if (received_byte == '\r')
+				{
+					for (int i = 0; i < DATA_BUFFER_SIZE; i++)
+					{
+						if (cli.data_buffer[i] == '\r' || cli.data_buffer[i] == '\n')
+						{
+							cli.data_buffer[i] = '\0';
+							break;
+						}
+						if (cli.data_buffer[i] == '\0')
+						{
+							break;
+						}
+					}
+
+					log_info("received uart message: %s", cli.data_buffer);
+
+					cli.count = 0;
+					memset(cli.data_buffer, 0, DATA_BUFFER_SIZE);
+				}
+			}
+
+			else
+			{
+				// Buffer is full, start discarding until Enter
+				cli.overflow = TRUE;
+			}
+		}
+	}
+}

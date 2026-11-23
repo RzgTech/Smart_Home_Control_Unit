@@ -33,7 +33,7 @@ float ADC_Convert_To_Temperature()
 uint16_t ADC_Convert_To_Light()
 {
 	uint16_t adc_value = ADC_Read(ADC_CHANNEL_LIGHT);
-	log_debug("Light Value is: %u", adc_value);
+	//log_debug("Light Value is: %u", adc_value);
 
 	return adc_value;
 }
