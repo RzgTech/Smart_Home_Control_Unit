@@ -15,19 +15,4 @@ const char *system_mode_str[] =
 };
 
 
-extern TIM_HandleTypeDef htim6;
-
-void system_mode_transition(uint8_t system_mode)  //transition TO system_mode
-{
-	switch(system_mode)
-	{
-	case MANUAL:
-		HAL_TIM_Base_Stop_IT(&htim6);
-		break;
-	case AUTOMATIC:
-		HAL_TIM_Base_Start_IT(&htim6);
-		break;
-
-	}
-}
 

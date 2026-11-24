@@ -109,7 +109,6 @@ void command_parser(uint8_t* data_buffer)
 		cli.user_auth_stat = USER_NOT_AUTHENTICATED;
 		system_mode = AUTOMATIC;
 		log_info("system mode changed to %s mode", system_mode_str[system_mode]);
-		system_mode_transition(AUTOMATIC);
 	}
 	else if (strcmp((char *)data_buffer, '\n') == 0)
 	{

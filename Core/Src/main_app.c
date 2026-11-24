@@ -110,6 +110,15 @@ void sensor_task(void *pvParameters)
 
     while (1)
     {
+		if (system_mode != AUTOMATIC)
+		{
+			vTaskDelay(pdMS_TO_TICKS(100));
+
+			last_temp_sample = xTaskGetTickCount();
+			last_light_sample = xTaskGetTickCount();
+
+			continue;
+		}
         // Temperature sampling
         if ((xTaskGetTickCount() - last_temp_sample) >= temp_period)
         {
@@ -154,6 +163,10 @@ void control_task(void *pvParameters)
                           &received_data,
                           portMAX_DELAY) == pdPASS)
         {
+			if (system_mode != AUTOMATIC)
+            {
+                continue;
+            }
             switch (received_data.type)
             {
                 case SENSOR_TEMPERATURE:
@@ -203,6 +216,8 @@ void cli_task(void *pvParameters)
 					log_error("Input too long!");
 					printmsg("#: ");
 				}
+
+				continue;  // Discard the byte and continue to the next iteration
 			}
 
 			if (cli.count < DATA_BUFFER_SIZE - 1)  //check for buffer overflow
@@ -222,8 +237,22 @@ void cli_task(void *pvParameters)
 							break;
 						}
 					}
+					if (cli.user_auth_stat == USER_AUTHENTICATED)
+					{
+						command_parser(cli.data_buffer);
+						printmsg("#: ");
+					}
+					
+					else
+					{
+						if(authentication(&cli) == USER_AUTHENTICATED)
+						{
+							log_info("\rAuthentication successful");
+							printmsg("#: ");
+						}
+					}
 
-					log_info("received uart message: %s", cli.data_buffer);
+					//log_info("received uart message: %s\n", cli.data_buffer);
 
 					cli.count = 0;
 					memset(cli.data_buffer, 0, DATA_BUFFER_SIZE);

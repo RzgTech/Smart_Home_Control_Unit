@@ -51,7 +51,6 @@ user_status authentication(cli_t *cli)
 	    	cli->user_auth_stat = USER_AUTHENTICATED;
 	    	system_mode = MANUAL;
 	    	log_info("system mode changed to %s mode", system_mode_str[system_mode]);
-	    	system_mode_transition(MANUAL);
 	    }
 	    else
 	    {
